@@ -1,2 +1,1 @@
-﻿# Tesis
- # Herramienta para apoyar el proceso de evaluacion
+﻿# Tesis Herramienta para apoyar el proceso de evaluacion
