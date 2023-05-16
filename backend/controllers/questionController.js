@@ -31,7 +31,7 @@ const deleteQuestion = (req, res) => {
         if(err){
             return res.status(400).send({message: "Error al eliminar el registro"})
         }
-        return res.status(200).send(Estado = "La pregunta ha sido eliminada correctamente",question)
+        return res.status(200).send({"status":"La pregunta ha sido eliminada correctamente",question})
     })
 }
 

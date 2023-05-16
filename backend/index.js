@@ -6,12 +6,14 @@ require('dotenv').config()
 const app = express()
 const evaluationRoutes = require('./routes/evaluationRoutes')
 const questionRoutes = require('./routes/questionRoutes')
+const userRoutes = require('./routes/userRoutes')
 
 app.use(cors())
 app.use(express.json())
 app.options('*', cors())
 app.use('/api', evaluationRoutes);
 app.use('/api', questionRoutes)
+app.use('/api', userRoutes)
 
 app.listen(process.env.PORT, () => console.log('Server connected'))
 
