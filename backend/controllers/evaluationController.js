@@ -1,4 +1,3 @@
-const evaluation = require('../models/evaluation');
 const Evaluation = require('../models/evaluation')
 
 const createEvaluation = (req, res) => {
