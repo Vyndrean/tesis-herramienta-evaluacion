@@ -1,44 +1,65 @@
 const User = require('../models/user')
+const bcrypt = require('bcrypt')
+const { createToken } = require('../services/token')
 
 const createUser = (req, res) => {
-    const { username, password } = req.body
-    User.findOne({username, password}, (err, user) => {
-        if(err){
-            return res.status(400).send({message: "Error al registrar al usuario"})
+    const { username } = req.body
+    const password = bcrypt.hashSync(req.body.password, 5)
+    User.findOne({ username }, (err, user) => {
+        if (err) {
+            return res.status(400).send({ message: "Error al registrar al usuario" })
         }
-        if(user){
-            return res.status(401).send({message: "Ya existe un usuario registado con ese nombre"})
+        if (user) {
+            return res.status(401).send({ message: "Ya existe un usuario registado con ese nombre" })
         }
         const newUser = new User({
             username,
             password
         })
         newUser.save((err, user) => {
-            if(err){
-                return res.status(400).send({message: "Error al registrar al usuario"})
+            if (err) {
+                return res.status(400).send({ message: "Error al registrar al usuario" })
             }
             return res.status(201).send(user)
         })
     })
 }
 
-const loginUser = (req, res) => {
-    let { username, password } = req.body
-    User.findOne({username, password}, (err, user) => {
-        if(err){
-            return res.status(400).send({message: "Error al iniciar sesion"})
+const checkToken = (req, res) => {
+    return res.status(200).send({ message: 'Token valido' })
+}
+
+const login = (req, res) => {
+    let username = req.body.username
+    User.findOne({ username }, (err, user) => {
+        if (err) {
+            return res.status(400).send({ message: 'Error al iniciar sesion' })
         }
-        if(!user){
-            return res.status(404).send({message: "El usuario ingresado no existe"})
+        if (!user) {
+            return res.status(404).send({ message: 'No se encontro el usuario' })
         }
-        return res.status(200).send({message: "Se inicio sesion correctamente"})
+        bcrypt.compare(req.body.password, user.password, (err, check) => {
+            if (err) {
+                return res.status(400).send({ message: 'Error al iniciar sesion' })
+            }
+            if (!check) {
+                return res.status(400).send({ message: 'La contraseña es incorrecta' })
+            }
+            res.cookie('token', createToken(user), { httpOnly: true })
+            return res.status(200).send({ message: 'Inicio sesion correctamente', token: createToken(user), user: user.username })
+        })
     })
+}
+
+const logout = (req, res) => {
+    res.clearCookie('token')
+    return res.status(200).send({ message: "Sesion cerrada" })
 }
 
 const getUser = (req, res) => {
     User.find({}, (err, users) => {
-        if(err){
-            return res.status(400).send({message: "Error al mostrar los registros de los usuarios"})
+        if (err) {
+            return res.status(400).send({ message: "Error al mostrar los registros de los usuarios" })
         }
         return res.status(200).send(users)
     })
@@ -47,8 +68,8 @@ const getUser = (req, res) => {
 const deleteUser = (req, res) => {
     const { id } = req.params
     User.findByIdAndDelete(id, (err, user) => {
-        if(err){
-            return res.status(400).send({message: "Error al borrar el registro del usuario"})
+        if (err) {
+            return res.status(400).send({ message: "Error al borrar el registro del usuario" })
         }
         return res.status(200).send(user)
     })
@@ -56,7 +77,9 @@ const deleteUser = (req, res) => {
 
 module.exports = {
     createUser,
-    loginUser,
+    login,
     getUser,
-    deleteUser
+    deleteUser,
+    checkToken,
+    logout
 }

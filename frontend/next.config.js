@@ -1,11 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  env:{
+    SERVIDOR: process.env.SERVIDOR
+  },
+  reactStrictMode: true
 }
 
-module.exports = {
-  nextConfig,
-  env: {
-    SERVIDOR: process.env.SERVIDOR
-  }
-}
+module.exports = nextConfig
