@@ -5,7 +5,7 @@ const QuestionSchema = new Schema({
         type: String,
         required: true
     },
-    eva:{
+    evaluation:{
         type: Schema.ObjectId,
         ref: 'evaluation',
         required: true

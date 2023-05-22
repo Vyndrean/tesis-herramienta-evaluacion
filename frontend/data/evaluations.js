@@ -10,7 +10,14 @@ const getEvaluations = async () => {
     return res
 }
 
+const getQuestions = async (id) => {
+    const res = await axios.get(`${process.env.SERVIDOR}/question/${id.id}`)
+    console.log(res)
+    return res
+}
+
 module.exports = {
     createEvaluation,
-    getEvaluations
+    getEvaluations,
+    getQuestions
 }

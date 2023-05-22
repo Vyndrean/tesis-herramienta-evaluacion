@@ -7,6 +7,7 @@ import { Button } from '@chakra-ui/button'
 import { login, checkToken } from "../data/login"
 import Cookie from "js-cookie"
 import router from 'next/router'
+import { useToast as toast } from '@chakra-ui/react'
 
 export const getServerSideProps = async (context) => {
   try {

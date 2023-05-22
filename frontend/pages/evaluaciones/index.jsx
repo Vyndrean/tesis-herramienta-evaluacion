@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar'
-import React, { useState } from 'react'
+import React, { useState as state } from 'react'
 import { checkToken } from '@/data/login'
-import { Button, Container, HStack, Heading, Stack, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Badge, Button, Container, HStack, Heading, Stack, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
 import { getEvaluations } from '@/data/evaluations'
 import DataTable from 'react-data-table-component'
 import router from 'next/router'
@@ -28,12 +28,12 @@ export const getServerSideProps = async (context) => {
 }
 
 const evaluaciones = ({ data }) => {
-  const [evaluation, setEvaluation] = useState(data)
-  console.log(evaluation)
+  const [evaluation, setEvaluation] = state(data)
   return (
     <>
       <Navbar />
-      <Container maxW={"container.md"}>
+      <Container maxW={"container.lg"}>
+        <Button mt="2" onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluacion</Button>
         <DataTable
           columns={[
             {
@@ -45,6 +45,12 @@ const evaluaciones = ({ data }) => {
               name: "CREADO",
               selector: (data) => data.created_at.substring(0, 10),
               sortable: true
+            },
+            {
+              name: "ESTADO",
+              selector: () => (
+                <Badge colorScheme={"red"}>No disponible</Badge>
+              )
             },
             {
               name: "PREGUNTAS",

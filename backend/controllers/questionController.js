@@ -1,11 +1,11 @@
 const Question = require('../models/question')
 
 const createQuestion = (req, res) => {
-    const { name, eva } = req.body
+    const { name, evaluation } = req.body
     const newQuestion = new Question(
         {
             name,
-            eva
+            evaluation
         }
     )
     newQuestion.save((err, question) => {
@@ -28,13 +28,19 @@ const getQuestions = (req, res) => {
 }
 
 const getQuestion = (req, res) => {
-    const { id } = req.body
-    Question.find({ id }, (err, question) => {
-        if (err) {
-            return res.status(400).send({ message: "Error al buscar el registro" })
+    const { id } = req.params
+    Question.find({
+        evaluation: {
+            _id: id
         }
-        return res.status(200).send(question)
     })
+        .populate('evaluation')
+        .exec((err, question) => {
+            if (err) {
+                return res.status(400).send({ message: "Error al mostrar las preguntas de la evaluacion" })
+            }
+            return res.status(200).send(question)
+        })
 }
 
 const deleteQuestion = (req, res) => {
