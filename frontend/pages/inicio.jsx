@@ -2,7 +2,7 @@ import React from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Container } from '@chakra-ui/react'
+import { Container, Text } from '@chakra-ui/react'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -27,7 +27,7 @@ const inicio = () => {
     <>
       <Navbar />
       <Container>
-        Pagina de Inicio
+        <Text textAlign={"center"}>Bienvenido</Text>
       </Container>
     </>
   )

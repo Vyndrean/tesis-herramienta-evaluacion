@@ -3,6 +3,7 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import router from "next/router";
 import axios from "axios";
 import Cookies from 'js-cookie'
+import Link from "next/link";
 
 const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -10,7 +11,7 @@ const Navbar = () => {
     return (
         <Stack id="navFix">
             <Box width={["100%"]}>
-                <Flex h={16} alignItems={"center"} justifyContent={"space-between"} bgGradient={'linear(to-r, black, teal.400 , blue.700, teal.400, black)'} paddingInline="10" borderBottomRadius="20">
+                <Flex h={12} alignItems={"center"} justifyContent={"space-between"} bgGradient={'linear(to-r, black, teal.400 , blue.700, teal.400, black)'} paddingInline="10" borderBottomRadius="20">
                     <HStack w="10%">
                         <Show breakpoint="(min-width: 1000px)">
                             <Heading as={'h1'} fontSize="30" fontFamily="serif" onClick={() => router.push('/')} className="pointer" color={"white"}></Heading>
@@ -28,25 +29,23 @@ const Navbar = () => {
                                 <Text className="btnRes pointer" color={"white"} onClick={() => router.push('/inicio')}>
                                     INICIO
                                 </Text>
+
+                                <Text className="btnRes pointer" color={"white"} onClick={() => router.push('/evaluaciones')}>
+                                    EVALUACIONES
+                                </Text>
                             </HStack>
                         </HStack>
                     </Flex>
-                    <HStack as={"nav"} id="myDIV" display={{ base: "none", md: "flex" }}>
-                        <Button className="btnRes" as={"nav"} onClick={() => {
-                            axios.post(`${process.env.SERVIDOR}/logout`)
+                    <HStack as={"nav"} id="myDIV" display={{ base: "none", md: "flex" }} color={"white"}>
+                        <Link color='teal.500' href='/' onClick={() => {
                             Cookies.remove("token")
-                            router.replace('/')
-                            toast({
-                                title: 'Sesion cerrada!',
-                                duration: 2000,
-                                status: 'success',
-                                isClosable: true
-                            })
-                        }} colorScheme={"red"} m="1" left="0" >Cerrar Sesion</Button>
+                        }}>
+                            Cerrar Sesion
+                        </Link>
                     </HStack>
 
                     <HStack w="90%" display={{ md: "none" }} >
-                        <Heading as={'h1'} fontSize="30" fontFamily="serif" onClick={() => router.push('/')} className="pointer" color={"white"}>Bapets SPA</Heading>
+                        <Heading as={'h1'} fontSize="30" fontFamily="serif" onClick={() => router.push('/')} className="pointer" color={"white"}>Inicio</Heading>
                     </HStack>
 
                     <IconButton
@@ -71,17 +70,11 @@ const Navbar = () => {
                                         <b>Inicio</b>
                                     </a>
                                 </Button>
-                                <Button onClick={() => {
-                                    axios.post(`${process.env.SERVIDOR}/logout`)
+                                <Link color='teal.500' href='/' onClick={() => {
                                     Cookies.remove("token")
-                                    router.replace('/')
-                                    toast({
-                                        title: 'Sesion cerrada!',
-                                        duration: 2000,
-                                        status: 'success',
-                                        isClosable: true
-                                    })
-                                }} colorScheme={"red"} m="1" left="0">Cerrar Sesion</Button>
+                                }}>
+                                    Cerrar Sesion
+                                </Link>
                             </Stack>
                         </Box>
                     ) : null}

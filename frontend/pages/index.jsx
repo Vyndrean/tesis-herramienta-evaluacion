@@ -56,7 +56,7 @@ const index = () => {
   }
 
   return (
-    <Container maxW={"container.md"} mt="6%" bgColor="gray.50" borderRadius="20">
+    <Container maxW={"container.md"} mt="6%" bgColor="#" borderRadius="20">
       <Stack>
         <Flex
           flexDirection="column"
