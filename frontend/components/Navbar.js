@@ -39,6 +39,7 @@ const Navbar = () => {
                     <HStack as={"nav"} id="myDIV" display={{ base: "none", md: "flex" }} color={"white"}>
                         <Link color='teal.500' href='/' onClick={() => {
                             Cookies.remove("token")
+                            axios.post(`${process.env.SERVIDOR}/logout`)
                         }}>
                             Cerrar Sesion
                         </Link>
@@ -72,6 +73,7 @@ const Navbar = () => {
                                 </Button>
                                 <Link color='teal.500' href='/' onClick={() => {
                                     Cookies.remove("token")
+                                    axios.post(`${process.env.SERVIDOR}/logout`)
                                 }}>
                                     Cerrar Sesion
                                 </Link>

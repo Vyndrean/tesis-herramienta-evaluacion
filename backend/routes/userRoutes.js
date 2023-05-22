@@ -8,5 +8,6 @@ api.post('/login', userController.login)
 api.get('/users', userController.getUser)
 api.delete('/user/delete/:id', userController.deleteUser)
 api.get('/checkToken', auth, userController.checkToken)
+api.post('/logout', userController.logout)
 
 module.exports = api

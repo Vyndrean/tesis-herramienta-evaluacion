@@ -6,7 +6,7 @@ const login = async (sesion) => {
 }
 
 const logout = async () => {
-    const response = await axios.get(`${process.env.SERVIDOR}/logout`)
+    const response = await axios.post(`${process.env.SERVIDOR}/logout`)
     return response
 }
 
