@@ -1,19 +1,18 @@
 import Navbar from '@/components/Navbar'
-import React, { useState as state } from 'react'
+import React, { useState as state, useEffect, useMemo } from 'react'
 import { checkToken } from '@/data/login'
-import { Badge, Button, Container, HStack, useToast as Toast } from '@chakra-ui/react'
+import { Badge, Button, Container, HStack, Input, useToast as Toast, filter } from '@chakra-ui/react'
 import { getEvaluations, deleteEvaluation } from '@/data/evaluations'
 import DataTable from 'react-data-table-component'
 import router from 'next/router'
+import SearchBar from '@/components/SearchBar'
 
 export const getServerSideProps = async (context) => {
-  const res = await getEvaluations()
   try {
     const check = await checkToken(context.req.headers.cookie)
     if (check.status == 200) {
       return {
         props: {
-          data: res.data
         }
       }
     }
@@ -27,24 +26,24 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const evaluaciones = ({ data }) => {
-  const [evaluation, setEvaluation] = state(data)
+const evaluaciones = () => {
+  const [evaluation, setEvaluation] = state([])
   const toast = Toast()
-  
+
   const deleva = (idEva) => {
     deleteEvaluation(idEva).then(res => {
-      if(res.status == '200'){
+      if (res.status == '200') {
         toast({
-          title:"Eliminado",
-          status:"success",
+          title: "Eliminado",
+          status: "success",
           isClosable: true,
           duration: 3000
         })
         contentReload()
-      }else {
+      } else {
         toast({
-          title:"Ocurrio un error al realizar la peticion, intentelo mas tarde...",
-          status:"warning",
+          title: "Ocurrio un error al realizar la peticion, intentelo mas tarde...",
+          status: "warning",
           isClosable: true,
           duration: 3000
         })
@@ -58,17 +57,32 @@ const evaluaciones = ({ data }) => {
     })
   }
 
+  useEffect(() => {
+    getEvaluations().then(res => {
+      setEvaluation(res.data)
+    })
+  }, [])
+
+  const handleSearch = (e) => {
+    let filtered = evaluation.filter(res => {
+      return `${res?.title.toLowerCase()}`.includes(e.toLowerCase())
+    })
+    setEvaluation(filtered)
+  }
   return (
     <>
       <Navbar />
       <Container maxW={"container.lg"}>
-        <Button mt="2" colorScheme='green' onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluacion</Button>
+        <HStack mt="2" spacing={"auto"}>
+          <SearchBar  onChange={handleSearch} placeholder="busqueda..." />
+          <Button colorScheme='green' onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluacion</Button>
+        </HStack>
         <DataTable
           columns={[
             {
               name: "TITULO",
               selector: (data) => data.title,
-              sortable: true
+              sortable: true,
             },
             {
               name: "CREADO",
@@ -98,6 +112,7 @@ const evaluaciones = ({ data }) => {
             }
           ]}
           data={evaluation}
+          pagination
         />
       </Container>
     </>
