@@ -2,7 +2,7 @@ import React, { useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Button, Container, HStack, Stack, useToast as Toast } from '@chakra-ui/react'
+import { Button, Container, FormLabel, HStack, Select, Stack, useToast as Toast } from '@chakra-ui/react'
 import InputForm from '@/components/InputForm'
 import { createQuestion } from '@/data/evaluations'
 
@@ -32,6 +32,7 @@ const crearPreguntas = ({ id }) => {
         evaluation: id.crear
     })
     const toast = Toast()
+    console.log(question)
     const handleChange = (e) => {
         setQuestion({
             ...question,
@@ -61,8 +62,15 @@ const crearPreguntas = ({ id }) => {
             <Container maxW="container.sm">
                 <form onSubmit={submitQuestion} id='form'>
                     <Stack spacing={4} my={20} justify={"center"}>
+                        <FormLabel>Tipo de pregunta</FormLabel>
+                        <Select name='type' placeholder='Seleccione...' onChange={handleChange}>
+                            <option value='multiple'>Opcion multiple</option>
+                            <option value='trueFalse'>Verdadero/Falso</option>
+                            <option value='resProb'>Resolucion de problema</option>
+                            <option value='ansOpen'>Pregunta abierta</option>
+                        </Select>
+                        
                         <InputForm name="name" type="text" placeholder="Titulo de la evaluacion" handleChange={handleChange} label="Titulo" />
-
                     </Stack>
                     <HStack>
                         <Button colorScheme="green" type='submit'>Confirmar</Button>

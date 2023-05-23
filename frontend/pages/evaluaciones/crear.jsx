@@ -58,10 +58,10 @@ const crear = () => {
             <Container maxW="container.sm">
                 <form onSubmit={submitEvaluation} id='form'>
                     <Stack spacing={4} my={20} justify={"center"}>
-                        <InputForm name="title" type="text" placeholder="Titulo de la evaluacion" handleChange={handleChange} label="Titulo" />
-                        <InputForm name="introduction" type="text" placeholder="Introduccion de la evaluacion" handleChange={handleChange} label="Introduccion" />
-                        <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Inicio" />
-                        <InputForm name="end_date" type="date" placeholder="Fecha de termino de la evaluacion" handleChange={handleChange} label="Termino" />
+                        <InputForm name="title" type="text" placeholder="Titulo de la evaluacion" handleChange={handleChange} label="Titulo" isRequired={true} />
+                        <InputForm name="introduction" type="text" placeholder="Introduccion de la evaluacion" handleChange={handleChange} label="Introduccion"/>
+                        <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Inicio" isRequired={true}/>
+                        <InputForm name="end_date" type="date" placeholder="Fecha de termino de la evaluacion" handleChange={handleChange} label="Termino" isRequired={true}/>
                     </Stack>
                     <HStack>
                         <Button colorScheme="green" type='submit'>Confirmar</Button>

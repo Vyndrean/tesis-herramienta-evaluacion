@@ -1,10 +1,11 @@
 import Navbar from '@/components/Navbar'
-import React, { useState as state, useEffect, useMemo } from 'react'
+import React, { useState as state, useEffect } from 'react'
 import { checkToken } from '@/data/login'
 import { Badge, Button, Container, HStack, Input, useToast as Toast, filter } from '@chakra-ui/react'
 import { getEvaluations, deleteEvaluation } from '@/data/evaluations'
 import DataTable from 'react-data-table-component'
 import router from 'next/router'
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import SearchBar from '@/components/SearchBar'
 
 export const getServerSideProps = async (context) => {
@@ -12,8 +13,7 @@ export const getServerSideProps = async (context) => {
     const check = await checkToken(context.req.headers.cookie)
     if (check.status == 200) {
       return {
-        props: {
-        }
+        props: {}
       }
     }
   } catch (error) {
@@ -105,13 +105,14 @@ const evaluaciones = () => {
               name: "OPCIONES",
               selector: (data) => (
                 <HStack>
-                  <Button colorScheme='yellow'> Editar</Button>
-                  <Button colorScheme='red' onClick={() => deleva(data._id)}>Eliminar</Button>
+                  <Button colorScheme='yellow'> <EditIcon/> </Button>
+                  <Button colorScheme='red' onClick={() => deleva(data._id)}> <DeleteIcon /> </Button>
                 </HStack>
               )
             }
           ]}
           data={evaluation}
+          expandableRows
           pagination
         />
       </Container>
