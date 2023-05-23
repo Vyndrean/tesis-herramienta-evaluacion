@@ -1,20 +1,18 @@
 import Navbar from '@/components/Navbar'
-import React, { useState as state } from 'react'
+import React, { useState as state, useEffect } from 'react'
 import { checkToken } from '@/data/login'
 import { Badge, Button, Container, HStack, useToast as Toast } from '@chakra-ui/react'
 import { getEvaluations, deleteEvaluation } from '@/data/evaluations'
 import DataTable from 'react-data-table-component'
 import router from 'next/router'
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
 export const getServerSideProps = async (context) => {
-  const res = await getEvaluations()
   try {
     const check = await checkToken(context.req.headers.cookie)
     if (check.status == 200) {
       return {
-        props: {
-          data: res.data
-        }
+        props: {}
       }
     }
   } catch (error) {
@@ -30,21 +28,21 @@ export const getServerSideProps = async (context) => {
 const evaluaciones = ({ data }) => {
   const [evaluation, setEvaluation] = state(data)
   const toast = Toast()
-  
+
   const deleva = (idEva) => {
     deleteEvaluation(idEva).then(res => {
-      if(res.status == '200'){
+      if (res.status == '200') {
         toast({
-          title:"Eliminado",
-          status:"success",
+          title: "Eliminado",
+          status: "success",
           isClosable: true,
           duration: 3000
         })
         contentReload()
-      }else {
+      } else {
         toast({
-          title:"Ocurrio un error al realizar la peticion, intentelo mas tarde...",
-          status:"warning",
+          title: "Ocurrio un error al realizar la peticion, intentelo mas tarde...",
+          status: "warning",
           isClosable: true,
           duration: 3000
         })
@@ -57,6 +55,13 @@ const evaluaciones = ({ data }) => {
       setEvaluation(res.data)
     })
   }
+
+  useEffect(() => {
+    getEvaluations().then(res => {
+      setEvaluation(res.data)
+    })
+  }, [])
+
 
   return (
     <>
@@ -91,13 +96,15 @@ const evaluaciones = ({ data }) => {
               name: "OPCIONES",
               selector: (data) => (
                 <HStack>
-                  <Button colorScheme='yellow'> Editar</Button>
-                  <Button colorScheme='red' onClick={() => deleva(data._id)}>Eliminar</Button>
+                  <Button colorScheme='yellow'> <EditIcon/> </Button>
+                  <Button colorScheme='red' onClick={() => deleva(data._id)}> <DeleteIcon /> </Button>
                 </HStack>
               )
             }
           ]}
           data={evaluation}
+          expandableRows
+          pagination
         />
       </Container>
     </>

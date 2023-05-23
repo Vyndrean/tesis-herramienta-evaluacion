@@ -29,9 +29,17 @@ const Navbar = () => {
                                 <Text className="btnRes pointer" color={"white"} onClick={() => router.push('/inicio')}>
                                     INICIO
                                 </Text>
-
                                 <Text className="btnRes pointer" color={"white"} onClick={() => router.push('/evaluaciones')}>
                                     EVALUACIONES
+                                </Text>
+                                <Text className="btnRes pointer" color={"white"} onClick={() => router.push('#')}>
+                                    RESULTADOS
+                                </Text>
+                                <Text className="btnRes pointer" color={"white"} onClick={() => router.push('#')}>
+                                    COMPARACIONES
+                                </Text>
+                                <Text className="btnRes pointer" color={"white"} onClick={() => router.push('#')}>
+                                    USUARIOS
                                 </Text>
                             </HStack>
                         </HStack>

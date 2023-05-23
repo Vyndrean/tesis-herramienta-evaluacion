@@ -2,6 +2,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const QuestionSchema = new Schema({
     name:{
+        type: String
+    },
+    type:{
         type: String,
         required: true
     },
