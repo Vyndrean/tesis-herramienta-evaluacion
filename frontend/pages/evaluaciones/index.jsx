@@ -1,8 +1,8 @@
 import Navbar from '@/components/Navbar'
 import React, { useState as state } from 'react'
 import { checkToken } from '@/data/login'
-import { Badge, Button, Container, HStack, Heading, Stack, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
-import { getEvaluations } from '@/data/evaluations'
+import { Badge, Button, Container, HStack, useToast as Toast } from '@chakra-ui/react'
+import { getEvaluations, deleteEvaluation } from '@/data/evaluations'
 import DataTable from 'react-data-table-component'
 import router from 'next/router'
 
@@ -29,11 +29,40 @@ export const getServerSideProps = async (context) => {
 
 const evaluaciones = ({ data }) => {
   const [evaluation, setEvaluation] = state(data)
+  const toast = Toast()
+  
+  const deleva = (idEva) => {
+    deleteEvaluation(idEva).then(res => {
+      if(res.status == '200'){
+        toast({
+          title:"Eliminado",
+          status:"success",
+          isClosable: true,
+          duration: 3000
+        })
+        contentReload()
+      }else {
+        toast({
+          title:"Ocurrio un error al realizar la peticion, intentelo mas tarde...",
+          status:"warning",
+          isClosable: true,
+          duration: 3000
+        })
+      }
+    })
+  }
+
+  const contentReload = async () => {
+    await getEvaluations().then(res => {
+      setEvaluation(res.data)
+    })
+  }
+
   return (
     <>
       <Navbar />
       <Container maxW={"container.lg"}>
-        <Button mt="2" onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluacion</Button>
+        <Button mt="2" colorScheme='green' onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluacion</Button>
         <DataTable
           columns={[
             {
@@ -63,7 +92,7 @@ const evaluaciones = ({ data }) => {
               selector: (data) => (
                 <HStack>
                   <Button colorScheme='yellow'> Editar</Button>
-                  <Button colorScheme='red'>Eliminar</Button>
+                  <Button colorScheme='red' onClick={() => deleva(data._id)}>Eliminar</Button>
                 </HStack>
               )
             }

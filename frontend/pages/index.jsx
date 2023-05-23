@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState as state} from 'react'
 import { Box, Container, Flex, Heading, Stack } from '@chakra-ui/layout'
 import { FormControl, FormLabel } from '@chakra-ui/form-control'
 import { Input } from '@chakra-ui/input'
@@ -7,7 +7,7 @@ import { Button } from '@chakra-ui/button'
 import { login, checkToken } from "../data/login"
 import Cookie from "js-cookie"
 import router from 'next/router'
-import { useToast as toast } from '@chakra-ui/react'
+import { useToast as Toast } from '@chakra-ui/react'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -28,11 +28,11 @@ export const getServerSideProps = async (context) => {
 }
 
 const index = () => {
-  const [sesion, setSesion] = useState({
+  const [sesion, setSesion] = state({
     username: "",
     password: ""
   })
-
+  const toast = Toast()
   const handleChange = (event) => {
     setSesion({
       ...sesion,
@@ -51,7 +51,12 @@ const index = () => {
       }
     } catch (error) {
       return (
-        console.log("No se inicio sesion")
+        toast({
+          title: "Datos de usuario incorrecto",
+          status: "warning",
+          duration: 4000,
+          isClosable: true
+        })
       )
     }
   }

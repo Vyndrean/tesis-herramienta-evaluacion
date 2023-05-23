@@ -12,12 +12,29 @@ const getEvaluations = async () => {
 
 const getQuestions = async (id) => {
     const res = await axios.get(`${process.env.SERVIDOR}/question/${id.id}`)
-    console.log(res)
+    return res
+}
+
+const deleteEvaluation = (id) => {
+    const res = axios.delete(`${process.env.SERVIDOR}/evaluation/delete/${id}`)
+    return res
+}
+
+const createQuestion = (question) => {
+    const res = axios.post(`${process.env.SERVIDOR}/question`, question)
+    return res
+}
+
+const deleteQuestion = (idQuestion) => {
+    const res = axios.delete(`${process.env.SERVIDOR}/question/delete/${idQuestion}`)
     return res
 }
 
 module.exports = {
     createEvaluation,
     getEvaluations,
-    getQuestions
+    getQuestions,
+    deleteEvaluation,
+    createQuestion,
+    deleteQuestion
 }

@@ -3,8 +3,8 @@ import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import InputForm from '@/components/InputForm'
-import { Container, Text } from '@chakra-ui/react'
-
+import { Button, Container, HStack, Stack, Text, useToast as Toast } from '@chakra-ui/react'
+import { createEvaluation } from '@/data/evaluations'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -26,11 +26,47 @@ export const getServerSideProps = async (context) => {
 
 const crear = () => {
     const [evaluation, setEvaluation] = state([])
+    const toast = Toast()
+    const handleChange = (e) => {
+        setEvaluation({
+            ...evaluation,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const submitEvaluation = (e) => {
+        e.preventDefault()
+        createEvaluation(evaluation).then(res => {
+            if (res.status == '200') {
+                router.push('/evaluaciones')
+                toast({
+                    title: "Evaluacion creada",
+                    status: "success",
+                    isClosable: true,
+                    duration: 4000
+                })
+            }
+        })
+    }
+
     return (
         <>
             <Navbar />
-            <Container>
-                <Text textAlign={"center"}>Funcion no disponible</Text>
+            {
+                //Nota: Añadir formik
+            }
+            <Container maxW="container.sm">
+                <form onSubmit={submitEvaluation} id='form'>
+                    <Stack spacing={4} my={20} justify={"center"}>
+                        <InputForm name="title" type="text" placeholder="Titulo de la evaluacion" handleChange={handleChange} label="Titulo" />
+                        <InputForm name="introduction" type="text" placeholder="Introduccion de la evaluacion" handleChange={handleChange} label="Introduccion" />
+                        <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Inicio" />
+                        <InputForm name="end_date" type="date" placeholder="Fecha de termino de la evaluacion" handleChange={handleChange} label="Termino" />
+                    </Stack>
+                    <HStack>
+                        <Button colorScheme="green" type='submit'>Confirmar</Button>
+                    </HStack>
+                </form>
             </Container>
         </>
     )
