@@ -2,7 +2,7 @@ import React, { useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Button, Container, FormLabel, HStack, Select, Stack, useToast as Toast } from '@chakra-ui/react'
+import { Button, Container, FormLabel, HStack, Input, Select, Stack, useToast as Toast } from '@chakra-ui/react'
 import InputForm from '@/components/InputForm'
 import { createQuestion } from '@/data/evaluations'
 
@@ -31,13 +31,14 @@ const crearPreguntas = ({ id }) => {
         name: "",
         evaluation: id.crear
     })
+    const [counter, setCounter] = state(0)
     const toast = Toast()
-    console.log(question)
     const handleChange = (e) => {
         setQuestion({
             ...question,
             [e.target.name]: e.target.value
         })
+        console.log(question)
     }
 
     const submitQuestion = (e) => {
@@ -53,6 +54,10 @@ const crearPreguntas = ({ id }) => {
         })
     }
 
+    const handleClick = () => {
+        setCounter(counter + 1)
+    }
+
     return (
         <>
             <Navbar />
@@ -63,14 +68,26 @@ const crearPreguntas = ({ id }) => {
                 <form onSubmit={submitQuestion} id='form'>
                     <Stack spacing={4} my={20} justify={"center"}>
                         <FormLabel>Tipo de pregunta</FormLabel>
-                        <Select name='type' placeholder='Seleccione...' onChange={handleChange}>
-                            <option value='multiple'>Opcion multiple</option>
-                            <option value='trueFalse'>Verdadero/Falso</option>
-                            <option value='resProb'>Resolucion de problema</option>
-                            <option value='ansOpen'>Pregunta abierta</option>
-                        </Select>
-                        
+                        <HStack>
+                            <Select name='type' placeholder='Seleccione...' onChange={handleChange} w="60">
+                                <option value='checkbox'>Opcion multiple</option>
+                                <option value='radio'>Alternativa</option>
+                                <option value='text'>Abierta</option>
+                            </Select>
+                            <Button onClick={handleClick}>Añadir</Button>
+                        </HStack>
                         <InputForm name="name" type="text" placeholder="Titulo de la evaluacion" handleChange={handleChange} label="Titulo" />
+                        <FormLabel>Preguntas</FormLabel>
+                        {Array.from(Array(counter)).map((index) => {
+                            return (
+                                <Input
+                                    onChange={handleChange}
+                                    key={index}
+                                    className={index}
+                                    type="text"
+                                ></Input>
+                            );
+                        })}
                     </Stack>
                     <HStack>
                         <Button colorScheme="green" type='submit'>Confirmar</Button>

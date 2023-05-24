@@ -2,7 +2,7 @@ import React, { useEffect as effect, useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Button, Container, HStack, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useToast as Toast} from '@chakra-ui/react'
+import { Button, Container, HStack, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useToast as Toast, Select, FormLabel } from '@chakra-ui/react'
 import { getQuestions, deleteQuestion } from '@/data/evaluations'
 
 export const getServerSideProps = async (context) => {
@@ -30,6 +30,9 @@ export const getServerSideProps = async (context) => {
 
 const questions = ({ id }) => {
   const [questions, setQuestions] = state([])
+  const [question, setQuestion] = state({
+    evaluation: id
+  })
   const toast = Toast()
   const delQuest = (idQuest, idEva) => {
     deleteQuestion(idQuest).then(res => {
@@ -64,6 +67,18 @@ const questions = ({ id }) => {
     })
   }, [])
 
+  const handleChange = (e) => {
+    console.log(e.target.value)
+    setQuestion({
+      ...question,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const submitQuestion = (e) => {
+    console.log("hey")
+  }
+
   return (
     <>
       <Navbar />
@@ -81,7 +96,7 @@ const questions = ({ id }) => {
             <Tbody>
               {questions.map((question => (
                 <Tr key={question._id}>
-                  <Td >{question.name}</Td>
+                  <Td>{question.name}</Td>
                   <Td>{question?.type || "No seleccionado"}</Td>
                   <Td>
                     <HStack>
