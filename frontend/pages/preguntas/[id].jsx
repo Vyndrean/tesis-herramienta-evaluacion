@@ -2,8 +2,9 @@ import React, { useEffect as effect, useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Button, Container, HStack, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useToast as Toast, Select, FormLabel } from '@chakra-ui/react'
+import { Button, Container, HStack, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useToast as Toast, Select, FormLabel, OrderedList, ListItem, Input, Checkbox } from '@chakra-ui/react'
 import { getQuestions, deleteQuestion } from '@/data/evaluations'
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -27,13 +28,10 @@ export const getServerSideProps = async (context) => {
 
 
 
-
 const questions = ({ id }) => {
   const [questions, setQuestions] = state([])
-  const [question, setQuestion] = state({
-    evaluation: id
-  })
   const toast = Toast()
+  console.log(questions)
   const delQuest = (idQuest, idEva) => {
     deleteQuestion(idQuest).then(res => {
       if (res.status == '200') {
@@ -67,21 +65,10 @@ const questions = ({ id }) => {
     })
   }, [])
 
-  const handleChange = (e) => {
-    console.log(e.target.value)
-    setQuestion({
-      ...question,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const submitQuestion = (e) => {
-    console.log("hey")
-  }
-
   return (
     <>
       <Navbar />
+      
       <Container maxW={"container.lg"}>
         <Button mt="2" colorScheme='green' onClick={() => router.push(`/preguntas/crear/${id.id}`)}>Añadir preguntas</Button>
         <TableContainer>
@@ -90,18 +77,22 @@ const questions = ({ id }) => {
               <Tr>
                 <Th>Preguntas</Th>
                 <Th>Tipo</Th>
+                <Th>Respuestas</Th>
                 <Th>Opciones</Th>
               </Tr>
             </Thead>
             <Tbody>
               {questions.map((question => (
                 <Tr key={question._id}>
-                  <Td>{question.name}</Td>
-                  <Td>{question?.type || "No seleccionado"}</Td>
+                  <Td>{question.questionName}</Td>
+                  <Td>{question?.questionType || "No seleccionado"}</Td>
+                  <Td>
+
+                  </Td>
                   <Td>
                     <HStack>
-                      <Button colorScheme='yellow'> Editar</Button>
-                      <Button colorScheme='red' onClick={() => delQuest(question._id, id)}>Eliminar</Button>
+                      <Button colorScheme='yellow'> <EditIcon/> </Button>
+                      <Button colorScheme='red' onClick={() => delQuest(question._id, id)}> <DeleteIcon/> </Button>
                     </HStack>
                   </Td>
                 </Tr>

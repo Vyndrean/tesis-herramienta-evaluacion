@@ -1,14 +1,17 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const QuestionSchema = new Schema({
-    name:{
+    questionName: {
         type: String
     },
-    type:{
-        type: String,
-        required: true
+    questionType: {
+        type: String
     },
-    evaluation:{
+    questionOptions: { type: Array },
+    questionAnswer: {
+        type: String
+    },
+    evaluation: {
         type: Schema.ObjectId,
         ref: 'evaluation',
         required: true

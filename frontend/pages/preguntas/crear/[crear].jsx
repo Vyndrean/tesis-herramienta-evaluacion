@@ -2,9 +2,10 @@ import React, { useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Button, Container, FormLabel, HStack, Input, Select, Stack, useToast as Toast } from '@chakra-ui/react'
+import { Button, Container, FormControl, FormLabel, HStack, Input, Select, Stack, useToast as Toast } from '@chakra-ui/react'
 import InputForm from '@/components/InputForm'
 import { createQuestion } from '@/data/evaluations'
+import { CloseIcon } from '@chakra-ui/icons'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -27,37 +28,62 @@ export const getServerSideProps = async (context) => {
 }
 
 const crearPreguntas = ({ id }) => {
+    const toast = Toast()
+    const [answer, setAnswer] = state([])
     const [question, setQuestion] = state({
-        name: "",
         evaluation: id.crear
     })
-    const [counter, setCounter] = state(0)
-    const toast = Toast()
+    const [answerList, setAnswerList] = state([]);
     const handleChange = (e) => {
-        setQuestion({
-            ...question,
-            [e.target.name]: e.target.value
-        })
-        console.log(question)
+      const { name, value } = e.target;
+      if (name.includes('answer')) {
+        setAnswerList(prevAnswerList => {
+          const updatedAnswerList = [...prevAnswerList];
+          const answerIndex = updatedAnswerList.findIndex(item => item.name === name);
+          if (answerIndex !== -1) {
+            updatedAnswerList[answerIndex].value = value;
+          } else {
+            updatedAnswerList.push({ name, value });
+          }
+          return updatedAnswerList;
+        });
+      } else {
+        setQuestion(prevQuestion => ({
+          ...prevQuestion,
+          [name]: value
+        }));
+      }
+      setQuestion(prevQuestion => ({ ...prevQuestion, questionOptions: answerList }));
+    };
+    
+    console.log(question)
+    const handleAdd = () => {
+        const abc = [...answer, []]
+        setAnswer(abc)
     }
 
-    const submitQuestion = (e) => {
+    const handleDelete = (e) => {
+        const delAnswer = [...answer]
+        delAnswer.splice(e, 1)
+        setAnswer(delAnswer)
+    }
+
+    const handleSubmit = (e) => {
+        console.log(question)
         e.preventDefault()
         createQuestion(question).then(res => {
-            toast({
-                title: "Pregunta creada!",
-                status: "success",
-                isClosable: true,
-                duration: 4000
-            })
-            router.push(`/preguntas/${id.crear}`)
+            if (res.status == '200') {
+                router.push(`/preguntas`)
+                toast({
+                    title: 'Pregunta creada',
+                    status: 'success',
+                    duration: 4000,
+                    isClosable: true
+                })
+
+            }
         })
     }
-
-    const handleClick = () => {
-        setCounter(counter + 1)
-    }
-
     return (
         <>
             <Navbar />
@@ -65,29 +91,29 @@ const crearPreguntas = ({ id }) => {
                 //Nota: Añadir formik
             }
             <Container maxW="container.sm">
-                <form onSubmit={submitQuestion} id='form'>
+                <form onSubmit={handleSubmit} id='form'>
                     <Stack spacing={4} my={20} justify={"center"}>
-                        <FormLabel>Tipo de pregunta</FormLabel>
-                        <HStack>
-                            <Select name='type' placeholder='Seleccione...' onChange={handleChange} w="60">
-                                <option value='checkbox'>Opcion multiple</option>
-                                <option value='radio'>Alternativa</option>
-                                <option value='text'>Abierta</option>
+                        <FormControl>
+                            <FormLabel>Tipo de pregunta</FormLabel>
+                            <Select name='questionType' defaultValue={'default'} onChange={handleChange}>
+                                <option value='default' disabled>Seleccione...</option>
+                                <option value='multiple'>Opcion multiple</option>
+                                <option value='alternativa'>Alternativas</option>
+                                <option value='simple'>Pregunta simple</option>
                             </Select>
-                            <Button onClick={handleClick}>Añadir</Button>
-                        </HStack>
-                        <InputForm name="name" type="text" placeholder="Titulo de la evaluacion" handleChange={handleChange} label="Titulo" />
-                        <FormLabel>Preguntas</FormLabel>
-                        {Array.from(Array(counter)).map((index) => {
+                        </FormControl>
+                        <InputForm name="questionName" type="text" placeholder="¿Que es lo que quieres preguntar?" handleChange={handleChange} label="Pregunta" />
+
+                        <FormLabel>Respuestas</FormLabel>
+                        {answer.map((data, i) => {
                             return (
-                                <Input
-                                    onChange={handleChange}
-                                    key={index}
-                                    className={index}
-                                    type="text"
-                                ></Input>
-                            );
+                                <HStack key={i}>
+                                    <Input name={'answer'+i} onChange={handleChange}></Input>
+                                    <Button onClick={() => handleDelete(i)}> <CloseIcon /> </Button>
+                                </HStack>
+                            )
                         })}
+                        <Button onClick={() => handleAdd()} w="18">Añadir respuesta</Button>
                     </Stack>
                     <HStack>
                         <Button colorScheme="green" type='submit'>Confirmar</Button>
