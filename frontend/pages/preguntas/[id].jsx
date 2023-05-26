@@ -72,9 +72,8 @@ const questions = ({ id }) => {
 
       <Container maxW={"container.lg"}>
         <Button mt="2" colorScheme='green' onClick={() => router.push(`/preguntas/crear/${id.id}`)}>Añadir preguntas</Button>
-
         {questions.map((question => (
-          <Card>
+          <Card key={question._id}>
             <HStack spacing={'auto'}>
               <Stack>
                 <CardHeader>
@@ -83,11 +82,29 @@ const questions = ({ id }) => {
                 <CardBody>
                   <Stack>
                     <Box>
-                        {question.questionOptions.map(res => {
-                            <Text>{res.value}</Text>
-                          })
-                        }
+                      {question.questionOptions.map((res) => (
+
+                        <div key={res.id}>
+                          {question.questionType === 'radio' && (
+                            <div>
+                              <input type="radio" id={res.name} value={res.value} />
+                              <label htmlFor={res.name}>{res.value}</label>
+                            </div>
+                          )}
+                          {question.questionType === 'text' && (
+                            <Input value={res?.value} id={res?.name} type="text" />
+                          )}
+                          {question.questionType === 'checkbox' && (
+                            <div>
+                              <input type="checkbox" id={res.name} value={res.value} />
+                              <label htmlFor={res.name}> {res.value} </label>
+                            </div>
+                          )}
+                        </div>
+                      ))}
                     </Box>
+
+
                   </Stack>
                 </CardBody>
               </Stack>
@@ -98,43 +115,6 @@ const questions = ({ id }) => {
             </HStack>
           </Card>
         )))}
-
-        <TableContainer>
-          <Table>
-            <Thead>
-              <Tr>
-                <Th>Preguntas</Th>
-                <Th>Tipo</Th>
-                <Th>Respuestas</Th>
-                <Th>Opciones</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {questions.map((question => (
-                <Tr key={question._id}>
-                  <Td>{question.questionName}</Td>
-                  <Td>{question?.questionType || "No seleccionado"}</Td>
-                  <Td>{
-                    question?.questionOptions.forEach(res => {
-                      return (
-                        <Text>{res.name}</Text>
-                      )
-                    })
-                  }</Td>
-                  <Td>
-                    <HStack>
-                      <Button colorScheme='yellow'> <EditIcon /> </Button>
-                      <Button colorScheme='red' onClick={() => delQuest(question._id, id)}> <DeleteIcon /> </Button>
-                    </HStack>
-                  </Td>
-                </Tr>
-              )
-              ))
-              }
-
-            </Tbody>
-          </Table>
-        </TableContainer>
       </Container>
     </>
   )

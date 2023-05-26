@@ -103,9 +103,9 @@ const crearPreguntas = ({ id }) => {
                             <FormLabel>Tipo de pregunta</FormLabel>
                             <Select name='questionType' defaultValue={'default'} onChange={handleChange}>
                                 <option value='default' disabled>Seleccione...</option>
-                                <option value='multiple'>Opcion multiple</option>
-                                <option value='alternativa'>Alternativas</option>
-                                <option value='simple'>Pregunta simple</option>
+                                <option value='checkbox'>Opcion multiple</option>
+                                <option value='radio'>Alternativas</option>
+                                <option value='text'>Pregunta simple</option>
                             </Select>
                         </FormControl>
                         <InputForm name="questionName" type="text" placeholder="¿Que es lo que quieres preguntar?" handleChange={handleChange} label="Pregunta" />
