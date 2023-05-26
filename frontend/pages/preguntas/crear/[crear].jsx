@@ -29,37 +29,43 @@ export const getServerSideProps = async (context) => {
 
 const crearPreguntas = ({ id }) => {
     const toast = Toast()
-    const [answer, setAnswer] = state([])
+    const [answer, setAnswer] = state([
+        {
+            name: '',
+            value: ''
+        }
+    ])
     const [question, setQuestion] = state({
         evaluation: id.crear
     })
-    const [answerList, setAnswerList] = state([]);
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      if (name.includes('answer')) {
-        setAnswerList(prevAnswerList => {
-          const updatedAnswerList = [...prevAnswerList];
-          const answerIndex = updatedAnswerList.findIndex(item => item.name === name);
-          if (answerIndex !== -1) {
-            updatedAnswerList[answerIndex].value = value;
-          } else {
-            updatedAnswerList.push({ name, value });
-          }
-          return updatedAnswerList;
-        });
-      } else {
+
+    const handleChangeAnswer = (e, i) => {
+        const { name, value } = e.target
+        const inputData = [...answer]
+        inputData[i] = { name, value }
+        setAnswer(inputData)
         setQuestion(prevQuestion => ({
-          ...prevQuestion,
-          [name]: value
-        }));
-      }
-      setQuestion(prevQuestion => ({ ...prevQuestion, questionOptions: answerList }));
-    };
-    
-    console.log(question)
+            ...prevQuestion,
+            questionOptions: answer
+        })
+        )
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setQuestion(prevQuestion => ({
+            ...prevQuestion,
+            [name]: value,
+            questionOptions: answer
+        })
+        )
+    }
+
     const handleAdd = () => {
-        const abc = [...answer, []]
-        setAnswer(abc)
+        const newAnswer = [...answer, {
+            name: '', value: ''
+        }]
+        setAnswer(newAnswer)
     }
 
     const handleDelete = (e) => {
@@ -68,19 +74,19 @@ const crearPreguntas = ({ id }) => {
         setAnswer(delAnswer)
     }
 
+
     const handleSubmit = (e) => {
-        console.log(question)
         e.preventDefault()
         createQuestion(question).then(res => {
             if (res.status == '200') {
-                router.push(`/preguntas`)
+                router.push(`/preguntas/${id.crear}`)
                 toast({
                     title: 'Pregunta creada',
                     status: 'success',
                     duration: 4000,
                     isClosable: true
                 })
-
+                
             }
         })
     }
@@ -108,7 +114,7 @@ const crearPreguntas = ({ id }) => {
                         {answer.map((data, i) => {
                             return (
                                 <HStack key={i}>
-                                    <Input name={'answer'+i} onChange={handleChange}></Input>
+                                    <Input value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
                                     <Button onClick={() => handleDelete(i)}> <CloseIcon /> </Button>
                                 </HStack>
                             )

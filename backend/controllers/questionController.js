@@ -15,7 +15,7 @@ const createQuestion = (req, res) => {
         if (err) {
             return res.status(400).send({ message: "Error al crear el registro" })
         }
-        return res.status(202).send(question)
+        return res.status(200).send(question)
     })
 }
 

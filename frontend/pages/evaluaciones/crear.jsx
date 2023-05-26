@@ -3,7 +3,7 @@ import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import InputForm from '@/components/InputForm'
-import { Button, Container, HStack, Stack, Text, useToast as Toast } from '@chakra-ui/react'
+import { Button, Container, HStack, Stack, useToast as Toast } from '@chakra-ui/react'
 import { createEvaluation } from '@/data/evaluations'
 
 export const getServerSideProps = async (context) => {

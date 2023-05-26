@@ -74,7 +74,6 @@ const evaluaciones = () => {
       <Navbar />
       <Container maxW={"container.lg"}>
         <HStack mt="2" spacing={"auto"}>
-          <SearchBar  onChange={handleSearch} placeholder="busqueda..." />
           <Button colorScheme='green' onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluacion</Button>
         </HStack>
         <DataTable
@@ -112,7 +111,6 @@ const evaluaciones = () => {
             }
           ]}
           data={evaluation}
-          expandableRows
           pagination
         />
       </Container>
