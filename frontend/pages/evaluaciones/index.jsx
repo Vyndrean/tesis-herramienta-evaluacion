@@ -1,12 +1,12 @@
 import Navbar from '@/components/Navbar'
 import React, { useState as state, useEffect } from 'react'
 import { checkToken } from '@/data/login'
-import { Badge, Button, Container, HStack, Input, useToast as Toast, filter } from '@chakra-ui/react'
+import { Badge, Button, Container, HStack, Input, useToast as Toast, filter, useDisclosure } from '@chakra-ui/react'
 import { getEvaluations, deleteEvaluation } from '@/data/evaluations'
 import DataTable from 'react-data-table-component'
 import router from 'next/router'
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
-import SearchBar from '@/components/SearchBar'
+import { DeleteIcon, EditIcon, EmailIcon } from '@chakra-ui/icons'
+import EmailForm from '@/components/EmailForm'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -28,6 +28,7 @@ export const getServerSideProps = async (context) => {
 
 const evaluaciones = () => {
   const [evaluation, setEvaluation] = state([])
+  const {isOpen, onOpen, onClose} = useDisclosure()
   const toast = Toast()
 
   const deleva = (idEva) => {
@@ -63,12 +64,6 @@ const evaluaciones = () => {
     })
   }, [])
 
-  const handleSearch = (e) => {
-    let filtered = evaluation.filter(res => {
-      return `${res?.title.toLowerCase()}`.includes(e.toLowerCase())
-    })
-    setEvaluation(filtered)
-  }
   return (
     <>
       <Navbar />
@@ -104,6 +99,7 @@ const evaluaciones = () => {
               name: "OPCIONES",
               selector: (data) => (
                 <HStack>
+                  <EmailForm/>
                   <Button colorScheme='yellow'> <EditIcon/> </Button>
                   <Button colorScheme='red' onClick={() => deleva(data._id)}> <DeleteIcon /> </Button>
                 </HStack>

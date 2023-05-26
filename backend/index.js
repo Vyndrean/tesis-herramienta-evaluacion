@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose')
 const cors = require('cors')
+const nodemailer = require('nodemailer')
 require('dotenv').config()
 const app = express()
 const cookieParser = require('cookie-parser')
@@ -13,7 +14,7 @@ const respondRoutes = require('./routes/userRespondRoutes')
 
 
 app.use(cookieParser())
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
 app.use(express.json())
 app.options('*', cors())
 app.use('/api', evaluationRoutes);
@@ -30,7 +31,7 @@ mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
 mongoose.connect(process.env.DB, (err) => {
-    if(err){
+    if (err) {
         return console.log('Error al conectarse a la base de datos')
     }
     return console.log('Conectado a la base de datos')

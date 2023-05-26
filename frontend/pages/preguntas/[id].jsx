@@ -71,9 +71,9 @@ const questions = ({ id }) => {
       <Navbar />
 
       <Container maxW={"container.md"}>
-        <Button mt="2" colorScheme='green' onClick={() => router.push(`/preguntas/crear/${id.id}`)}>Añadir preguntas</Button>
+        <Button my="2" colorScheme='green' onClick={() => router.push(`/preguntas/crear/${id.id}`)}>Añadir preguntas</Button>
         {questions.map((question => (
-          <Card key={question._id}>
+          <Card key={question._id} bg='blackAlpha.50' mb="5">
             <HStack spacing={'auto'}>
               <Stack>
                 <CardHeader>
@@ -84,7 +84,7 @@ const questions = ({ id }) => {
                     <Box>
                       <form>
                         {question.questionOptions.map((res) => (
-                          <div key={res.id}>
+                          <div key={res.name + res.value}>
                             {question.questionType === 'radio' && (
                               <>
                                 <input type="radio" id={res.name} value={res.value} name='answer' />
