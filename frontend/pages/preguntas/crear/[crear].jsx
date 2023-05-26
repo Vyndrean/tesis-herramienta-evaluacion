@@ -40,16 +40,18 @@ const crearPreguntas = ({ id }) => {
     })
 
     const handleChangeAnswer = (e, i) => {
-        const { name, value } = e.target
-        const inputData = [...answer]
-        inputData[i] = { name, value }
-        setAnswer(inputData)
+        const { name, value } = e.target;
+        const updatedAnswer = [...answer];
+        updatedAnswer[i] = { name, value };
+
+        setAnswer(updatedAnswer);
         setQuestion(prevQuestion => ({
             ...prevQuestion,
-            questionOptions: answer
-        })
-        )
-    }
+            questionOptions: updatedAnswer
+        }));
+    };
+
+
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -69,10 +71,14 @@ const crearPreguntas = ({ id }) => {
     }
 
     const handleDelete = (e) => {
-        const delAnswer = [...answer]
-        delAnswer.splice(e, 1)
-        setAnswer(delAnswer)
-    }
+        const updatedAnswer = [...answer];
+        updatedAnswer.splice(e, 1);
+        setAnswer(updatedAnswer);
+        setQuestion(prevQuestion => ({
+            ...prevQuestion,
+            questionOptions: updatedAnswer
+        }));
+    };
 
 
     const handleSubmit = (e) => {
@@ -86,7 +92,7 @@ const crearPreguntas = ({ id }) => {
                     duration: 4000,
                     isClosable: true
                 })
-                
+
             }
         })
     }

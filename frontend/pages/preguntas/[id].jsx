@@ -70,7 +70,7 @@ const questions = ({ id }) => {
     <>
       <Navbar />
 
-      <Container maxW={"container.lg"}>
+      <Container maxW={"container.md"}>
         <Button mt="2" colorScheme='green' onClick={() => router.push(`/preguntas/crear/${id.id}`)}>Añadir preguntas</Button>
         {questions.map((question => (
           <Card key={question._id}>
@@ -82,33 +82,34 @@ const questions = ({ id }) => {
                 <CardBody>
                   <Stack>
                     <Box>
-                      {question.questionOptions.map((res) => (
-
-                        <div key={res.id}>
-                          {question.questionType === 'radio' && (
-                            <div>
-                              <input type="radio" id={res.name} value={res.value} />
-                              <label htmlFor={res.name}>{res.value}</label>
-                            </div>
-                          )}
-                          {question.questionType === 'text' && (
-                            <Input value={res?.value} id={res?.name} type="text" />
-                          )}
-                          {question.questionType === 'checkbox' && (
-                            <div>
-                              <input type="checkbox" id={res.name} value={res.value} />
-                              <label htmlFor={res.name}> {res.value} </label>
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                      <form>
+                        {question.questionOptions.map((res) => (
+                          <div key={res.id}>
+                            {question.questionType === 'radio' && (
+                              <>
+                                <input type="radio" id={res.name} value={res.value} name='answer' />
+                                <label htmlFor={res.name}> {res.value}</label>
+                              </>
+                            )}
+                            {question.questionType === 'text' && (
+                              <Input value={res?.value} id={res?.name} type="text" />
+                            )}
+                            {question.questionType === 'checkbox' && (
+                              <div>
+                                <input type="checkbox" id={res.name} value={res.value} name='answer' />
+                                <label htmlFor={res.name}> {res.value} </label>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </form>
                     </Box>
 
 
                   </Stack>
                 </CardBody>
               </Stack>
-              <Stack mr="5">
+              <Stack paddingRight={"50"}>
                 <Button colorScheme='yellow'> <EditIcon /> </Button>
                 <Button colorScheme='red' onClick={() => delQuest(question._id, id)}> <DeleteIcon /> </Button>
               </Stack>
