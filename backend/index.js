@@ -10,7 +10,6 @@ const evaluationRoutes = require('./routes/evaluationRoutes')
 const questionRoutes = require('./routes/questionRoutes')
 const userRoutes = require('./routes/userRoutes')
 const answerRoutes = require('./routes/answerRoutes')
-const respondRoutes = require('./routes/userRespondRoutes')
 
 
 app.use(cookieParser())
@@ -21,7 +20,6 @@ app.use('/api', evaluationRoutes);
 app.use('/api', questionRoutes)
 app.use('/api', userRoutes)
 app.use('/api', answerRoutes)
-app.use('/api', respondRoutes)
 
 app.listen(process.env.PORT, () => console.log('Server connected'))
 

@@ -1,16 +1,16 @@
 const Answer = require('../models/answer')
 
 const createAnswer = (req, res) => {
-    const { response, who_answer } = req.body
-    const newAnswer = new Answer (
+    const { answerUser, answerUserData } = req.body
+    const newAnswer = new Answer(
         {
-            response,
-            who_answer
+            answerUser,
+            answerUserData
         }
     )
     newAnswer.save((err, answer) => {
-        if(err){
-            return res.status(400).send({message: "Error crear la respuesta"})
+        if (err) {
+            return res.status(400).send({ message: "Error crear la respuesta" })
         }
         return res.status(200).send(answer)
     })
@@ -18,8 +18,8 @@ const createAnswer = (req, res) => {
 
 const getAnswer = (req, res) => {
     Answer.find({}, (err, answer) => {
-        if(err){
-            return res.status(400).send({message: "Error al mostrar las respuestas"})
+        if (err) {
+            return res.status(400).send({ message: "Error al mostrar las respuestas" })
         }
         return res.status(200).send(answer)
     })
@@ -28,11 +28,11 @@ const getAnswer = (req, res) => {
 const deleteAnswer = (req, res) => {
     const { id } = req.params
     Answer.findByIdAndDelete(id, (err, answer) => {
-        if(err){
-            return res.status(400).send({message: "Error al borrar la respuesta"})
+        if (err) {
+            return res.status(400).send({ message: "Error al borrar la respuesta" })
         }
-        if(!id){
-            return res.status(410).send({message: "Error, no se encuentra la respuesta"})
+        if (!id) {
+            return res.status(410).send({ message: "Error, no se encuentra la respuesta" })
         }
         return res.status(200).send(answer)
     })
