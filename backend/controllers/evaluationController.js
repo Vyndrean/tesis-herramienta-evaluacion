@@ -1,13 +1,14 @@
 const Evaluation = require('../models/evaluation')
 
 const createEvaluation = (req, res) => {
-    const {title, introduction, start_date, end_date} = req.body
+    const {title, introduction, start_date, end_date, status} = req.body
     const newEvaluation = new Evaluation(
         {
             title,
             introduction,
             start_date,
-            end_date
+            end_date,
+            status
         }
     );
     newEvaluation.save((err, evaluation) => {

@@ -1,11 +1,11 @@
 import Navbar from '@/components/Navbar'
-import React, { useState as state, useEffect } from 'react'
+import React, { useState as state, useEffect as effect } from 'react'
 import { checkToken } from '@/data/login'
-import { Badge, Button, Container, HStack, Input, useToast as Toast, filter, useDisclosure } from '@chakra-ui/react'
+import { Badge, Button, Container, HStack, Text, useToast as Toast, filter, useDisclosure } from '@chakra-ui/react'
 import { getEvaluations, deleteEvaluation } from '@/data/evaluations'
 import DataTable from 'react-data-table-component'
 import router from 'next/router'
-import { DeleteIcon, EditIcon, EmailIcon } from '@chakra-ui/icons'
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import EmailForm from '@/components/EmailForm'
 
 export const getServerSideProps = async (context) => {
@@ -28,7 +28,6 @@ export const getServerSideProps = async (context) => {
 
 const evaluaciones = () => {
   const [evaluation, setEvaluation] = state([])
-  const {isOpen, onOpen, onClose} = useDisclosure()
   const toast = Toast()
 
   const deleva = (idEva) => {
@@ -52,13 +51,25 @@ const evaluaciones = () => {
     })
   }
 
+  const handleStatus = (status) => {
+    if (status === "created") {
+      return <Badge colorScheme='red'>Creada</Badge>
+    } else if (status === 'pending') {
+      return <Badge colorScheme='orange'>Pendiente de envio</Badge>
+    } else if (status === 'send') {
+      return <Badge colorScheme='yellow'>Enviado</Badge>
+    } else if (status === 'finished') {
+      return <Badge colorScheme='green'>Finalizado</Badge>
+    }
+  }
+
   const contentReload = async () => {
     await getEvaluations().then(res => {
       setEvaluation(res.data)
     })
   }
 
-  useEffect(() => {
+  effect(() => {
     getEvaluations().then(res => {
       setEvaluation(res.data)
     })
@@ -85,8 +96,8 @@ const evaluaciones = () => {
             },
             {
               name: "ESTADO",
-              selector: () => (
-                <Badge colorScheme={"red"}>No disponible</Badge>
+              selector: (data) => (
+                handleStatus(data.status)
               )
             },
             {
@@ -99,8 +110,8 @@ const evaluaciones = () => {
               name: "OPCIONES",
               selector: (data) => (
                 <HStack>
-                  <EmailForm/>
-                  <Button colorScheme='yellow'> <EditIcon/> </Button>
+                  <EmailForm />
+                  <Button colorScheme='yellow'> <EditIcon /> </Button>
                   <Button colorScheme='red' onClick={() => deleva(data._id)}> <DeleteIcon /> </Button>
                 </HStack>
               )
