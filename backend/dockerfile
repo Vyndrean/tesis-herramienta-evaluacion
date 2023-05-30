@@ -1,11 +1,10 @@
 #backend
 FROM node:18
 WORKDIR /usr/src/backend
-COPY package.json
-COPY package-lock.json
+COPY package.json, package-lock.json
 RUN yarn install
 COPY . .
 EXPOSE 3000
-CMD [ 'npm', 'start']
+CMD [ "npm", "start"]
 
 
