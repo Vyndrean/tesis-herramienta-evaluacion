@@ -10,7 +10,7 @@ const evaluationRoutes = require('./routes/evaluationRoutes')
 const questionRoutes = require('./routes/questionRoutes')
 const userRoutes = require('./routes/userRoutes')
 const answerRoutes = require('./routes/answerRoutes')
-
+const emailRoutes = require('./routes/emailRoutes')
 
 app.use(cookieParser())
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
@@ -20,6 +20,7 @@ app.use('/api', evaluationRoutes);
 app.use('/api', questionRoutes)
 app.use('/api', userRoutes)
 app.use('/api', answerRoutes)
+app.use('/api', emailRoutes)
 
 app.listen(process.env.PORT, () => console.log('Server connected'))
 

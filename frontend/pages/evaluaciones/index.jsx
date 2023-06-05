@@ -3,7 +3,7 @@ import React, { useState as state, useEffect as effect } from 'react'
 import { checkToken } from '@/data/login'
 import { Badge, Button, Container, HStack, Text, useToast as Toast, filter, useDisclosure } from '@chakra-ui/react'
 import { getEvaluations, deleteEvaluation } from '@/data/evaluations'
-import DataTable from 'react-data-table-component'
+import DataTable, { ExpandableComponent } from 'react-data-table-component'
 import router from 'next/router'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import EmailForm from '@/components/EmailForm'
@@ -52,14 +52,15 @@ const evaluaciones = () => {
   }
 
   const handleStatus = (status) => {
-    if (status === "created") {
-      return <Badge colorScheme='red'>Creada</Badge>
-    } else if (status === 'pending') {
-      return <Badge colorScheme='orange'>Pendiente de envio</Badge>
-    } else if (status === 'send') {
-      return <Badge colorScheme='yellow'>Enviado</Badge>
-    } else if (status === 'finished') {
-      return <Badge colorScheme='green'>Finalizado</Badge>
+    switch (status) {
+      case "pending":
+        return <Badge colorScheme='orange'>Pendiente</Badge>
+
+      case "send":
+        return <Badge colorScheme='yellow'>Enviado</Badge>
+
+      case "finished":
+        return <Badge colorScheme='green'>Finalizado</Badge>
     }
   }
 
@@ -74,6 +75,11 @@ const evaluaciones = () => {
       setEvaluation(res.data)
     })
   }, [])
+
+  const ExpandedComponent = ({ data }) => (
+    <Text>{data.introduction}</Text>
+  )
+  
 
   return (
     <>
@@ -110,7 +116,7 @@ const evaluaciones = () => {
               name: "OPCIONES",
               selector: (data) => (
                 <HStack>
-                  <EmailForm />
+                  <EmailForm data={data} />
                   <Button colorScheme='yellow'> <EditIcon /> </Button>
                   <Button colorScheme='red' onClick={() => deleva(data._id)}> <DeleteIcon /> </Button>
                 </HStack>
@@ -119,6 +125,8 @@ const evaluaciones = () => {
           ]}
           data={evaluation}
           pagination
+          expandableRows
+          expandableRowsComponent={ExpandedComponent}
         />
       </Container>
     </>

@@ -25,7 +25,9 @@ export const getServerSideProps = async (context) => {
 }
 
 const crear = () => {
-    const [evaluation, setEvaluation] = state([])
+    const [evaluation, setEvaluation] = state({
+        status: "pending"
+    })
     const toast = Toast()
     const handleChange = (e) => {
         setEvaluation({

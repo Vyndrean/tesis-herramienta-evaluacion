@@ -30,11 +30,17 @@ const deleteQuestion = (idQuestion) => {
     return res
 }
 
+const updateEvaluation = (idEvaluation, email) => {
+    const res = axios.put(`${process.env.SERVIDOR}/evaluation/update/${idEvaluation}`, email)
+    return res
+}
+
 module.exports = {
     createEvaluation,
     getEvaluations,
     getQuestions,
     deleteEvaluation,
     createQuestion,
-    deleteQuestion
+    deleteQuestion,
+    updateEvaluation
 }

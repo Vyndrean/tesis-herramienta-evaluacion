@@ -2,9 +2,10 @@ import React, { useEffect as effect, useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Button, Container, HStack, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useToast as Toast, Select, FormLabel, OrderedList, ListItem, Input, Checkbox, Text, Card, CardHeader, Heading, CardBody, Stack, Box } from '@chakra-ui/react'
+import { Button, Container, HStack, useToast as Toast, Input, Card, CardHeader, Heading, CardBody, Stack, Box, Text } from '@chakra-ui/react'
 import { getQuestions, deleteQuestion } from '@/data/evaluations'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import CreateQuestion from '@/components/CreateQuestion'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -31,7 +32,6 @@ export const getServerSideProps = async (context) => {
 const questions = ({ id }) => {
   const [questions, setQuestions] = state([])
   const toast = Toast()
-  //console.log(questions)
   const delQuest = (idQuest, idEva) => {
     deleteQuestion(idQuest).then(res => {
       if (res.status == '200') {
@@ -71,13 +71,14 @@ const questions = ({ id }) => {
       <Navbar />
 
       <Container maxW={"container.md"}>
-        <Button my="2" colorScheme='green' onClick={() => router.push(`/preguntas/crear/${id.id}`)}>Añadir preguntas</Button>
+        <CreateQuestion id={id} />
         {questions.map((question => (
           <Card key={question._id} bg='blackAlpha.50' mb="5">
             <HStack spacing={'auto'}>
               <Stack>
                 <CardHeader>
                   <Heading size={"md"}>{question?.questionName}</Heading>
+                  <Text>{question?.questionContext}</Text>
                 </CardHeader>
                 <CardBody>
                   <Stack>
@@ -104,12 +105,10 @@ const questions = ({ id }) => {
                         ))}
                       </form>
                     </Box>
-
-
                   </Stack>
                 </CardBody>
               </Stack>
-              <Stack paddingRight={"50"}>
+              <Stack paddingRight={"25"}>
                 <Button colorScheme='yellow'> <EditIcon /> </Button>
                 <Button colorScheme='red' onClick={() => delQuest(question._id, id)}> <DeleteIcon /> </Button>
               </Stack>

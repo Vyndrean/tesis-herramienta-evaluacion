@@ -22,7 +22,7 @@ const EvaluationSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['created','pending', 'send', 'finished']
+        enum: ['pending', 'send', 'finished']
     }
 }
 )

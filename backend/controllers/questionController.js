@@ -1,14 +1,14 @@
 const Question = require('../models/question')
 
 const createQuestion = (req, res) => {
-    const { questionName, evaluation, questionType, questionOptions, questionAnswer } = req.body
+    const { questionName, evaluation, questionType, questionOptions, questionContext } = req.body
     const newQuestion = new Question(
         {
             questionName,
             evaluation,
             questionType,
             questionOptions,
-            questionAnswer
+            questionContext
         }
     )
     newQuestion.save((err, question) => {

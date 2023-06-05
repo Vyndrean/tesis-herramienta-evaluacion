@@ -8,7 +8,7 @@ const QuestionSchema = new Schema({
         type: String
     },
     questionOptions: { type: Array },
-    questionAnswer: {
+    questionContext: {
         type: String
     },
     evaluation: {
