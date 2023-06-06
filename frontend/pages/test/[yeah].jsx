@@ -19,15 +19,15 @@ const index = ({ id }) => {
   const [evaluation, setEvaluation] = state([])
   const [answer, setAnswer] = state([])
 
-  const handleAnswer = (e, id) => {
-    const { name, value } = e.target
+  const handleAnswer = (e, idQuestion) => {
     setAnswer({
       ...answer,
-      [name]: value
+      "answerUser": e.target.value, "question": idQuestion
     })
-    console.log("ID: "+id + "\n Value:"+value )
+    
+    //console.log("IdQuestion: "+idQuestion + "\nIdEvaluation: "+ id + "\n Value:"+value )
   }
-
+  console.log(answer)
   effect(() => {
     getQuestions(id).then(res => {
       setQuestions(res.data)

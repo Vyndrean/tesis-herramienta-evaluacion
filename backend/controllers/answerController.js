@@ -1,12 +1,12 @@
 const Answer = require('../models/answer')
 
 const createAnswer = (req, res) => {
-    const { answerUser, answerUserData, answerQuestion } = req.body
+    const { answerUser, answerUserData, question } = req.body
     const newAnswer = new Answer(
         {
             answerUser,
             answerUserData,
-            answerQuestion
+            question
         }
     )
     newAnswer.save((err, answer) => {
@@ -64,5 +64,6 @@ const deleteAnswer = (req, res) => {
 module.exports = {
     createAnswer,
     getAnswers,
-    deleteAnswer
+    deleteAnswer,
+    getAnswer
 }

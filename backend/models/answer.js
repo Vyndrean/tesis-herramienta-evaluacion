@@ -5,7 +5,7 @@ const AnswerSchema = new Schema({
         type: String,
         required: true
     },
-    answerQuestion: {
+    question: {
         type: Schema.ObjectId,
         ref: 'question',
         required: true
