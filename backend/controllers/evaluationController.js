@@ -48,9 +48,23 @@ const updateEvaluation = (req, res) => {
     })
 }
 
+const getOneEvaluation = (req, res) => {
+    const { id } = req.params
+    Evaluation.findById(id, (err, evaluation) => {
+        if (err) {
+            return res.status(400).send({ message: "Error al buscar la evaluacion" })
+        }
+        if (!id) {
+            return res.status(404).send({ message: "No existe la evaluacion" })
+        }
+        return res.status(200).send(evaluation)
+    })
+}
+
 module.exports = {
     createEvaluation,
     getEvaluation,
     deleteEvaluation,
-    updateEvaluation
+    updateEvaluation,
+    getOneEvaluation
 }

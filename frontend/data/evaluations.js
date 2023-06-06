@@ -11,7 +11,12 @@ const getEvaluations = async () => {
 }
 
 const getQuestions = async (id) => {
-    const res = await axios.get(`${process.env.SERVIDOR}/question/${id.id}`)
+    const res = await axios.get(`${process.env.SERVIDOR}/question/${id}`)
+    return res
+}
+
+const getEvaluation = async (id) => {
+    const res = await axios.get(`${process.env.SERVIDOR}/evaluation/search/${id}`)
     return res
 }
 
@@ -42,5 +47,6 @@ module.exports = {
     deleteEvaluation,
     createQuestion,
     deleteQuestion,
-    updateEvaluation
+    updateEvaluation,
+    getEvaluation
 }

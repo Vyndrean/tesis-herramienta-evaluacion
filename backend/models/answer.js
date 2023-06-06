@@ -5,6 +5,12 @@ const AnswerSchema = new Schema({
         type: String,
         required: true
     },
+    answerQuestion: {
+        type: Schema.ObjectId,
+        ref: 'question',
+        required: true
+
+    },
     answerUserData: {
         type: Array
     }

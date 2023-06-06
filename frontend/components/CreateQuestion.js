@@ -3,6 +3,7 @@ import React, { useState as state } from 'react'
 import InputForm from '@/components/InputForm'
 import { createQuestion } from '@/data/evaluations'
 import { CloseIcon } from '@chakra-ui/icons'
+import { v4 as uuidv4 } from 'uuid'
 
 const CreateQuestion = ({ id }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -14,7 +15,8 @@ const CreateQuestion = ({ id }) => {
     }
   ])
   const [question, setQuestion] = state({
-    evaluation: id.id
+    _id: uuidv4(),
+    evaluation: id
   })
 
   const handleChangeAnswer = (e, i) => {

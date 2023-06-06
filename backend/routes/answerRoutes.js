@@ -3,7 +3,7 @@ const api = express.Router()
 const answerController = require('../controllers/answerController')
 
 api.post('/answer', answerController.createAnswer)
-api.get('/answers', answerController.getAnswer)
+api.get('/answers', answerController.getAnswers)
 api.delete('/answer/delete/:id', answerController.deleteAnswer)
 
 module.exports = api

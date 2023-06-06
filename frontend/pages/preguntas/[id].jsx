@@ -13,7 +13,7 @@ export const getServerSideProps = async (context) => {
     if (check.status == 200) {
       return {
         props: {
-          id: context.query
+          id: context.query.id
         }
       }
     }
