@@ -3,7 +3,7 @@ import React, { useState as state } from 'react'
 import InputForm from '@/components/InputForm'
 import { createQuestion } from '@/data/evaluations'
 import { CloseIcon } from '@chakra-ui/icons'
-import { v4 as uuidv4 } from 'uuid'
+import router from 'next/router'
 
 const CreateQuestion = ({ id }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -15,16 +15,15 @@ const CreateQuestion = ({ id }) => {
     }
   ])
   const [question, setQuestion] = state({
-    _id: uuidv4(),
     evaluation: id
   })
 
   const handleChangeAnswer = (e, i) => {
-    const { name, value } = e.target;
-    const updatedAnswer = [...answer];
-    updatedAnswer[i] = { name, value };
+    const { name, value } = e.target
+    const updatedAnswer = [...answer]
+    updatedAnswer[i] = { name, value }
 
-    setAnswer(updatedAnswer);
+    setAnswer(updatedAnswer)
     setQuestion(prevQuestion => ({
       ...prevQuestion,
       questionOptions: updatedAnswer
@@ -61,6 +60,7 @@ const CreateQuestion = ({ id }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     createQuestion(question).then(res => {
+      router.reload()
       if (res.status == '200') {
         onClose()
         toast({

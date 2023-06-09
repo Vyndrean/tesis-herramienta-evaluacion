@@ -22,6 +22,8 @@ const EmailForm = ({ data }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    console.log(email)
+    
     sendEmail(email).then(res => {
       { res.status === 200 } {
         updateEvaluation(data._id, { status: 'send' })
