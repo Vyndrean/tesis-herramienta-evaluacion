@@ -115,6 +115,10 @@ const questions = ({ id }) => {
             </HStack>
           </Card>
         )))}
+
+        <hr/>
+
+        
       </Container>
     </>
   )

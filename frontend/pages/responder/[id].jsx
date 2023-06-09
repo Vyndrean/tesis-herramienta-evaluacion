@@ -7,7 +7,7 @@ export const getServerSideProps = async (context) => {
   try {
     return {
       props: {
-        id: context.query.yeah
+        id: context.query.id
       }
     }
   } catch (error) {

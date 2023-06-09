@@ -2,7 +2,7 @@ import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, 
 import React, { useState as state } from 'react'
 import InputForm from '@/components/InputForm'
 import { createQuestion } from '@/data/evaluations'
-import { CloseIcon } from '@chakra-ui/icons'
+import { AddIcon, CloseIcon, DeleteIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 
 const CreateQuestion = ({ id }) => {
@@ -10,7 +10,6 @@ const CreateQuestion = ({ id }) => {
   const toast = Toast()
   const [answer, setAnswer] = state([
     {
-      name: '',
       value: ''
     }
   ])
@@ -19,9 +18,9 @@ const CreateQuestion = ({ id }) => {
   })
 
   const handleChangeAnswer = (e, i) => {
-    const { name, value } = e.target
+    const { value } = e.target
     const updatedAnswer = [...answer]
-    updatedAnswer[i] = { name, value }
+    updatedAnswer[i] = { value }
 
     setAnswer(updatedAnswer)
     setQuestion(prevQuestion => ({
@@ -42,9 +41,17 @@ const CreateQuestion = ({ id }) => {
 
   const handleAdd = () => {
     const newAnswer = [...answer, {
-      name: '', value: ''
+      value: ''
     }]
     setAnswer(newAnswer)
+  }
+
+  const addButton = () => {
+    if (question?.questionType != 'text') {
+      return (
+        <Button ml="50%" mt="3" onClick={() => handleAdd()}> <AddIcon /></Button>
+      )
+    }
   }
 
   const handleDelete = (e) => {
@@ -78,38 +85,56 @@ const CreateQuestion = ({ id }) => {
       <Button onClick={onOpen} colorScheme='green' my={"2"}> Añadir pregunta </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent maxW={"container.md"}>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleSubmit} id='form'>
               <Stack spacing={4} my={5} justify={"center"}>
-                <FormControl>
-                  <FormLabel>Tipo de pregunta</FormLabel>
-                  <Select name='questionType' defaultValue={'default'} onChange={handleChange}>
-                    <option value='default' disabled>Seleccione...</option>
-                    <option value='checkbox'>Opcion multiple</option>
-                    <option value='radio'>Alternativas</option>
-                    <option value='text'>Pregunta simple</option>
-                  </Select>
-                </FormControl>
+                <HStack>
+                  <InputForm name="questionName" type="text" placeholder="¿Que es lo que quieres preguntar?" handleChange={handleChange} label="Pregunta" />
+                  <FormControl>
+                    <FormLabel>Tipo de pregunta</FormLabel>
+                    <Select name='questionType' defaultValue={'radio'} onChange={handleChange}>
+                      <option value='default' disabled>Seleccione...</option>
+                      <option value='radio'>Opcion multiple</option>
+                      <option value='checkbox'>Casillas de verificacion</option>
+                      <option value='text'>Respuesta simple</option>
+                    </Select>
+                  </FormControl>
+                </HStack>
                 <FormControl>
                   <FormLabel>Contexto</FormLabel>
                   <Textarea name='questionContext' placeholder='Contexto en el cual se basa la pregunta' onChange={handleChange}></Textarea>
                 </FormControl>
-                <InputForm name="questionName" type="text" placeholder="¿Que es lo que quieres preguntar?" handleChange={handleChange} label="Pregunta" />
 
-                <FormLabel>Respuestas</FormLabel>
-                {answer.map((data, i) => {
-                  return (
-                    <HStack key={i}>
-                      <Input value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
-                      <Button onClick={() => handleDelete(i)}> <CloseIcon /> </Button>
-                    </HStack>
-                  )
-                })}
-                <Button onClick={() => handleAdd()} w="18">Añadir respuesta</Button>
+
+                <FormControl>
+                  <FormLabel>Respuestas</FormLabel>
+                  <HStack>
+                    <div>
+                      {answer.map((data, i) => {
+                        const toDelete = (i) => {
+                          if (!i == 0 && question.questionType != 'text') {
+                            return (
+                              <Button onClick={() => handleDelete(i)}> <DeleteIcon /> </Button>
+                            )
+                          }
+
+                        }
+                        return (
+                          <HStack key={i} spacing={8} mb="2">
+                            <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
+                            {toDelete(i)}
+                          </HStack>
+                        )
+                      })}
+                    </div>
+                  </HStack>
+                </FormControl>
+
+                {addButton()}
               </Stack>
-              <HStack>
+              <HStack spacing="auto">
                 <Button colorScheme="green" type='submit'>Confirmar</Button>
                 <Button colorScheme="red" onClick={onClose}>Cancelar</Button>
               </HStack>

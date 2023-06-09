@@ -7,7 +7,7 @@ import { updateEvaluation } from '@/data/evaluations'
 const EmailForm = ({ data }) => {
   const [email, setEmail] = state({
     subject: data.title,
-    content: data.introduction + "\nAccesible mediante el siguiente enlace " + `http://localhost:3000/test/${data._id}`
+    content: "Hola\n" + data.introduction + "\n\nAccesible mediante el siguiente enlace " + `http://localhost:3000/responder/${data._id}`
   })
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
