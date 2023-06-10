@@ -3,8 +3,9 @@ import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import InputForm from '@/components/InputForm'
-import { Button, Container, FormControl, FormLabel, HStack, Stack, Textarea, useToast as Toast } from '@chakra-ui/react'
+import { Button, Container, FormControl, FormLabel, HStack, Input, Stack, Textarea, useToast as Toast } from '@chakra-ui/react'
 import { createEvaluation } from '@/data/evaluations'
+import moment from 'moment'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -35,7 +36,7 @@ const crear = () => {
             [e.target.name]: e.target.value
         })
     }
-    const currentDate = new Date("dd-mm-aaaa");
+    const currentDate = moment().format().substring(0, 10)
     const submitEvaluation = (e) => {
         e.preventDefault()
         createEvaluation(evaluation).then(res => {
@@ -50,7 +51,13 @@ const crear = () => {
             }
         })
     }
-    console.log(currentDate)
+
+    const startDateStatus = () => {
+        if (evaluation.start_date) {
+            return <InputForm name="end_date" type="date" placeholder="Fecha de termino de la evaluacion" handleChange={handleChange} label="Termino" isRequired={true} min={evaluation?.start_date?.substring(0, 10)} />
+        }
+    }
+
     return (
         <>
             <Navbar />
@@ -65,8 +72,10 @@ const crear = () => {
                             <FormLabel>Descripcion</FormLabel>
                             <Textarea name='introduction' placeholder='Descripcion de la evaluacion' onChange={handleChange}></Textarea>
                         </FormControl>
-                        <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Inicio" isRequired={true} minLength={new Date()}/>
-                        <InputForm name="end_date" type="date" placeholder="Fecha de termino de la evaluacion" handleChange={handleChange} label="Termino" isRequired={true} />
+                        <HStack>
+                            <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Inicio" isRequired={true} min={currentDate} />
+                            {startDateStatus()}
+                        </HStack>
                     </Stack>
                     <HStack>
                         <Button colorScheme="green" type='submit'>Confirmar</Button>
