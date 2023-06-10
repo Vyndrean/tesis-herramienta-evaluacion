@@ -68,10 +68,9 @@ const Navbar = () => {
                                         textShadow: "#FC0 1px 0 10px",
                                         transform: "scale(1.2)",
                                     }}>
-                                    <a href="/inicio">
-                                        {" "}
+                                    <Text onClick={() => router.push('/inicio')}>
                                         <b>Inicio</b>
-                                    </a>
+                                    </Text>
                                 </Button>
                                 <Link color='teal.500' href='/' onClick={() => {
                                     Cookies.remove("token")

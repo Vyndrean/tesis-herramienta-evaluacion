@@ -91,11 +91,10 @@ const CreateQuestion = ({ id }) => {
             <form onSubmit={handleSubmit} id='form'>
               <Stack spacing={4} my={5} justify={"center"}>
                 <HStack>
-                  <InputForm name="questionName" type="text" placeholder="¿Que es lo que quieres preguntar?" handleChange={handleChange} label="Pregunta" />
+                  <InputForm name="questionName" type="text" placeholder="¿Que es lo que quieres preguntar?" handleChange={handleChange} label="Pregunta" isRequired={true} />
                   <FormControl>
                     <FormLabel>Tipo de pregunta</FormLabel>
-                    <Select name='questionType' defaultValue={'radio'} onChange={handleChange}>
-                      <option value='default' disabled>Seleccione...</option>
+                    <Select name='questionType' onChange={handleChange} placeholder='...' required>
                       <option value='radio'>Opcion multiple</option>
                       <option value='checkbox'>Casillas de verificacion</option>
                       <option value='text'>Respuesta simple</option>
@@ -123,7 +122,7 @@ const CreateQuestion = ({ id }) => {
                         }
                         return (
                           <HStack key={i} spacing={8} mb="2">
-                            <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
+                            <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)} isRequired></Input>
                             {toDelete(i)}
                           </HStack>
                         )

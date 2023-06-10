@@ -3,7 +3,7 @@ import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import InputForm from '@/components/InputForm'
-import { Button, Container, HStack, Stack, useToast as Toast } from '@chakra-ui/react'
+import { Button, Container, FormControl, FormLabel, HStack, Stack, Textarea, useToast as Toast } from '@chakra-ui/react'
 import { createEvaluation } from '@/data/evaluations'
 
 export const getServerSideProps = async (context) => {
@@ -35,7 +35,7 @@ const crear = () => {
             [e.target.name]: e.target.value
         })
     }
-
+    const currentDate = new Date("dd-mm-aaaa");
     const submitEvaluation = (e) => {
         e.preventDefault()
         createEvaluation(evaluation).then(res => {
@@ -50,7 +50,7 @@ const crear = () => {
             }
         })
     }
-
+    console.log(currentDate)
     return (
         <>
             <Navbar />
@@ -61,9 +61,12 @@ const crear = () => {
                 <form onSubmit={submitEvaluation} id='form'>
                     <Stack spacing={4} my={20} justify={"center"}>
                         <InputForm name="title" type="text" placeholder="Titulo de la evaluacion" handleChange={handleChange} label="Titulo" isRequired={true} />
-                        <InputForm name="introduction" type="text" placeholder="Introduccion de la evaluacion" handleChange={handleChange} label="Introduccion"/>
-                        <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Inicio" isRequired={true}/>
-                        <InputForm name="end_date" type="date" placeholder="Fecha de termino de la evaluacion" handleChange={handleChange} label="Termino" isRequired={true}/>
+                        <FormControl>
+                            <FormLabel>Descripcion</FormLabel>
+                            <Textarea name='introduction' placeholder='Descripcion de la evaluacion' onChange={handleChange}></Textarea>
+                        </FormControl>
+                        <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Inicio" isRequired={true} minLength={new Date()}/>
+                        <InputForm name="end_date" type="date" placeholder="Fecha de termino de la evaluacion" handleChange={handleChange} label="Termino" isRequired={true} />
                     </Stack>
                     <HStack>
                         <Button colorScheme="green" type='submit'>Confirmar</Button>

@@ -1,6 +1,6 @@
 import React, { useEffect as effect, useState as state } from 'react'
 import { getQuestions, getEvaluation } from '@/data/evaluations'
-import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast } from '@chakra-ui/react'
+import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input } from '@chakra-ui/react'
 import { createAnswer } from '@/data/respond'
 
 export const getServerSideProps = async (context) => {

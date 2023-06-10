@@ -45,7 +45,7 @@ const EmailForm = ({ data }) => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent maxW="container.sm">
           <ModalHeader>Envio</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
