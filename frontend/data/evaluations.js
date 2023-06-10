@@ -20,18 +20,8 @@ const getEvaluation = async (id) => {
     return res
 }
 
-const deleteEvaluation = (id) => {
-    const res = axios.delete(`${process.env.SERVIDOR}/evaluation/delete/${id}`)
-    return res
-}
-
 const createQuestion = (question) => {
     const res = axios.post(`${process.env.SERVIDOR}/question`, question)
-    return res
-}
-
-const deleteQuestion = (idQuestion) => {
-    const res = axios.delete(`${process.env.SERVIDOR}/question/delete/${idQuestion}`)
     return res
 }
 
@@ -40,13 +30,17 @@ const updateEvaluation = (idEvaluation, email) => {
     return res
 }
 
+const deleteByRef = (id, refe) => {
+    const res = axios.delete(`${process.env.SERVIDOR}/${refe}/delete/${id}`)
+    return res
+}
+
 module.exports = {
     createEvaluation,
     getEvaluations,
     getQuestions,
-    deleteEvaluation,
     createQuestion,
-    deleteQuestion,
     updateEvaluation,
-    getEvaluation
+    getEvaluation,
+    deleteByRef
 }

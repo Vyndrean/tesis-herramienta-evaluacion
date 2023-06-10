@@ -23,7 +23,7 @@ const EmailForm = ({ data }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(email)
-    
+
     sendEmail(email).then(res => {
       { res.status === 200 } {
         updateEvaluation(data._id, { status: 'send' })
@@ -48,21 +48,23 @@ const EmailForm = ({ data }) => {
         <ModalContent maxW="container.sm">
           <ModalHeader>Envio</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <FormLabel>Destinatario</FormLabel>
-              <Textarea name='destinatary' onChange={handleChange}></Textarea>
-            </FormControl>
-          </ModalBody>
+          <form onSubmit={handleSubmit}>
+            <ModalBody>
+              <FormControl>
+                <FormLabel>Destinatario</FormLabel>
+                <Textarea name='destinatary' onChange={handleChange} isRequired></Textarea>
+              </FormControl>
+            </ModalBody>
 
-          <ModalFooter>
-            <HStack>
-              <Button colorScheme='green' onClick={handleSubmit}>Confirmar</Button>
-              <Button colorScheme='blue' mr={3} onClick={onClose}>
-                Cancelar
-              </Button>
-            </HStack>
-          </ModalFooter>
+            <ModalFooter>
+              <HStack>
+                <Button colorScheme='green' type='submit'>Confirmar</Button>
+                <Button colorScheme='blue' mr={3} onClick={onClose}>
+                  Cancelar
+                </Button>
+              </HStack>
+            </ModalFooter>
+          </form>
         </ModalContent>
       </Modal>
     </>

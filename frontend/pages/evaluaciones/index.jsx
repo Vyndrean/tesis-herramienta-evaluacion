@@ -7,6 +7,7 @@ import DataTable from 'react-data-table-component'
 import router from 'next/router'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import EmailForm from '@/components/EmailForm'
+import DeleteOption from '@/components/DeleteOption'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -28,29 +29,6 @@ export const getServerSideProps = async (context) => {
 
 const evaluaciones = () => {
   const [evaluation, setEvaluation] = state([])
-  const toast = Toast()
-
-  const deleva = (idEva) => {
-    deleteEvaluation(idEva).then(res => {
-      if (res.status == '200') {
-        toast({
-          title: "Eliminado",
-          status: "success",
-          isClosable: true,
-          duration: 3000
-        })
-        contentReload()
-      } else {
-        toast({
-          title: "Ocurrio un error al realizar la peticion, intentelo mas tarde...",
-          status: "warning",
-          isClosable: true,
-          duration: 3000
-        })
-      }
-    })
-  }
-
   const handleStatus = (status) => {
     switch (status) {
       case "pending":
@@ -79,13 +57,14 @@ const evaluaciones = () => {
   const ExpandedComponent = ({ data }) => (
     <Text>{data.introduction}</Text>
   )
-  
+
 
   return (
     <>
       <Navbar />
-      <Container maxW={"container.lg"}>
+      <Container maxW={"container.xl"}>
         <HStack mt="2" spacing={"auto"}>
+
           <Button colorScheme='green' onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluacion</Button>
         </HStack>
         <DataTable
@@ -118,7 +97,7 @@ const evaluaciones = () => {
                 <HStack>
                   <EmailForm data={data} />
                   <Button colorScheme='yellow'> <EditIcon /> </Button>
-                  <Button colorScheme='red' onClick={() => deleva(data._id)}> <DeleteIcon /> </Button>
+                  <DeleteOption refe='evaluation' id={data._id} reload={contentReload}/>
                 </HStack>
               )
             }

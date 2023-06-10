@@ -3,9 +3,10 @@ import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import { Button, Container, HStack, useToast as Toast, Input, Card, CardHeader, Heading, CardBody, Stack, Box, Text } from '@chakra-ui/react'
-import { getQuestions, deleteQuestion } from '@/data/evaluations'
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { getQuestions } from '@/data/evaluations'
+import { EditIcon } from '@chakra-ui/icons'
 import CreateQuestion from '@/components/CreateQuestion'
+import DeleteOption from '@/components/DeleteOption'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -32,29 +33,9 @@ export const getServerSideProps = async (context) => {
 const questions = ({ id }) => {
   const [questions, setQuestions] = state([])
   const toast = Toast()
-  const delQuest = (idQuest, idEva) => {
-    deleteQuestion(idQuest).then(res => {
-      if (res.status == '200') {
-        toast({
-          title: "Eliminado",
-          status: "success",
-          isClosable: true,
-          duration: 3000
-        })
-        contentReload(idEva)
-      } else {
-        toast({
-          title: "Ocurrio un error al realizar la peticion, intentelo mas tarde...",
-          status: "warning",
-          isClosable: true,
-          duration: 3000
-        })
-      }
-    })
-  }
 
-  const contentReload = async (idEva) => {
-    await getQuestions(idEva).then(res => {
+  const contentReload = async () => {
+    await getQuestions(id).then(res => {
       setQuestions(res.data)
     })
   }
@@ -110,7 +91,7 @@ const questions = ({ id }) => {
               </Stack>
               <Stack paddingRight={"25"}>
                 <Button colorScheme='yellow'> <EditIcon /> </Button>
-                <Button colorScheme='red' onClick={() => delQuest(question._id, id)}> <DeleteIcon /> </Button>
+                <DeleteOption refe='question' id={question._id} reload={contentReload}/>
               </Stack>
             </HStack>
           </Card>
