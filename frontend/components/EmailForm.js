@@ -1,5 +1,5 @@
 import { EmailIcon } from '@chakra-ui/icons'
-import { Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Textarea, useDisclosure, useToast as Toast } from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Textarea, useDisclosure, useToast as Toast, defineStyle } from '@chakra-ui/react'
 import React, { useState as state } from 'react'
 import { sendEmail } from '@/data/mail'
 import { updateEvaluation } from '@/data/evaluations'
@@ -7,7 +7,7 @@ import { updateEvaluation } from '@/data/evaluations'
 const EmailForm = ({ data }) => {
   const [email, setEmail] = state({
     subject: data.title,
-    content: "Estimado,\n" + data.introduction + "\nAccesible mediante el siguiente enlace " + `http://localhost:3000/responder/${data._id}`
+    content: "Estimado/a,\n" + data.introduction + "\nAccesible mediante el siguiente enlace " + `http://localhost:3000/responder/${data._id}`
   })
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
@@ -25,7 +25,7 @@ const EmailForm = ({ data }) => {
     console.log(email)
 
     sendEmail(email).then(res => {
-      { res.status === 200 } {
+      if (res.status === '200') {
         updateEvaluation(data._id, { status: 'send' })
         onClose()
         toast({
@@ -42,17 +42,16 @@ const EmailForm = ({ data }) => {
   return (
     <>
       <Button onClick={onOpen} colorScheme='blue'> <EmailIcon /> </Button>
-
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW="container.sm">
           <ModalHeader>Envio</ModalHeader>
           <ModalCloseButton />
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} >
             <ModalBody>
               <FormControl>
                 <FormLabel>Destinatario</FormLabel>
-                <Textarea name='destinatary' onChange={handleChange} isRequired></Textarea>
+                  <Textarea name='destinatary' onChange={handleChange} isRequired></Textarea>
               </FormControl>
             </ModalBody>
 

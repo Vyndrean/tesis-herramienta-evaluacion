@@ -94,7 +94,7 @@ const CreateQuestion = ({ id }) => {
                   <InputForm name="questionName" type="text" placeholder="¿Que es lo que quieres preguntar?" handleChange={handleChange} label="Pregunta" isRequired={true} />
                   <FormControl>
                     <FormLabel>Tipo de pregunta</FormLabel>
-                    <Select name='questionType' onChange={handleChange} placeholder='...' required>
+                    <Select name='questionType' onChange={handleChange} placeholder='Tipos disponibles...' required>
                       <option value='radio'>Opcion multiple</option>
                       <option value='checkbox'>Casillas de verificacion</option>
                       <option value='text'>Respuesta simple</option>
