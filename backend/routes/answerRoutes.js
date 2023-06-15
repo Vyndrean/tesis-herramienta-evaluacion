@@ -6,5 +6,6 @@ api.post('/answer', answerController.createAnswer)
 api.get('/answers', answerController.getAnswers)
 api.delete('/answer/delete/:id', answerController.deleteAnswer)
 api.get('/answer/search/:id', answerController.getAnswer)
+api.put('/answer/update/:id', answerController.updateAnswer)
 
 module.exports = api

@@ -2,12 +2,16 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const QuestionSchema = new Schema({
     questionName: {
-        type: String
+        type: String,
+        required: true
     },
     questionType: {
-        type: String
+        type: String,
+        required: true
     },
-    questionOptions: { type: Array },
+    questionOptions: { 
+        type: Array
+    },
     questionContext: {
         type: String
     },

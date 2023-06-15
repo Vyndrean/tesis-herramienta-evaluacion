@@ -56,9 +56,23 @@ const deleteQuestion = (req, res) => {
     })
 }
 
+const updateQuestion = (req, res) => {
+    const { id } = req.params
+    Question.findByIdAndUpdate(id, req.body, (err, question) => {
+        if (err) {
+            return res.status(400).send({ message: "Error al actualizar la pregunta" })
+        }
+        if (!question) {
+            return res.status(404).send({ message: "Error al actualizar, no existe la pregunta" })
+        }
+        return res.status(200).send(question)
+    })
+}
+
 module.exports = {
     createQuestion,
     getQuestions,
     deleteQuestion,
-    getQuestion
+    getQuestion,
+    updateQuestion
 }

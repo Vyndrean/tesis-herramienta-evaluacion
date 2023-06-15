@@ -1,12 +1,12 @@
 const Answer = require('../models/answer')
 
 const createAnswer = (req, res) => {
-    const { answerUser, answerUserData, question } = req.body
+    const { answerUser, question, participant } = req.body
     const newAnswer = new Answer(
         {
             answerUser,
-            answerUserData,
-            question
+            question,
+            participant
         }
     )
     newAnswer.save((err, answer) => {
@@ -19,7 +19,7 @@ const createAnswer = (req, res) => {
 
 const getAnswers = (req, res) => {
     Answer.find({})
-        .populate('question')
+        .populate('question participant')
         .exec((err, answer) => {
             if (err) {
                 return res.status(400).send({ message: "Error al mostrar las respuestas" })
@@ -33,7 +33,7 @@ const getAnswer = (req, res) => {
     Answer.find({
         'answerUser._id': id
     })
-        .populate('question')
+        .populate('question participant')
         .exec((err, answer) => {
             if (err) {
                 return res.status(400).send({ message: "Error al mostrar las respuestas" })
@@ -59,9 +59,23 @@ const deleteAnswer = (req, res) => {
     })
 }
 
+const updateAnswer = (req, res) => {
+    const { id } = req.params
+    Answer.findByIdAndUpdate(id, req.body, (err, answer) => {
+        if (err) {
+            return res.status(400).send({ message: "Error al actualizar las respuestas" })
+        }
+        if (!answer) {
+            return res.status(404).send({ message: "Error no se encuentra la respuesta" })
+        }
+        return res.status(200).send(answer)
+    })
+}
+
 module.exports = {
     createAnswer,
     getAnswers,
     deleteAnswer,
-    getAnswer
+    getAnswer,
+    updateAnswer
 }

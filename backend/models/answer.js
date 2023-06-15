@@ -2,14 +2,18 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const AnswerSchema = new Schema({
     answerUser: {
-        type: Array
+        type: Array,
+        required: true
     },
     question: {
         type: Schema.ObjectId,
-        ref: 'question'
+        ref: 'question',
+        required: true
     },
-    answerUserData: {
-        type: Array
+    participant: {
+        type: Schema.ObjectId,
+        ref: 'participant',
+        required: true
     }
 })
 
