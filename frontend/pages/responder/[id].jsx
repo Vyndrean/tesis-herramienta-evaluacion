@@ -1,6 +1,6 @@
 import React, { useEffect as effect, useState as state } from 'react'
 import { getQuestions, getEvaluation } from '@/data/evaluations'
-import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input } from '@chakra-ui/react'
+import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel } from '@chakra-ui/react'
 import { createAnswer } from '@/data/respond'
 import { ArrowBackIcon, ArrowForwardIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
@@ -63,19 +63,19 @@ const index = ({ id }) => {
   }
 
   const showButton = () => {
-    if (page <= 0 && page >= -1) {
-      return <Button colorScheme='#FFD700' onClick={() => forwardQuestion()} ml="86.8%"><ArrowForwardIcon boxSize="8"/> </Button>
+    if (page == -1) {
+      return <Button colorScheme='#FFD700' onClick={() => forwardQuestion()} ml="86.8%"><ArrowForwardIcon boxSize="8" /> </Button>
     }
     if (page >= -1 && page < questions.length) {
       return (
         <>
-          <Button colorScheme="#FFD700" onClick={() => backwardQuestion()}> <ArrowBackIcon boxSize="8"/> </Button>
-          <Button colorScheme='#FFD700' onClick={() => handleSubmit()}> <ArrowForwardIcon boxSize="8"/> </Button>
+          <Button colorScheme="#FFD700" onClick={() => backwardQuestion()}> <ArrowBackIcon boxSize="8" /> </Button>
+          <Button colorScheme='#FFD700' onClick={() => handleSubmit()}> <ArrowForwardIcon boxSize="8" /> </Button>
         </>
       )
     }
     if (page == questions.length) {
-      return <Button colorScheme="#FFD700" onClick={() => backwardQuestion()}> <ArrowBackIcon boxSize="8"/> </Button>
+      return <Button colorScheme="#FFD700" onClick={() => backwardQuestion()}> <ArrowBackIcon boxSize="8" /> </Button>
     }
   }
 
@@ -97,19 +97,21 @@ const index = ({ id }) => {
         {page == -1 && (
           <>
             <CardHeader>
-              <Heading textAlign='center'>{evaluation?.title}</Heading>
+              <Heading textAlign='center' fontFamily='-moz-initial'>{evaluation?.title}</Heading>
             </CardHeader>
+            <hr />
             <CardBody>
-              <Text textAlign='center'>{evaluation?.introduction}</Text>
+              <Text textAlign='center' fontFamily='serif' fontSize='xl'>{evaluation?.introduction}</Text>
             </CardBody>
           </>
         )}
         {page >= 0 && page < questions.length && (
           <>
             <CardHeader minH="300">
-              <Text textAlign={'center'}>{questions[page]?.questionContext}</Text>
-              <Heading size='md' textAlign='center' mt="50">{questions[page]?.questionName}</Heading>
+              <Text textAlign={'center'} fontFamily='serif' fontSize='xl'>{questions[page]?.questionContext}</Text>
+              <Heading size='md' textAlign='center' mt="50" fontFamily='-moz-initial'>{questions[page]?.questionName}</Heading>
             </CardHeader>
+            <hr />
             <CardBody>
               <Stack>
                 <Box>
@@ -124,7 +126,10 @@ const index = ({ id }) => {
                           </>
                         )}
                         {questions[page]?.questionType === 'text' && (
-                          <Input id={index} type='text' onChange={handleChange} />
+                          <>
+                          <FormLabel textAlign='center'>Respuesta</FormLabel>
+                          <Input w="70%" ml="15%" id={index} type='text' onChange={handleChange} />
+                          </>
                         )}
                         {questions[page]?.questionType === 'checkbox' && (
                           <>
@@ -143,7 +148,13 @@ const index = ({ id }) => {
         )}
         {page == questions.length && (
           <>
-            <Text>Listo</Text>
+            <CardHeader>
+              <Heading textAlign='center' fontFamily='-moz-initial'>Resumen y Cierre</Heading>
+            </CardHeader>
+            <CardBody textAlign='center' >
+              <Heading size='sm' fontFamily='serif' fontSize='xl'>¡Gracias por su participacíon!<br/>Esperamos verte pronto en futuras evaluaciones y no olvide enviar su respuesta</Heading>
+              <Button colorScheme='yellow' mt="50">Enviar</Button>
+            </CardBody>
           </>
         )}
       </Card>
