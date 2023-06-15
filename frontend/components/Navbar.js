@@ -1,4 +1,4 @@
-import { Box, Flex, Button, Stack, Show, HStack, useDisclosure, IconButton, Heading, useToast as Toast, Text } from "@chakra-ui/react";
+import { Box, Flex, Button, Stack, Show, HStack, useDisclosure, IconButton, Heading, Text } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import router from "next/router";
 import axios from "axios";
@@ -7,11 +7,11 @@ import Link from "next/link";
 
 const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const toast = Toast()
+    
     return (
         <Stack id="navFix">
             <Box width={["100%"]}>
-                <Flex h={12} alignItems={"center"} justifyContent={"space-between"} bgGradient={'linear(to-r, black, teal.400 , blue.700, teal.400, black)'} paddingInline="10" borderBottomRadius="20">
+                <Flex h={12} alignItems={"center"} justifyContent={"space-between"} bgGradient={'linear(to-r, #000080, #412080,  #000080)'} paddingInline="10" borderBottomRadius="20">
                     <HStack w="10%">
                         <Show breakpoint="(min-width: 1000px)">
                             <Heading as={'h1'} fontSize="30" fontFamily="serif" onClick={() => router.push('/')} className="pointer" color={"white"}></Heading>
@@ -43,7 +43,7 @@ const Navbar = () => {
                             Cookies.remove("token")
                             axios.post(`${process.env.SERVIDOR}/logout`)
                         }}>
-                            Cerrar Sesion
+                            Cerrar Sesión
                         </Link>
                     </HStack>
 
@@ -61,7 +61,7 @@ const Navbar = () => {
 
                     {isOpen ? (
 
-                        <Box paddingInline="3" paddingBlock="2" borderRadius={"15"} mt="300" display={{ md: "none" }} bgGradient={'linear(to-b, green, black, green)'}>
+                        <Box paddingInline="3" paddingBlock="2" borderRadius={"15"} mt="300" display={{ md: "none" }} bgGradient={'linear(to-b, #000080, black, #000080)'}>
                             <Stack as={"nav"} spacing={4}>
                                 <Button onClick={isOpen ? onClose : onOpen}
                                     _hover={{

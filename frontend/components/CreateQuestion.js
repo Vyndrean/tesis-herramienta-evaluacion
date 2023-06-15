@@ -91,10 +91,10 @@ const CreateQuestion = ({ id }) => {
             <form onSubmit={handleSubmit} id='form'>
               <Stack spacing={4} my={5} justify={"center"}>
                 <HStack>
-                  <InputForm name="questionName" type="text" placeholder="¿Que es lo que quieres preguntar?" handleChange={handleChange} label="Pregunta" isRequired={true} />
+                  <InputForm name="questionName" type="text" placeholder="Escribe la pregunta aqui" handleChange={handleChange} label="Pregunta" isRequired={true} />
                   <FormControl>
                     <FormLabel>Tipo de pregunta</FormLabel>
-                    <Select name='questionType' onChange={handleChange} placeholder='Tipos disponibles...' required>
+                    <Select name='questionType' onChange={handleChange} placeholder='...' required>
                       <option value='radio'>Opcion multiple</option>
                       <option value='checkbox'>Casillas de verificacion</option>
                       <option value='text'>Respuesta simple</option>
@@ -103,7 +103,7 @@ const CreateQuestion = ({ id }) => {
                 </HStack>
                 <FormControl>
                   <FormLabel>Contexto</FormLabel>
-                  <Textarea name='questionContext' placeholder='Contexto en el cual se basa la pregunta' onChange={handleChange}></Textarea>
+                  <Textarea name='questionContext' placeholder='Proporciona el contexto de la pregunta' onChange={handleChange}></Textarea>
                 </FormControl>
 
 

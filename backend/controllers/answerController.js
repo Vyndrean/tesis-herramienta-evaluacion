@@ -31,16 +31,14 @@ const getAnswers = (req, res) => {
 const getAnswer = (req, res) => {
     const { id } = req.params
     Answer.find({
-        question: {
-            _id: id
-        }
+        'answerUser._id': id
     })
         .populate('question')
         .exec((err, answer) => {
             if (err) {
                 return res.status(400).send({ message: "Error al mostrar las respuestas" })
             }
-            if (!id) {
+            if (!answer) {
                 return res.status(404).send({ message: "No se encuentra la pregunta asociada a la respuesta" })
             }
             return res.status(200).send(answer)

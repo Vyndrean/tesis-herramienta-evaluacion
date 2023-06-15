@@ -2,12 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const AnswerSchema = new Schema({
     answerUser: {
-        type: Array
+        type: String
     },
     question: {
         type: Schema.ObjectId,
         ref: 'question'
-
     },
     answerUserData: {
         type: Array

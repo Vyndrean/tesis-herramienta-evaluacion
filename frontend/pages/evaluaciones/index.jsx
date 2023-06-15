@@ -64,8 +64,7 @@ const evaluaciones = () => {
       <Navbar />
       <Container maxW={"container.xl"}>
         <HStack mt="2" spacing={"auto"}>
-
-          <Button colorScheme='green' onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluacion</Button>
+          <Button colorScheme='green' onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluación</Button>
         </HStack>
         <DataTable
           columns={[

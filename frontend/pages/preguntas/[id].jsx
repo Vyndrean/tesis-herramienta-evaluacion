@@ -51,51 +51,52 @@ const questions = ({ id }) => {
         <HStack spacing='auto'>
           <CreateQuestion id={id} />
         </HStack>
-          {questions.map((question => (
-            <Card key={question._id} bg='blackAlpha.50' mb="5">
-              <HStack spacing={'auto'}>
-                <Stack>
-                  <CardHeader>
-                    <Heading size={"md"}>{question?.questionName}</Heading>
-                    <Text>{question?.questionContext}</Text>
-                  </CardHeader>
-                  <CardBody>
-                    <Stack>
-                      <Box>
-                        <form>
-                          {question.questionOptions.map((res) => (
-                            <div key={res.name + res.value}>
-                              {question.questionType === 'radio' && (
-                                <>
-                                  <input type="radio" id={res.name} value={res.value} name='answer' />
-                                  <label htmlFor={res.name}> {res.value}</label>
-                                </>
-                              )}
-                              {question.questionType === 'text' && (
-                                <Input value={res?.value} id={res?.name} type="text" />
-                              )}
-                              {question.questionType === 'checkbox' && (
-                                <div>
-                                  <input type="checkbox" id={res.name} value={res.value} name='answer' />
-                                  <label htmlFor={res.name}> {res.value} </label>
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </form>
-                      </Box>
-                    </Stack>
-                  </CardBody>
-                </Stack>
-                <Stack paddingRight={"25"}>
-                  <Button colorScheme='yellow'> <EditIcon /> </Button>
-                  <DeleteOption refe='question' id={question._id} reload={contentReload} />
-                </Stack>
-              </HStack>
-            </Card>
-          )))}
+
+        {questions.map((question => (
+          <Card key={question._id} bg='blackAlpha.50' mb="5">
+            <HStack spacing={'auto'}>
+              <Stack>
+                <CardHeader>
+                  <Heading size={"md"}>{question?.questionName}</Heading>
+                  <Text>{question?.questionContext}</Text>
+                </CardHeader>
+                <CardBody>
+                  <Stack>
+                    <Box>
+                      <form>
+                        {question.questionOptions.map((res) => (
+                          <div key={res.name + res.value}>
+                            {question.questionType === 'radio' && (
+                              <>
+                                <input type="radio" id={res.name} value={res.value} name='answer' />
+                                <label htmlFor={res.name}> {res.value}</label>
+                              </>
+                            )}
+                            {question.questionType === 'text' && (
+                              <Input value={res?.value} id={res?.name} type="text" />
+                            )}
+                            {question.questionType === 'checkbox' && (
+                              <div>
+                                <input type="checkbox" id={res.name} value={res.value} name='answer' />
+                                <label htmlFor={res.name}> {res.value} </label>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </form>
+                    </Box>
+                  </Stack>
+                </CardBody>
+              </Stack>
+              <Stack paddingRight={"25"}>
+                <Button colorScheme='yellow'> <EditIcon /> </Button>
+                <DeleteOption refe='question' id={question._id} reload={contentReload} />
+              </Stack>
+            </HStack>
+          </Card>
+        )))}
         <hr />
-        
+
 
 
       </Container>

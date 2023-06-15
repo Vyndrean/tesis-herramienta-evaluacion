@@ -54,7 +54,7 @@ const crear = () => {
 
     const startDateStatus = () => {
         if (evaluation.start_date) {
-            return <InputForm name="end_date" type="date" placeholder="Fecha de termino de la evaluacion" handleChange={handleChange} label="Termino" isRequired={true} min={evaluation?.start_date?.substring(0, 10)} />
+            return <InputForm name="end_date" type="date" handleChange={handleChange} label="Fecha de termino" isRequired={true} min={evaluation?.start_date?.substring(0, 10)} />
         }
     }
 
@@ -67,13 +67,13 @@ const crear = () => {
             <Container maxW="container.sm">
                 <form onSubmit={submitEvaluation} id='form'>
                     <Stack spacing={4} my={20} justify={"center"}>
-                        <InputForm name="title" type="text" placeholder="Titulo de la evaluacion" handleChange={handleChange} label="Titulo" isRequired={true} />
+                        <InputForm name="title" type="text" placeholder="Ingrese el titulo para la evaluación" handleChange={handleChange} label="Titulo" isRequired={true} />
                         <FormControl>
-                            <FormLabel>Descripcion</FormLabel>
-                            <Textarea name='introduction' placeholder='Descripcion de la evaluacion' onChange={handleChange}></Textarea>
+                            <FormLabel>Descripción</FormLabel>
+                            <Textarea name='introduction' placeholder='Ingrese la descripcion aquí' onChange={handleChange}></Textarea>
                         </FormControl>
                         <HStack>
-                            <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Inicio" isRequired={true} min={currentDate} />
+                            <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Fecha de inicio" isRequired={true} min={currentDate} />
                             {startDateStatus()}
                         </HStack>
                     </Stack>
