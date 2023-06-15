@@ -53,13 +53,14 @@ const questions = ({ id }) => {
         </HStack>
 
         {questions.map((question => (
-          <Card key={question._id} bg='blackAlpha.50' mb="5">
-            <HStack spacing={'auto'}>
-              <Stack>
-                <CardHeader>
-                  <Heading size={"md"}>{question?.questionName}</Heading>
-                  <Text>{question?.questionContext}</Text>
+          <Card key={question._id} bg='blackAlpha.50' mb="5" border='1px solid black'>
+            <HStack>
+              <Stack flex="80%">
+                <CardHeader textAlign={'center'}>
+                  <Text  fontFamily='serif' fontSize='xl'>{question?.questionContext}</Text>
+                  <Heading size='md' textAlign='center' mt="50" fontFamily='-moz-initial'>{question?.questionName}</Heading>
                 </CardHeader>
+                <hr/>
                 <CardBody>
                   <Stack>
                     <Box>

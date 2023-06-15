@@ -1,6 +1,6 @@
 import React, { useEffect as effect, useState as state } from 'react'
 import { getQuestions, getEvaluation } from '@/data/evaluations'
-import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel } from '@chakra-ui/react'
+import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel, useSteps, Step, StepIndicator, StepStatus, Stepper, Progress, StepIcon } from '@chakra-ui/react'
 import { createAnswer } from '@/data/respond'
 import { ArrowBackIcon, ArrowForwardIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
@@ -23,14 +23,19 @@ const index = ({ id }) => {
   const [page, setPage] = state(-1)
   const toast = Toast()
 
-
   const handleChange = (e) => {
-    setAnswer({
-      ...answer,
-      [e.target.name]: e.target.value
-    })
+    const { name, value } = e.target;
+    setAnswer((prevAnswer) => ({
+      ...prevAnswer,
+      answerUser: {
+        ...prevAnswer.answerUser,
+        [name]: value,
+      },
+    }));
+  };
 
-  }
+
+
   console.log(answer)
   const backwardQuestion = () => {
     if (page > -1) {
@@ -47,10 +52,13 @@ const index = ({ id }) => {
   }
 
   const handleSubmit = () => {
-    setPage(page + 1)
     setAnswer('')
-    /*createAnswer(answer).then(res => {
+    setPage(page + 1)
+    /*
+    createAnswer(answer).then(res => {
       if (res.status === 200) {
+        setAnswer('')
+        setPage(page + 1)
         toast({
           title: "Respuesta enviada!",
           description: "Se agradece su tiempo para responder",
@@ -88,12 +96,12 @@ const index = ({ id }) => {
     })
   }, [])
   return (
-    <Container maxW={"container.lg"}>
+    <Container maxW={"container.lg"} h="100%">
       <Stack h="100"></Stack>
-      <HStack h="25" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'>
+      <Stack h="35" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'>
 
-      </HStack>
-      <Card h="500" w="400" bgColor="white" border="1px solid black">
+      </Stack>
+      <Card h="500" w="400" bgColor="white" border="1px solid black" borderRadius="0">
         {page == -1 && (
           <>
             <CardHeader>
@@ -127,8 +135,8 @@ const index = ({ id }) => {
                         )}
                         {questions[page]?.questionType === 'text' && (
                           <>
-                          <FormLabel textAlign='center'>Respuesta</FormLabel>
-                          <Input w="70%" ml="15%" id={index} type='text' onChange={handleChange} />
+                            <FormLabel textAlign='center'>Respuesta</FormLabel>
+                            <Input w="70%" ml="15%" id={index} type='text' onChange={handleChange} />
                           </>
                         )}
                         {questions[page]?.questionType === 'checkbox' && (
@@ -152,11 +160,12 @@ const index = ({ id }) => {
               <Heading textAlign='center' fontFamily='-moz-initial'>Resumen y Cierre</Heading>
             </CardHeader>
             <CardBody textAlign='center' >
-              <Heading size='sm' fontFamily='serif' fontSize='xl'>¡Gracias por su participacíon!<br/>Esperamos verte pronto en futuras evaluaciones y no olvide enviar su respuesta</Heading>
-              <Button colorScheme='yellow' mt="50">Enviar</Button>
+              <Heading size='sm' fontFamily='serif' fontSize='xl'>¡Gracias por su participacíon!<br />Esperamos verte pronto en futuras evaluaciones y no olvide enviar su respuesta</Heading>
+              <Button colorScheme='yellow' mt="50">Enviar respuestas</Button>
             </CardBody>
           </>
         )}
+
       </Card>
       <HStack spacing="80%" pl="5%" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
         {showButton()}

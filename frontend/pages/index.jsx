@@ -77,7 +77,7 @@ const index = () => {
             alignItems="center"
           >
             <Avatar bg="#000080"/>
-            <Heading color="#000080">Inicio de Sesión</Heading>
+            <Heading color="black">Inicio de Sesión</Heading>
             <Box min={{ base: "90%", md: '468px' }}>
               <form>
                 <Stack
