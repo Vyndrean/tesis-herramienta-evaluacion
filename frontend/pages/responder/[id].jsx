@@ -1,18 +1,34 @@
 import React, { useEffect as effect, useState as state } from 'react'
 import { getQuestions, getEvaluation } from '@/data/evaluations'
-import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel, useSteps, Step, StepIndicator, StepStatus, Stepper, Progress, StepIcon } from '@chakra-ui/react'
-import { createAnswer } from '@/data/respond'
-import { ArrowBackIcon, ArrowForwardIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel } from '@chakra-ui/react'
+import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
+import router from 'next/router'
 
 export const getServerSideProps = async (context) => {
   try {
-    return {
-      props: {
-        id: context.query.id
+    const vali = await context.query.validation
+    if (vali === '123') {
+      return {
+        props: {
+          id: context.query.id
+        }
+      }
+    } else {
+      return {
+        redirect: {
+          destination: "/responder/error",
+          permanent: false
+        }
       }
     }
+
   } catch (error) {
-    console.log(error)
+    return {
+      redirect: {
+        destination: "/responder/no",
+        permanent: false
+      }
+    }
   }
 }
 
@@ -22,7 +38,6 @@ const index = ({ id }) => {
   const [answer, setAnswer] = state([])
   const [page, setPage] = state(-1)
   const toast = Toast()
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAnswer((prevAnswer) => ({
@@ -36,7 +51,6 @@ const index = ({ id }) => {
 
 
 
-  console.log(answer)
   const backwardQuestion = () => {
     if (page > -1) {
       setPage(page - 1)

@@ -122,7 +122,7 @@ const CreateQuestion = ({ id }) => {
                         }
                         return (
                           <HStack key={i} spacing={8} mb="2">
-                            <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)} isRequired></Input>
+                            <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
                             {toDelete(i)}
                           </HStack>
                         )

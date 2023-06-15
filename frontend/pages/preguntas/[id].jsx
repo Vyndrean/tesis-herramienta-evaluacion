@@ -74,7 +74,7 @@ const questions = ({ id }) => {
                               </>
                             )}
                             {question.questionType === 'text' && (
-                              <Input value={res?.value} id={res?.name} type="text" />
+                              <Input  id={res?.name} type="text" />
                             )}
                             {question.questionType === 'checkbox' && (
                               <div>
