@@ -1,8 +1,8 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure, useToast as Toast, Stack, FormControl, FormLabel, Select, HStack, Input, Textarea } from '@chakra-ui/react'
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast as Toast, Stack, FormControl, FormLabel, Select, HStack, Input, Textarea } from '@chakra-ui/react'
 import React, { useState as state } from 'react'
 import InputForm from '@/components/InputForm'
 import { createQuestion } from '@/data/evaluations'
-import { AddIcon, CloseIcon, DeleteIcon } from '@chakra-ui/icons'
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 
 const CreateQuestion = ({ id }) => {
@@ -36,7 +36,6 @@ const CreateQuestion = ({ id }) => {
       questionOptions: answer
     })
     )
-    console.log(question)
   }
 
   const handleAdd = () => {
@@ -83,7 +82,7 @@ const CreateQuestion = ({ id }) => {
   return (
     <>
       <Button onClick={onOpen} colorScheme='green' my={"2"}> Añadir pregunta </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"container.md"}>
           <ModalCloseButton />

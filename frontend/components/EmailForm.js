@@ -40,7 +40,7 @@ const EmailForm = ({ data }) => {
   return (
     <>
       <Button onClick={onOpen} colorScheme='blue'> <EmailIcon /> </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW="container.sm">
           <ModalHeader textAlign="center">Envió</ModalHeader>

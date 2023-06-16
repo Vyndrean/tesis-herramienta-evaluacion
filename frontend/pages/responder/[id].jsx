@@ -1,13 +1,15 @@
 import React, { useEffect as effect, useState as state } from 'react'
 import { getQuestions, getEvaluation } from '@/data/evaluations'
-import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel } from '@chakra-ui/react'
+import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl } from '@chakra-ui/react'
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import router from 'next/router'
+import { createParticipant } from '@/data/participant'
+import { createAnswer } from '@/data/respond'
 
 export const getServerSideProps = async (context) => {
   try {
-    const vali = await context.query.validation
-    if (vali === '123') {
+    const val = context.query.validation
+    if (val == 123) {
       return {
         props: {
           id: context.query.id
@@ -16,16 +18,15 @@ export const getServerSideProps = async (context) => {
     } else {
       return {
         redirect: {
-          destination: "/responder/error",
+          destination: "/error",
           permanent: false
         }
       }
     }
-
   } catch (error) {
     return {
       redirect: {
-        destination: "/responder/no",
+        destination: "/error",
         permanent: false
       }
     }
@@ -35,43 +36,52 @@ export const getServerSideProps = async (context) => {
 const index = ({ id }) => {
   const [questions, setQuestions] = state([])
   const [evaluation, setEvaluation] = state([])
-  const [answer, setAnswer] = state([])
   const [page, setPage] = state(-1)
+  const [answer, setAnswer] = state([])
+  const [userData, setUserData] = state([])
+  console.log(questions[page]?._id)
   const toast = Toast()
+  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true })
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setAnswer((prevAnswer) => ({
-      ...prevAnswer,
+    setAnswer({
+      ...answer,
       answerUser: {
-        ...prevAnswer.answerUser,
-        [name]: value,
-      },
-    }));
+        ...answer.answerUser,
+        [name]: value
+      }
+    })
   };
 
-
-
+  const updateAnswer = () => {
+    const idQuestion = questions[page + 1]?._id
+    setAnswer({
+      ...answer,
+      answerUser: '',
+      question: idQuestion
+    })
+  }
+  console.log(answer)
   const backwardQuestion = () => {
     if (page > -1) {
       setPage(page - 1)
-      setAnswer('')
+      updateAnswer()
     }
   }
 
   const forwardQuestion = () => {
     if (page < questions.length) {
       setPage(page + 1)
-      setAnswer('')
+      updateAnswer()
     }
   }
 
   const handleSubmit = () => {
-    setAnswer('')
-    setPage(page + 1)
-    /*
+    console.log(answer)
     createAnswer(answer).then(res => {
       if (res.status === 200) {
-        setAnswer('')
+        updateAnswer()
         setPage(page + 1)
         toast({
           title: "Respuesta enviada!",
@@ -81,7 +91,50 @@ const index = ({ id }) => {
           duration: 2500
         })
       }
-    })*/
+    })
+  }
+
+  const formUserData = () => {
+    const handleUserData = (e) => {
+      setUserData({
+        ...userData,
+        [e.target.name]: e.target.value
+      })
+    }
+
+    const submitUserData = (e) => {
+      e.preventDefault();
+      onClose()
+      createParticipant(userData).then(res => {
+        setAnswer({
+          ...answer,
+          ["participant"]: res.data._id
+        })
+      })
+    };
+    return (
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader textAlign="center">Datos de usuario</ModalHeader>
+
+          <form onSubmit={submitUserData} id='form'>
+            <ModalBody>
+              <FormControl>
+                <FormLabel>Nombre y Apellido</FormLabel>
+                <Input onChange={handleUserData} name='name' id='name' type='text' isRequired></Input>
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme='green' mr={3} type='submit' >
+                Confirmar
+              </Button>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
+    )
   }
 
   const showButton = () => {
@@ -111,6 +164,7 @@ const index = ({ id }) => {
   }, [])
   return (
     <Container maxW={"container.lg"} h="100%">
+      {formUserData()}
       <Stack h="100"></Stack>
       <Stack h="35" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'>
 
