@@ -25,8 +25,8 @@ const createQuestion = (question) => {
     return res
 }
 
-const updateEvaluation = (idEvaluation, email) => {
-    const res = axios.put(`${process.env.SERVIDOR}/evaluation/update/${idEvaluation}`, email)
+const updateEvaluation = async (idEvaluation, status) => {
+    const res = await axios.put(`${process.env.SERVIDOR}/evaluation/update/${idEvaluation}`, status)
     return res
 }
 

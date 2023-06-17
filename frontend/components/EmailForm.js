@@ -7,7 +7,7 @@ import { updateEvaluation } from '@/data/evaluations'
 const EmailForm = ({ data }) => {
   const [email, setEmail] = state({
     subject: data.title,
-    content: "Estimado/a,\n" + data.introduction + "\nAccesible mediante el siguiente enlace " + `http://localhost:3000/responder/${data._id}?validation=${123}`
+    content: "Estimado/a,\n" + data?.introduction + "\nAccesible mediante el siguiente enlace " + `http://localhost:3000/responder/${data._id}?validation=${123}`
   })
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
@@ -23,16 +23,15 @@ const EmailForm = ({ data }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     sendEmail(email).then(res => {
-      if (res.status === '200') {
+      if (res.status == 200) {
         updateEvaluation(data._id, { status: 'send' })
-        onClose()
         toast({
           title: 'Enviado correctamente',
           status: 'success',
           duration: 5000,
           isClosable: true
         })
-
+        onClose()
       }
     })
   }

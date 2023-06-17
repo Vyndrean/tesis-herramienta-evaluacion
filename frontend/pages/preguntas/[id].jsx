@@ -53,7 +53,7 @@ const questions = ({ id }) => {
         </HStack>
 
         {questions.map((question => (
-          <Card key={question._id} bg='blackAlpha.50' mb="5" border='1px solid black'>
+          <Card key={question._id} bg='#f4efd7' mb="5" border='1px solid black'>
             <HStack>
               <Stack flex="80%">
                 <CardHeader textAlign={'center'}>

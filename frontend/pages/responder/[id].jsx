@@ -83,13 +83,6 @@ const index = ({ id }) => {
       if (res.status === 200) {
         updateAnswer()
         setPage(page + 1)
-        toast({
-          title: "Respuesta enviada!",
-          description: "Se agradece su tiempo para responder",
-          status: "success",
-          isClosable: true,
-          duration: 2500
-        })
       }
     })
   }
@@ -169,7 +162,7 @@ const index = ({ id }) => {
       <Stack h="35" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'>
 
       </Stack>
-      <Card h="500" w="400" bgColor="white" border="1px solid black" borderRadius="0">
+      <Card h="500" w="400" bgColor="#f4efd7" border="1px solid black" borderRadius="0">
         {page == -1 && (
           <>
             <CardHeader>
