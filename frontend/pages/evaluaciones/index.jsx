@@ -8,6 +8,7 @@ import router from 'next/router'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import EmailForm from '@/components/EmailForm'
 import DeleteOption from '@/components/DeleteOption'
+import moment from 'moment'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -58,6 +59,10 @@ const evaluaciones = () => {
     <Text>{data.introduction}</Text>
   )
 
+  const formatDate =(date) => {
+    const newFormat = moment(date).format('DD-MM-YYYY')
+    return newFormat
+  }
 
   return (
     <>
@@ -75,7 +80,7 @@ const evaluaciones = () => {
             },
             {
               name: "CREADO",
-              selector: (data) => data.created_at.substring(0, 10),
+              selector: (data) => formatDate(data.created_at),
               sortable: true
             },
             {
