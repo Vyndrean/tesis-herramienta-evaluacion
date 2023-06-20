@@ -1,9 +1,9 @@
 import React from 'react'
 
-const [id] = () => {
+const id = () => {
   return (
-    <div>[id]</div>
+    <div>HOLA</div>
   )
 }
 
-export default [id]
+export default id

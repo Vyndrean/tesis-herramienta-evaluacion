@@ -119,7 +119,6 @@ const CreateQuestion = ({ id }) => {
                               <Button onClick={() => handleDelete(i)}> <DeleteIcon /> </Button>
                             )
                           }
-
                         }
                         return (
                           <HStack key={i} spacing={8} mb="2">

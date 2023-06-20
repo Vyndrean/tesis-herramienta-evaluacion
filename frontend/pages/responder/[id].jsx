@@ -1,7 +1,7 @@
 import React, { useEffect as effect, useState as state } from 'react'
 import { getQuestions } from '@/data/question'
 import { getEvaluation } from '@/data/evaluations'
-import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl } from '@chakra-ui/react'
+import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel, useDisclosure as Disc, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl } from '@chakra-ui/react'
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 import { createParticipant } from '@/data/participant'
@@ -40,9 +40,8 @@ const index = ({ id }) => {
   const [page, setPage] = state(-1)
   const [answer, setAnswer] = state([])
   const [userData, setUserData] = state([])
-  console.log(questions[page]?._id)
   const toast = Toast()
-  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true })
+  const { isOpen, onClose } = Disc({ defaultIsOpen: true })
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,13 +80,14 @@ const index = ({ id }) => {
   const handleSubmit = () => {
     console.log(answer)
     createAnswer(answer).then(res => {
-      if (res.status === 200) {
+      if (res.status == 200) {
         updateAnswer()
         setPage(page + 1)
       }
     })
   }
 
+  //Who want to respond
   const formUserData = () => {
     const handleUserData = (e) => {
       setUserData({
@@ -131,6 +131,7 @@ const index = ({ id }) => {
     )
   }
 
+  //Navegation
   const showButton = () => {
     if (page == -1) {
       return <Button colorScheme='#FFD700' onClick={() => forwardQuestion()} ml="86.8%"><ArrowForwardIcon boxSize="8" /> </Button>
@@ -198,7 +199,7 @@ const index = ({ id }) => {
                         {questions[page]?.questionType === 'text' && (
                           <>
                             <FormLabel textAlign='center'>Respuesta</FormLabel>
-                            <Input w="70%" ml="15%" id={index} type='text' onChange={handleChange} />
+                            <Input w="70%" ml="15%" id={index} type='text' name='answer' onChange={handleChange} />
                           </>
                         )}
                         {questions[page]?.questionType === 'checkbox' && (
