@@ -1,7 +1,7 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast as Toast, Stack, FormControl, FormLabel, Select, HStack, Input, Textarea } from '@chakra-ui/react'
 import React, { useState as state } from 'react'
 import InputForm from '@/components/InputForm'
-import { createQuestion } from '@/data/evaluations'
+import { createQuestion } from '@/data/question'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 
@@ -37,6 +37,8 @@ const CreateQuestion = ({ id }) => {
     })
     )
   }
+
+
 
   const handleAdd = () => {
     const newAnswer = [...answer, {

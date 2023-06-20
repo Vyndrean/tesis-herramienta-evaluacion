@@ -54,14 +54,13 @@ const evaluaciones = () => {
       setEvaluation(res.data)
     })
   }, [])
-  console.log(evaluation)
   const ExpandedComponent = ({ data }) => (
     <List>
       <ListItem>
         <Heading size="sm">Fecha</Heading>
         <Text>Desde {formatDate(data.start_date)} hasta {formatDate(data.end_date)}</Text>
       </ListItem>
-      <hr/>
+      <hr />
       <ListItem>
         <Heading size="sm">Descripcion</Heading>
         <Text>{data.introduction}</Text>
@@ -70,10 +69,9 @@ const evaluaciones = () => {
   )
 
   const formatDate = (date) => {
-    const newFormat = moment(date).format('DD-MM-YYYY')
+    const newFormat = moment(date.substring(0, 10)).format(`DD-MM-YYYY`)
     return newFormat
   }
-
   return (
     <>
       <Navbar />
@@ -111,8 +109,9 @@ const evaluaciones = () => {
                 <HStack>
                   <EmailForm data={data} />
                   <IconButton
-                    icon={<EditIcon/>}
+                    icon={<EditIcon />}
                     colorScheme='yellow'
+                    onClick={() => router.push(`/evaluaciones/actualizar/${data._id}`)}
                   />
                   <DeleteOption refe='evaluation' id={data._id} reload={contentReload} />
                 </HStack>

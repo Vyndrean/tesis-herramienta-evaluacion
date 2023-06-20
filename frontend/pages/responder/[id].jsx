@@ -1,5 +1,6 @@
 import React, { useEffect as effect, useState as state } from 'react'
-import { getQuestions, getEvaluation } from '@/data/evaluations'
+import { getQuestions } from '@/data/question'
+import { getEvaluation } from '@/data/evaluations'
 import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl } from '@chakra-ui/react'
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import router from 'next/router'
