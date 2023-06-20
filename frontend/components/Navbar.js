@@ -32,6 +32,9 @@ const Navbar = () => {
                                 <Text className="btnRes pointer" color={"white"} onClick={() => router.push('/evaluaciones')}>
                                     EVALUACIONES
                                 </Text>
+                                <Text className="btnRes pointer" color={"white"} onClick={() => router.push('/producto')}>
+                                    PRODUCTO/SERVICIO
+                                </Text>
                                 <Text className="btnRes pointer" color={"white"} onClick={() => router.push('#')}>
                                     USUARIOS
                                 </Text>

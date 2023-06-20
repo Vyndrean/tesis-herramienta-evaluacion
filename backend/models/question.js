@@ -19,6 +19,10 @@ const QuestionSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'evaluation',
         required: true
+    },
+    questionPosition: {
+        type: Number,
+        required: true
     }
 })
 

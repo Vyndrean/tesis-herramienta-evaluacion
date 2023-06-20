@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar'
 import React, { useState as state, useEffect as effect } from 'react'
 import { checkToken } from '@/data/login'
-import { Badge, Button, Container, HStack, Text, useToast as Toast, filter, useDisclosure } from '@chakra-ui/react'
+import { Badge, Button, Container, HStack, Heading, List, ListItem, Text, useToast as Toast, filter, useDisclosure } from '@chakra-ui/react'
 import { getEvaluations, deleteEvaluation } from '@/data/evaluations'
 import DataTable from 'react-data-table-component'
 import router from 'next/router'
@@ -54,12 +54,22 @@ const evaluaciones = () => {
       setEvaluation(res.data)
     })
   }, [])
-
+  console.log(evaluation)
   const ExpandedComponent = ({ data }) => (
-    <Text>{data.introduction}</Text>
+    <List>
+      <ListItem>
+        <Heading size="sm">Fecha</Heading>
+        <Text>Desde {formatDate(data.start_date)} hasta {formatDate(data.end_date)}</Text>
+      </ListItem>
+      <hr/>
+      <ListItem>
+        <Heading size="sm">Descripcion</Heading>
+        <Text>{data.introduction}</Text>
+      </ListItem>
+    </List>
   )
 
-  const formatDate =(date) => {
+  const formatDate = (date) => {
     const newFormat = moment(date).format('DD-MM-YYYY')
     return newFormat
   }
@@ -101,7 +111,7 @@ const evaluaciones = () => {
                 <HStack>
                   <EmailForm data={data} />
                   <Button colorScheme='yellow'> <EditIcon /> </Button>
-                  <DeleteOption refe='evaluation' id={data._id} reload={contentReload}/>
+                  <DeleteOption refe='evaluation' id={data._id} reload={contentReload} />
                 </HStack>
               )
             }

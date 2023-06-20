@@ -12,6 +12,7 @@ const userRoutes = require('./routes/userRoutes')
 const answerRoutes = require('./routes/answerRoutes')
 const emailRoutes = require('./routes/emailRoutes')
 const participantRoutes = require('./routes/participantRoutes')
+const productRoutes = require('./routes/productRoutes')
 
 app.use(cookieParser())
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
@@ -23,6 +24,7 @@ app.use('/api', userRoutes)
 app.use('/api', answerRoutes)
 app.use('/api', emailRoutes)
 app.use('/api', participantRoutes)
+app.use('/api', productRoutes)
 
 app.listen(process.env.PORT, () => console.log('Server connected'))
 

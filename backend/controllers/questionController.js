@@ -24,7 +24,7 @@ const getQuestions = (req, res) => {
         .populate('evaluation')
         .exec((err, question) => {
             if (err) {
-                return res.status(400).send({ messge: "Error al mostrar los registros de preguntas" })
+                return res.status(400).send({ message: "Error al mostrar los registros de preguntas" })
             }
             return res.status(200).send(question)
         })
