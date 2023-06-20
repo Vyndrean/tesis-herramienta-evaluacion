@@ -9,7 +9,6 @@ const EmailForm = ({ data }) => {
     subject: data.title,
     content: "Estimado/a,\n" + data?.introduction + "\nAccesible mediante el siguiente enlace " + `http://localhost:3000/responder/${data._id}?validation=${123}`
   })
-  const [product, setProduct] = state([])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
   const handleChangeEmail = (e) => {
@@ -19,11 +18,6 @@ const EmailForm = ({ data }) => {
       ...email,
       'destinatary': emailList
     })
-  }
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-
   }
 
   const handleSubmit = (e) => {

@@ -61,12 +61,11 @@ const crear = () => {
     return (
         <>
             <Navbar />
-            {
-                //Nota: Añadir formik
-            }
-            <Container maxW="container.sm">
+            <Container maxW="container.md">
                 <form onSubmit={submitEvaluation} id='form'>
-                    <Stack spacing={4} my={20} justify={"center"}>
+                    <Stack h="100"></Stack>
+                    <Stack h="35" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'></Stack>
+                    <Stack spacing={4} justify={"center"} border="1px solid black" paddingInline="50" py="10">
                         <InputForm name="title" type="text" placeholder="Ingrese el titulo para la evaluación" handleChange={handleChange} label="Titulo" isRequired={true} />
                         <FormControl>
                             <FormLabel>Descripción</FormLabel>
@@ -77,8 +76,9 @@ const crear = () => {
                             {startDateStatus()}
                         </HStack>
                     </Stack>
-                    <HStack>
-                        <Button colorScheme="green" type='submit'>Confirmar</Button>
+                    <HStack spacing='auto' paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
+                        <Button type='submit'>Confirmar</Button>
+                        <Button onClick={() => router.back()}>Cancelar</Button>
                     </HStack>
                 </form>
             </Container>

@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar'
 import React, { useState as state, useEffect as effect } from 'react'
 import { checkToken } from '@/data/login'
-import { Badge, Button, Container, HStack, Heading, List, ListItem, Text, useToast as Toast, filter, useDisclosure } from '@chakra-ui/react'
+import { Badge, Button, Container, HStack, Heading, Icon, IconButton, List, ListItem, Text, useToast as Toast, filter, useDisclosure } from '@chakra-ui/react'
 import { getEvaluations, deleteEvaluation } from '@/data/evaluations'
 import DataTable from 'react-data-table-component'
 import router from 'next/router'
@@ -110,7 +110,10 @@ const evaluaciones = () => {
               selector: (data) => (
                 <HStack>
                   <EmailForm data={data} />
-                  <Button colorScheme='yellow'> <EditIcon /> </Button>
+                  <IconButton
+                    icon={<EditIcon/>}
+                    colorScheme='yellow'
+                  />
                   <DeleteOption refe='evaluation' id={data._id} reload={contentReload} />
                 </HStack>
               )
