@@ -31,7 +31,7 @@ const getAnswers = (req, res) => {
 const getAnswer = (req, res) => {
     const { id } = req.params
     Answer.find({
-        'answerUser._id': id
+        'question': id
     })
         .populate('question participant')
         .exec((err, answer) => {

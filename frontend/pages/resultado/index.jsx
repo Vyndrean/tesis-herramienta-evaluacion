@@ -22,7 +22,7 @@ export const getServerSideProps = async (context) => {
     }
 }
 
-const usuarios = () => {
+const resultado = () => {
     return (
         <>
             <Navbar />
@@ -33,4 +33,4 @@ const usuarios = () => {
     )
 }
 
-export default usuarios
+export default resultado

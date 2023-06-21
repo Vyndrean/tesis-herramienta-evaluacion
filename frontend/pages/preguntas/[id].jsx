@@ -4,7 +4,7 @@ import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import { Button, Container, HStack, useToast as Toast, Input, Card, CardHeader, Heading, CardBody, Stack, Box, Text } from '@chakra-ui/react'
 import { getQuestions } from '@/data/question'
-import { EditIcon } from '@chakra-ui/icons'
+import { ArrowRightIcon, EditIcon } from '@chakra-ui/icons'
 import CreateQuestion from '@/components/CreateQuestion'
 import DeleteOption from '@/components/DeleteOption'
 
@@ -42,7 +42,6 @@ const questions = ({ id }) => {
       setQuestions(res.data)
     })
   }, [])
-
   return (
     <>
       <Navbar />
@@ -51,16 +50,15 @@ const questions = ({ id }) => {
         <HStack spacing='auto'>
           <CreateQuestion id={id} />
         </HStack>
-
         {questions.map((question => (
           <Card key={question._id} bg='#f4efd7' mb="5" border='1px solid black'>
             <HStack>
               <Stack flex="80%">
                 <CardHeader textAlign={'center'}>
-                  <Text  fontFamily='serif' fontSize='xl'>{question?.questionContext}</Text>
+                  <Text fontFamily='serif' fontSize='xl'>{question?.questionContext}</Text>
                   <Heading size='md' textAlign='center' mt="50" fontFamily='-moz-initial'>{question?.questionName}</Heading>
                 </CardHeader>
-                <hr/>
+                <hr />
                 <CardBody>
                   <Stack>
                     <Box>
@@ -74,7 +72,7 @@ const questions = ({ id }) => {
                               </>
                             )}
                             {question.questionType === 'text' && (
-                              <Input  id={res?.name} type="text" />
+                              <Input id={res?.name} type="text" />
                             )}
                             {question.questionType === 'checkbox' && (
                               <div>
@@ -90,6 +88,7 @@ const questions = ({ id }) => {
                 </CardBody>
               </Stack>
               <Stack paddingRight={"25"}>
+                <Button colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></Button>
                 <Button colorScheme='yellow'> <EditIcon /> </Button>
                 <DeleteOption refe='question' id={question._id} reload={contentReload} />
               </Stack>
@@ -97,9 +96,6 @@ const questions = ({ id }) => {
           </Card>
         )))}
         <hr />
-
-
-
       </Container>
     </>
   )

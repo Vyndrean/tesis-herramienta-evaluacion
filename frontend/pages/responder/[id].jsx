@@ -5,7 +5,7 @@ import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Bo
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 import { createParticipant } from '@/data/participant'
-import { createAnswer } from '@/data/respond'
+import { createAnswer } from '@/data/answer'
 
 export const getServerSideProps = async (context) => {
   try {

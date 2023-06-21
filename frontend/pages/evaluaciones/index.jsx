@@ -63,7 +63,7 @@ const evaluaciones = () => {
       <hr />
       <ListItem>
         <Heading size="sm">Descripcion</Heading>
-        <Text>{data.introduction}</Text>
+        <Text>{data?.introduction}</Text>
       </ListItem>
     </List>
   )

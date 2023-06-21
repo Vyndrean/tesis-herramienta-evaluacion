@@ -5,6 +5,12 @@ const createAnswer = (answer) => {
     return res
 }
 
+const getQuestionAnswer = (id) => {
+    const res = axios.get(`${process.env.SERVIDOR}/answer/search/${id}`)
+    return res
+}
+
 module.exports = {
-    createAnswer
+    createAnswer,
+    getQuestionAnswer
 }

@@ -14,9 +14,14 @@ const updateQuestion = (id, question) => {
     return res
 }
 
+const searchQuestion = (id) => {
+    const res = axios.get(`${process.env.SERVIDOR}/question/search/${id}`)
+    return res
+}
 
 module.exports = {
     createQuestion,
     getQuestions,
-    updateQuestion
+    updateQuestion,
+    searchQuestion
 }
