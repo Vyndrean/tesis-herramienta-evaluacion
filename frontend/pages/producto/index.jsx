@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar'
 import { Button, Container, HStack, IconButton, Text } from '@chakra-ui/react'
 import DataTable from 'react-data-table-component'
 import { getProducts } from '@/data/product'
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { EditIcon } from '@chakra-ui/icons'
 import DeleteOption from '@/components/DeleteOption'
 
 export const getServerSideProps = async (context) => {
@@ -82,7 +82,7 @@ const producto = () => {
                                     <IconButton
                                         icon={<EditIcon />}
                                         colorScheme='yellow'
-                                        onClick={() => console.log("HEY")}
+                                        onClick={() => router.push(`/producto/actualizar/${data._id}`)}
                                     />
                                     <DeleteOption refe='product' id={data._id} reload={contentReload} />
                                 </HStack>

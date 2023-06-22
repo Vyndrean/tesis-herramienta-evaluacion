@@ -91,7 +91,6 @@ const questions = ({ id }) => {
               <Stack paddingRight={"25"}>
                 <Button colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></Button>
                 <UpdateQuestion id={question._id} reload={contentReload} />
-                <Button colorScheme='yellow' onClick={() => router.push(`/preguntas/actualizar/${question._id}`)}> <EditIcon /> </Button>
                 <DeleteOption refe='question' id={question._id} reload={contentReload} />
               </Stack>
             </HStack>

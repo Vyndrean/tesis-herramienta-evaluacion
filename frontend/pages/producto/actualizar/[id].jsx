@@ -3,14 +3,18 @@ import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import { Alert, AlertIcon, Button, Container, FormControl, FormHelperText, FormLabel, HStack, Input, Stack, Text, Textarea, useToast as Toast } from '@chakra-ui/react'
-import { createProduct } from '@/data/product'
+import { getProduct, updateProduct } from '@/data/product'
 
 export const getServerSideProps = async (context) => {
+    const res = await getProduct(context.query.id)
     try {
         const check = await checkToken(context.req.headers.cookie)
         if (check.status == 200) {
             return {
-                props: {}
+                props: {
+                    id: context.query.id,
+                    data: res.data
+                }
             }
         }
     } catch (error) {
@@ -24,8 +28,8 @@ export const getServerSideProps = async (context) => {
 }
 
 
-const crear = () => {
-    const [product, setProduct] = state([])
+const actualizar = ({ id , data}) => {
+    const [product, setProduct] = state(data)
     const toast = Toast()
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -37,8 +41,7 @@ const crear = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(product)
-        createProduct(product).then(res => {
+        updateProduct(id, product).then(res => {
             if (res.status == 200) {
                 router.back()
                 toast({
@@ -50,6 +53,8 @@ const crear = () => {
             }
         })
     }
+    
+    
 
     return (
         <>
@@ -62,20 +67,20 @@ const crear = () => {
                         <HStack>
                             <FormControl>
                                 <FormLabel>Nombre</FormLabel>
-                                <Input name='name' type='text' placeholder='Nombre del producto a evaluar' onChange={handleChange} isRequired />
+                                <Input name='name' type='text' placeholder='Nombre del producto a evaluar' onChange={handleChange} value={product.name} isRequired />
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Tipo</FormLabel>
-                                <Input name='type' type='text' placeholder='Que tipo de producto es' onChange={handleChange} isRequired />
+                                <Input name='type' type='text' placeholder='Que tipo de producto es' onChange={handleChange} value={product.type} isRequired />
                             </FormControl>
                         </HStack>
                         <FormControl>
                             <FormLabel>Descripcion</FormLabel>
-                            <Textarea name='description' type='text' placeholder='Descripcion sobre el producto' onChange={handleChange} isRequired />
+                            <Textarea name='description' type='text' placeholder='Descripcion sobre el producto' onChange={handleChange} value={product.description} isRequired />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Enlace</FormLabel>
-                            <Input name='link' type='text' placeholder='Sitio oficial del producto a evaluar, por ejemplo https://www.google.cl/' onChange={handleChange} isRequired />
+                            <Input name='link' type='text' placeholder='Sitio oficial del producto a evaluar, por ejemplo https://www.google.cl/' onChange={handleChange} value={product.link} isRequired />
                         </FormControl>
                     </Stack>
                     <HStack spacing='auto' paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
@@ -88,4 +93,4 @@ const crear = () => {
     )
 }
 
-export default crear
+export default actualizar

@@ -33,7 +33,7 @@ const Navbar = () => {
                                     EVALUACIONES
                                 </Text>
                                 <Text className="btnRes pointer" color={"white"} onClick={() => router.push('/producto')}>
-                                    PRODUCTO/SERVICIO
+                                    PRODUCTO
                                 </Text>
                                 <Text className="btnRes pointer" color={"white"} onClick={() => router.push('#')}>
                                     USUARIOS

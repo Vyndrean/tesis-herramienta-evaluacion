@@ -1,14 +1,16 @@
 import { EmailIcon, InfoIcon } from '@chakra-ui/icons'
-import { Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Textarea, useDisclosure, useToast as Toast, defineStyle, Heading, Text, IconButton, FormHelperText } from '@chakra-ui/react'
-import React, { useState as state } from 'react'
+import { Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Textarea, useDisclosure, useToast as Toast, defineStyle, Heading, Text, IconButton, FormHelperText, Select } from '@chakra-ui/react'
+import React, { useState as state, useEffect } from 'react'
 import { sendEmail } from '@/data/mail'
 import { updateEvaluation } from '@/data/evaluations'
+import { getProducts } from '@/data/product'
 
 const EmailForm = ({ data }) => {
   const [email, setEmail] = state({
     subject: data.title,
     content: "Estimado/a,\n" + data?.introduction + "\nAccesible mediante el siguiente enlace " + `http://localhost:3000/responder/${data._id}?validation=${123}`
   })
+  const [product, setProduct] = state([])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
   const handleChangeEmail = (e) => {
@@ -18,6 +20,10 @@ const EmailForm = ({ data }) => {
       ...email,
       'destinatary': emailList
     })
+  }
+
+  const handleChange = (e) => {
+
   }
 
   const handleSubmit = (e) => {
@@ -36,6 +42,13 @@ const EmailForm = ({ data }) => {
     })
   }
 
+  useEffect(() => {
+    getProducts().then(res => {
+      setProduct(res.data)
+    })
+  }, [])
+  
+
   return (
     <>
       <Button onClick={onOpen} colorScheme='blue'> <EmailIcon /> </Button>
@@ -47,6 +60,16 @@ const EmailForm = ({ data }) => {
           <ModalCloseButton />
           <form onSubmit={handleSubmit} >
             <ModalBody>
+              <FormControl>
+                <FormLabel>Producto</FormLabel>
+                <Select name='prodser' placeholder='Seleccione...' onChange={handleChange} isRequired>
+                  {
+                    product.map((res ) => (
+                      <option value={res._id} key={res._id}>{res.name}</option>
+                    ))
+                  }
+                </Select>
+              </FormControl>
               <FormControl>
                 <FormLabel>Destinatario/os</FormLabel>
                 <Textarea name='destinatary' onChange={handleChangeEmail} isRequired></Textarea>
