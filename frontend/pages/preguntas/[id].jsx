@@ -7,6 +7,7 @@ import { getQuestions } from '@/data/question'
 import { ArrowRightIcon, EditIcon } from '@chakra-ui/icons'
 import CreateQuestion from '@/components/CreateQuestion'
 import DeleteOption from '@/components/DeleteOption'
+import UpdateQuestion from '@/components/UpdateQuestion'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -48,7 +49,7 @@ const questions = ({ id }) => {
 
       <Container maxW={"container.lg"}>
         <HStack spacing='auto'>
-          <CreateQuestion id={id} />
+          <CreateQuestion id={id} reload={contentReload} />
         </HStack>
         {questions.map((question => (
           <Card key={question._id} bg='#f4efd7' mb="5" border='1px solid black'>
@@ -89,7 +90,8 @@ const questions = ({ id }) => {
               </Stack>
               <Stack paddingRight={"25"}>
                 <Button colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></Button>
-                <Button colorScheme='yellow'> <EditIcon /> </Button>
+                <UpdateQuestion id={question._id} reload={contentReload} />
+                <Button colorScheme='yellow' onClick={() => router.push(`/preguntas/actualizar/${question._id}`)}> <EditIcon /> </Button>
                 <DeleteOption refe='question' id={question._id} reload={contentReload} />
               </Stack>
             </HStack>

@@ -69,7 +69,7 @@ const updateQuestion = (req, res) => {
     })
 }
 
-const searchQuestion = (req, res) => {
+const searchOptions = (req, res) => {
     const { id } = req.params
     Question.findById(id, (err, question) => {
         if(err){
@@ -79,11 +79,22 @@ const searchQuestion = (req, res) => {
     })
 }
 
+const searchQuestion = (req, res) => {
+    const { id } = req.params
+    Question.findById(id, (err, question) => {
+        if(err){
+            return res.status(400).send({message: "Error al mostrar la pregunta"})
+        }
+        return res.status(200).send(question)
+    })
+}
+
 module.exports = {
     createQuestion,
     getQuestions,
     deleteQuestion,
     getQuestion,
     updateQuestion,
-    searchQuestion
+    searchQuestion,
+    searchOptions
 }

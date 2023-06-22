@@ -10,7 +10,12 @@ const createQuestion = (question) => {
 }
 
 const updateQuestion = (id, question) => {
-    const res = axios.put(`${process.env.SERVIDOR}/question/delete/${id}`, question)
+    const res = axios.put(`${process.env.SERVIDOR}/question/update/${id}`, question)
+    return res
+}
+
+const searchOptions = (id) => {
+    const res = axios.get(`${process.env.SERVIDOR}/question/options/${id}`)
     return res
 }
 
@@ -23,5 +28,6 @@ module.exports = {
     createQuestion,
     getQuestions,
     updateQuestion,
-    searchQuestion
+    searchQuestion,
+    searchOptions
 }

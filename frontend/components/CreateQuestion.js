@@ -5,7 +5,7 @@ import { createQuestion } from '@/data/question'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 
-const CreateQuestion = ({ id }) => {
+const CreateQuestion = ({ id, reload }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
   const [answer, setAnswer] = state([
@@ -68,7 +68,7 @@ const CreateQuestion = ({ id }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     createQuestion(question).then(res => {
-      router.reload()
+      reload()
       if (res.status == '200') {
         onClose()
         toast({

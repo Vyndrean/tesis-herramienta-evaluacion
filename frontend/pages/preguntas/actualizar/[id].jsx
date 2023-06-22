@@ -9,7 +9,9 @@ export const getServerSideProps = async (context) => {
         const check = await checkToken(context.req.headers.cookie)
         if (check.status == 200) {
             return {
-                props: {}
+                props: {
+                    id: context.query.id
+                }
             }
         }
     } catch (error) {
@@ -22,7 +24,7 @@ export const getServerSideProps = async (context) => {
     }
 }
 
-const actualizar = () => {
+const actualizar = ({ id }) => {
     return (
         <>
             <Navbar />

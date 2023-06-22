@@ -4,7 +4,7 @@ import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import { Button, Container, HStack, Stack, Text } from '@chakra-ui/react'
 import { getQuestionAnswer } from '@/data/answer'
-import { searchQuestion } from '@/data/question'
+import { searchOptions } from '@/data/question'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -34,7 +34,7 @@ const resultados = ({ id }) => {
         getQuestionAnswer(id).then(res => {
             setResult(res.data)
         })
-        searchQuestion(id).then(res => {
+        searchOptions(id).then(res => {
             setQuestion(res.data)
         })
 
