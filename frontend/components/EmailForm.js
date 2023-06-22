@@ -1,6 +1,6 @@
 import { EmailIcon, InfoIcon } from '@chakra-ui/icons'
 import { Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Textarea, useDisclosure, useToast as Toast, defineStyle, Heading, Text, IconButton, FormHelperText, Select } from '@chakra-ui/react'
-import React, { useState as state, useEffect } from 'react'
+import React, { useState as state, useEffect as effect} from 'react'
 import { sendEmail } from '@/data/mail'
 import { updateEvaluation } from '@/data/evaluations'
 import { getProducts } from '@/data/product'
@@ -23,7 +23,7 @@ const EmailForm = ({ data }) => {
   }
 
   const handleChange = (e) => {
-
+    console.log("Bueno no hace nada")
   }
 
   const handleSubmit = (e) => {
@@ -42,7 +42,7 @@ const EmailForm = ({ data }) => {
     })
   }
 
-  useEffect(() => {
+  effect(() => {
     getProducts().then(res => {
       setProduct(res.data)
     })

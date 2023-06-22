@@ -1,5 +1,5 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast as Toast, Stack, FormControl, FormLabel, Select, HStack, Input, Textarea } from '@chakra-ui/react'
-import React, { useState as state, useEffect } from 'react'
+import React, { useState as state, useEffect as effect} from 'react'
 import InputForm from '@/components/InputForm'
 import { updateQuestion, searchQuestion, searchOptions } from '@/data/question'
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
@@ -81,7 +81,7 @@ const UpdateQuestion = ({ id, reload }) => {
     })
   }
 
-  useEffect(() => {
+  effect(() => {
     searchQuestion(id).then(res => {
       setQuestion(res.data)
     })
