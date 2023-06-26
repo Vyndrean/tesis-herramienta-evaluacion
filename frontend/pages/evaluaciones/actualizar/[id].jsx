@@ -74,8 +74,8 @@ const actualizar = ({ data }) => {
                         </HStack>
                     </Stack>
                     <HStack justifyContent="space-between" paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
-                        <Button type='submit'>Confirmar</Button>
-                        <Button onClick={() => router.back()}>Cancelar</Button>
+                        <Button borderRadius="17" h="9" type='submit'>Confirmar</Button>
+                        <Button borderRadius="17" h="9" onClick={() => router.back()}>Cancelar</Button>
                     </HStack>
                 </form>
             </Container>

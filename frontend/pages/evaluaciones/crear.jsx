@@ -3,9 +3,10 @@ import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import InputForm from '@/components/InputForm'
-import { Button, Container, FormControl, FormLabel, HStack, Input, Stack, Textarea, useToast as Toast } from '@chakra-ui/react'
+import { Container, FormControl, FormLabel, HStack, Stack, Textarea, useToast as Toast } from '@chakra-ui/react'
 import { createEvaluation } from '@/data/evaluations'
 import moment from 'moment'
+import CustomButton from '@/styles/customButton'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -77,8 +78,8 @@ const crear = () => {
                         </HStack>
                     </Stack>
                     <HStack paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080' justifyContent="space-between">
-                        <Button type='submit' left='0'>Confirmar</Button>
-                        <Button onClick={() => router.back()}>Cancelar</Button>
+                        <CustomButton type='submit'>Confirmar</CustomButton>
+                        <CustomButton onClick={() => router.back()}>Cancelar</CustomButton>
                     </HStack>
                 </form>
             </Container>

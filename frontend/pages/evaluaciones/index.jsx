@@ -1,14 +1,15 @@
 import Navbar from '@/components/Navbar'
 import React, { useState as state, useEffect as effect } from 'react'
 import { checkToken } from '@/data/login'
-import { Badge, Button, Container, HStack, Heading, Icon, IconButton, List, ListItem, Text, useToast as Toast, filter, useDisclosure } from '@chakra-ui/react'
-import { getEvaluations, deleteEvaluation } from '@/data/evaluations'
+import { Badge, Button, Container, HStack, Heading, IconButton, List, ListItem, Stack, Text } from '@chakra-ui/react'
+import { getEvaluations } from '@/data/evaluations'
 import DataTable from 'react-data-table-component'
 import router from 'next/router'
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { EditIcon } from '@chakra-ui/icons'
 import EmailForm from '@/components/EmailForm'
 import DeleteOption from '@/components/DeleteOption'
 import moment from 'moment'
+import CustomButton from '@/styles/customButton'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -77,52 +78,54 @@ const evaluaciones = () => {
       <Navbar />
       <Container maxW={"container.xl"}>
         <HStack mt="2" spacing={"auto"}>
-          <Button colorScheme='green' onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluación</Button>
+          <CustomButton colorScheme="green" onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluación</CustomButton>
         </HStack>
-        <DataTable
-          columns={[
-            {
-              name: "TÍTULO",
-              selector: (data) => data.title,
-              sortable: true,
-            },
-            {
-              name: "CREADO",
-              selector: (data) => formatDate(data.created_at),
-              sortable: true
-            },
-            {
-              name: "ESTADO",
-              selector: (data) => (
-                handleStatus(data.status)
-              )
-            },
-            {
-              name: "PREGUNTAS",
-              selector: (data) => (
-                <Button colorScheme='blue' onClick={() => router.push(`/preguntas/${data._id}`)}>Ver</Button>
-              )
-            },
-            {
-              name: "OPCIONES",
-              selector: (data) => (
-                <HStack>
-                  <EmailForm data={data} />
-                  <IconButton
-                    icon={<EditIcon />}
-                    colorScheme='yellow'
-                    onClick={() => router.push(`/evaluaciones/actualizar/${data._id}`)}
-                  />
-                  <DeleteOption refe='evaluation' id={data._id} reload={contentReload} />
-                </HStack>
-              )
-            }
-          ]}
-          data={evaluation}
-          pagination
-          expandableRows
-          expandableRowsComponent={ExpandedComponent}
-        />
+        <Stack my="5" borderRadius="5">
+          <DataTable
+            columns={[
+              {
+                name: "TÍTULO",
+                selector: (data) => data.title,
+                sortable: true
+              },
+              {
+                name: "CREADO",
+                selector: (data) => formatDate(data.created_at),
+                sortable: true
+              },
+              {
+                name: "ESTADO",
+                selector: (data) => (
+                  handleStatus(data.status)
+                )
+              },
+              {
+                name: "PREGUNTAS",
+                selector: (data) => (
+                  <CustomButton colorScheme='blue' onClick={() => router.push(`/preguntas/${data._id}`)}>Ver</CustomButton>
+                )
+              },
+              {
+                name: "OPCIONES",
+                selector: (data) => (
+                  <HStack>
+                    <EmailForm data={data} />
+                    <IconButton
+                      icon={<EditIcon />}
+                      colorScheme='yellow'
+                      onClick={() => router.push(`/evaluaciones/actualizar/${data._id}`)}
+                    />
+                    <DeleteOption refe='evaluation' id={data._id} reload={contentReload} />
+                  </HStack>
+                )
+              }
+            ]}
+            data={evaluation}
+            pagination
+            expandableRows
+            expandableRowsComponent={ExpandedComponent}
+          />
+        </Stack>
       </Container>
     </>
   )

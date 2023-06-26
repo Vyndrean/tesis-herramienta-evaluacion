@@ -3,7 +3,7 @@ import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogHeader, Al
 import React from 'react'
 import { deleteByRef } from '@/data/evaluations'
 
-const DeleteOption = ({ refe, id, reload }) => {
+const DeleteOption = ({ refe, id, reload, isEditable }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef()
     const toast = Toast()
@@ -28,10 +28,10 @@ const DeleteOption = ({ refe, id, reload }) => {
             }
         })
     }
+
     return (
         <>
-            <Button onClick={onOpen} colorScheme='red'> <DeleteIcon /> </Button>
-
+            <Button colorScheme='red' isDisabled={isEditable} onClick={onOpen}> <DeleteIcon /> </Button>
             <AlertDialog
                 isOpen={isOpen}
                 leastDestructiveRef={cancelRef}
@@ -47,13 +47,11 @@ const DeleteOption = ({ refe, id, reload }) => {
                             ¿Esta seguro de eliminarlo?<br />
                             Esta accion no puede deshacerse.
                         </AlertDialogBody>
-
-
                         <HStack justifyContent="space-between" paddingInline="10" paddingBlock="5">
-                            <Button colorScheme='green' onClick={() => handleDelete()}>
+                            <Button colorScheme='green' borderRadius="17" h="9" onClick={() => handleDelete()}>
                                 Borrar
                             </Button>
-                            <Button colorScheme='red' onClick={onClose}>
+                            <Button colorScheme='red' borderRadius="17" h="9" onClick={onClose}>
                                 Cancelar
                             </Button>
                         </HStack>

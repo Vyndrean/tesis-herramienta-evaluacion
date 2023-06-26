@@ -1,6 +1,6 @@
 import { EmailIcon, InfoIcon } from '@chakra-ui/icons'
 import { Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Textarea, useDisclosure, useToast as Toast, defineStyle, Heading, Text, IconButton, FormHelperText, Select } from '@chakra-ui/react'
-import React, { useState as state, useEffect as effect} from 'react'
+import React, { useState as state, useEffect as effect } from 'react'
 import { sendEmail } from '@/data/mail'
 import { updateEvaluation } from '@/data/evaluations'
 import { getProducts } from '@/data/product'
@@ -47,11 +47,25 @@ const EmailForm = ({ data }) => {
       setProduct(res.data)
     })
   }, [])
-  
+
+
+  const handleButton = () => {
+    if (!data?.isEditable) {
+      toast({
+        title: "Acción pendiente",
+        description: "Se debe finalizar la edicion de la evaluacion, antes de poder enviar",
+        status: "info",
+        isClosable: true,
+        duration: 3000
+      })
+    } else {
+      onOpen()
+    }
+  }
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme='blue'> <EmailIcon /> </Button>
+      <Button onClick={() => handleButton()} colorScheme='blue'> <EmailIcon /> </Button>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW="container.md">
@@ -64,7 +78,7 @@ const EmailForm = ({ data }) => {
                 <FormLabel>Producto</FormLabel>
                 <Select name='prodser' placeholder='Seleccione...' onChange={handleChange} isRequired>
                   {
-                    product.map((res ) => (
+                    product.map((res) => (
                       <option value={res._id} key={res._id}>{res.name}</option>
                     ))
                   }
@@ -77,8 +91,8 @@ const EmailForm = ({ data }) => {
               </FormControl>
             </ModalBody>
             <HStack justifyContent="space-between" marginBlock="5" marginInline="10">
-              <Button colorScheme='green' type='submit'>Enviar</Button>
-              <Button colorScheme='red' mr={3} onClick={onClose}>
+              <Button borderRadius="17" h="9" colorScheme='green' type='submit'>Enviar</Button>
+              <Button borderRadius="17" h="9" colorScheme='red' mr={3} onClick={onClose}>
                 Cancelar
               </Button>
             </HStack>

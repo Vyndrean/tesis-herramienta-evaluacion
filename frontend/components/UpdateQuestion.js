@@ -6,7 +6,7 @@ import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 
 
-const UpdateQuestion = ({ id, reload }) => {
+const UpdateQuestion = ({ id, reload, isEditable }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
   const [answer, setAnswer] = state([])
@@ -44,7 +44,7 @@ const UpdateQuestion = ({ id, reload }) => {
   const addButton = () => {
     if (question?.questionType != 'text') {
       return (
-        <Button ml="50%" mt="3" onClick={() => handleAdd()}> <AddIcon /></Button>
+        <Button ml="50%" mt="3" onClick={() => handleAdd()} hidden={isEditable}> <AddIcon /></Button>
       )
     }
   }
@@ -98,8 +98,8 @@ const UpdateQuestion = ({ id, reload }) => {
             <form onSubmit={handleSubmit} id='form'>
               <Stack spacing={4} my={5} justify={"center"}>
                 <HStack>
-                  <InputForm name="questionName" type="text" placeholder="Escribe la pregunta aqui" handleChange={handleChange} label="Pregunta" isRequired={true} value={question.questionName} />
-                  <FormControl>
+                  <InputForm name="questionName" type="text" placeholder="Escribe la pregunta aqui" handleChange={handleChange} label="Pregunta" isRequired={true} value={question.questionName}/>
+                  <FormControl isDisabled={isEditable}>
                     <FormLabel>Tipo de pregunta</FormLabel>
                     <Select name='questionType' onChange={handleChange} placeholder='...' required value={question.questionType}>
                       <option value='radio'>Opción múltiple</option>
@@ -122,7 +122,7 @@ const UpdateQuestion = ({ id, reload }) => {
                         const toDelete = (i) => {
                           if (!i == 0 && question.questionType != 'text') {
                             return (
-                              <Button onClick={() => handleDelete(i)}> <DeleteIcon /> </Button>
+                              <Button onClick={() => handleDelete(i)} hidden={isEditable}> <DeleteIcon /> </Button>
                             )
                           }
                         }
@@ -140,8 +140,8 @@ const UpdateQuestion = ({ id, reload }) => {
                 {addButton()}
               </Stack>
               <HStack justifyContent="space-between">
-                <Button colorScheme="green" type='submit'>Confirmar</Button>
-                <Button colorScheme="red" onClick={onClose}>Cancelar</Button>
+                <Button borderRadius="17" h="9" colorScheme="green" type='submit'>Confirmar</Button>
+                <Button borderRadius="17" h="9" colorScheme="red" onClick={onClose}>Cancelar</Button>
               </HStack>
             </form>
           </ModalBody>

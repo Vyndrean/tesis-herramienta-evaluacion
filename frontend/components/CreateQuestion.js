@@ -83,7 +83,7 @@ const CreateQuestion = ({ id, reload }) => {
   }
   return (
     <>
-      <Button onClick={onOpen} colorScheme='green' my={"2"}> Añadir pregunta </Button>
+      <Button onClick={onOpen} borderRadius="17" h="8" my={"2"}> Añadir pregunta </Button>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"container.md"}>
@@ -134,15 +134,11 @@ const CreateQuestion = ({ id, reload }) => {
                 {addButton()}
               </Stack>
               <HStack justifyContent="space-between">
-                <Button colorScheme="green" type='submit'>Confirmar</Button>
-                <Button colorScheme="red" onClick={onClose}>Cancelar</Button>
+                <Button borderRadius="17" h="9" colorScheme="green" type='submit'>Confirmar</Button>
+                <Button borderRadius="17" h="9" colorScheme="red" onClick={onClose}>Cancelar</Button>
               </HStack>
             </form>
           </ModalBody>
-
-          <ModalFooter>
-
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
