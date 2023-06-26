@@ -62,7 +62,7 @@ const evaluaciones = () => {
       </ListItem>
       <hr />
       <ListItem>
-        <Heading size="sm">Descripcion</Heading>
+        <Heading size="sm">Descripción</Heading>
         <Text>{data?.introduction}</Text>
       </ListItem>
     </List>
@@ -82,7 +82,7 @@ const evaluaciones = () => {
         <DataTable
           columns={[
             {
-              name: "TITULO",
+              name: "TÍTULO",
               selector: (data) => data.title,
               sortable: true,
             },

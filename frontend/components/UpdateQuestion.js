@@ -1,5 +1,5 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast as Toast, Stack, FormControl, FormLabel, Select, HStack, Input, Textarea } from '@chakra-ui/react'
-import React, { useState as state, useEffect as effect} from 'react'
+import React, { useState as state, useEffect as effect } from 'react'
 import InputForm from '@/components/InputForm'
 import { updateQuestion, searchQuestion, searchOptions } from '@/data/question'
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
@@ -11,9 +11,6 @@ const UpdateQuestion = ({ id, reload }) => {
   const toast = Toast()
   const [answer, setAnswer] = state([])
   const [question, setQuestion] = state([])
-  const [updatedQuestion, setUpdatedQuestion] = state({
-    questionName: question.questionName
-  })
   const handleChangeAnswer = (e, i) => {
     const { value } = e.target
     const updatedAnswer = [...answer]
@@ -65,7 +62,7 @@ const UpdateQuestion = ({ id, reload }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(question)
-    
+
     updateQuestion(id, question).then(res => {
       reload()
       if (res.status == '200') {
@@ -89,10 +86,10 @@ const UpdateQuestion = ({ id, reload }) => {
       setAnswer(res.data)
     })
   }, [])
-  
+
   return (
     <>
-      <Button onClick={onOpen} colorScheme='yellow' my={"2"}> <EditIcon/> </Button>
+      <Button onClick={onOpen} colorScheme='yellow' my={"2"}> <EditIcon /> </Button>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"container.md"}>
@@ -101,12 +98,12 @@ const UpdateQuestion = ({ id, reload }) => {
             <form onSubmit={handleSubmit} id='form'>
               <Stack spacing={4} my={5} justify={"center"}>
                 <HStack>
-                  <InputForm name="questionName" type="text" placeholder="Escribe la pregunta aqui" handleChange={handleChange} label="Pregunta" isRequired={true} value={question.questionName}/>
+                  <InputForm name="questionName" type="text" placeholder="Escribe la pregunta aqui" handleChange={handleChange} label="Pregunta" isRequired={true} value={question.questionName} />
                   <FormControl>
                     <FormLabel>Tipo de pregunta</FormLabel>
                     <Select name='questionType' onChange={handleChange} placeholder='...' required value={question.questionType}>
-                      <option value='radio'>Opcion multiple</option>
-                      <option value='checkbox'>Casillas de verificacion</option>
+                      <option value='radio'>Opción múltiple</option>
+                      <option value='checkbox'>Casillas de verificación</option>
                       <option value='text'>Respuesta simple</option>
                     </Select>
                   </FormControl>

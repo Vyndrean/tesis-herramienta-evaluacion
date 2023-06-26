@@ -63,10 +63,10 @@ const actualizar = ({ data }) => {
                         <Heading size='sm' textAlign='center' color='white'>Editando </Heading>
                     </Stack>
                     <Stack spacing={4} justify={"center"} border="1px solid black" paddingInline="50" py="10">
-                        <InputForm name="title" type="text" placeholder="Ingrese el titulo para la evaluación" handleChange={handleChange} label="Titulo" isRequired={true} value={evaluation.title} />
+                        <InputForm name="title" type="text" placeholder="Ingrese el titulo para la evaluación" handleChange={handleChange} label="Título" isRequired={true} value={evaluation.title} />
                         <FormControl>
                             <FormLabel>Descripción</FormLabel>
-                            <Textarea name='introduction' placeholder='Ingrese la descripcion aquí' onChange={handleChange} value={evaluation.introduction}></Textarea>
+                            <Textarea name='introduction' placeholder='Ingrese la descripción aquí' onChange={handleChange} value={evaluation.introduction}></Textarea>
                         </FormControl>
                         <HStack>
                             <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Fecha de inicio" isRequired={true} min={currentDate} value={evaluation.start_date.substring(0, 10)} />

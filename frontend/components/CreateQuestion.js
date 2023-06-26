@@ -96,8 +96,8 @@ const CreateQuestion = ({ id, reload }) => {
                   <FormControl>
                     <FormLabel>Tipo de pregunta</FormLabel>
                     <Select name='questionType' onChange={handleChange} placeholder='...' required>
-                      <option value='radio'>Opcion multiple</option>
-                      <option value='checkbox'>Casillas de verificacion</option>
+                      <option value='radio'>Opción múltiple</option>
+                      <option value='checkbox'>Casillas de verificación</option>
                       <option value='text'>Respuesta simple</option>
                     </Select>
                   </FormControl>

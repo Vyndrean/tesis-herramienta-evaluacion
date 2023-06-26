@@ -66,18 +66,18 @@ const crear = () => {
                     <Stack h="100"></Stack>
                     <Stack h="35" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'></Stack>
                     <Stack spacing={4} justify={"center"} border="1px solid black" paddingInline="50" py="10">
-                        <InputForm name="title" type="text" placeholder="Ingrese el titulo para la evaluación" handleChange={handleChange} label="Titulo" isRequired={true} />
+                        <InputForm name="title" type="text" placeholder="Ingrese el titulo para la evaluación" handleChange={handleChange} label="Título" isRequired={true} />
                         <FormControl>
                             <FormLabel>Descripción</FormLabel>
-                            <Textarea name='introduction' placeholder='Ingrese la descripcion aquí' onChange={handleChange}></Textarea>
+                            <Textarea name='introduction' placeholder='Ingrese la descripción aquí' onChange={handleChange}></Textarea>
                         </FormControl>
                         <HStack>
                             <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Fecha de inicio" isRequired={true} min={currentDate} />
                             {startDateStatus()}
                         </HStack>
                     </Stack>
-                    <HStack spacing='auto' paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
-                        <Button type='submit'>Confirmar</Button>
+                    <HStack paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080' justifyContent="space-between">
+                        <Button type='submit' left='0'>Confirmar</Button>
                         <Button onClick={() => router.back()}>Cancelar</Button>
                     </HStack>
                 </form>
