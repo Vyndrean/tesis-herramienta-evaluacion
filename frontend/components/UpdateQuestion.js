@@ -139,7 +139,7 @@ const UpdateQuestion = ({ id, reload }) => {
 
                 {addButton()}
               </Stack>
-              <HStack spacing="auto">
+              <HStack justifyContent="space-between">
                 <Button colorScheme="green" type='submit'>Confirmar</Button>
                 <Button colorScheme="red" onClick={onClose}>Cancelar</Button>
               </HStack>

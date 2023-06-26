@@ -49,7 +49,7 @@ const DeleteOption = ({ refe, id, reload }) => {
                         </AlertDialogBody>
 
 
-                        <HStack spacing='auto' paddingInline="10" paddingBlock="5">
+                        <HStack justifyContent="space-between" paddingInline="10" paddingBlock="5">
                             <Button colorScheme='green' onClick={() => handleDelete()}>
                                 Borrar
                             </Button>

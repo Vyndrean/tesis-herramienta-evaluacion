@@ -76,7 +76,7 @@ const EmailForm = ({ data }) => {
                 <FormHelperText textAlign="center">Para ingresar múltiples correos estos deben ser separados por una coma</FormHelperText>
               </FormControl>
             </ModalBody>
-            <HStack spacing='auto' marginBlock="5" marginInline="10">
+            <HStack justifyContent="space-between" marginBlock="5" marginInline="10">
               <Button colorScheme='green' type='submit'>Enviar</Button>
               <Button colorScheme='red' mr={3} onClick={onClose}>
                 Cancelar

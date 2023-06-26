@@ -73,7 +73,7 @@ const actualizar = ({ data }) => {
                             <InputForm name="end_date" type="date" handleChange={handleChange} label="Fecha de termino" isRequired={true} min={evaluation?.start_date?.substring(0, 10)} value={evaluation.end_date.substring(0, 10)} />
                         </HStack>
                     </Stack>
-                    <HStack spacing='auto' paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
+                    <HStack justifyContent="space-between" paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
                         <Button type='submit'>Confirmar</Button>
                         <Button onClick={() => router.back()}>Cancelar</Button>
                     </HStack>
