@@ -150,9 +150,14 @@ const index = ({ id }) => {
     }
   }
 
+  const handleSortQuestions = (questions) => {
+    const sortedQuestions = [...questions].sort((a, b) => a.questionPosition - b.questionPosition)
+    setQuestions(sortedQuestions)
+  }
+
   effect(() => {
     getQuestions(id).then(res => {
-      setQuestions(res.data)
+      handleSortQuestions(res.data)
     })
     getEvaluation(id).then(res => {
       setEvaluation(res.data)
