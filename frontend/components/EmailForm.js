@@ -27,7 +27,7 @@ const EmailForm = ({ data }) => {
     const { value } = e.target
     setEmail({
       ...email,
-      'link': `http://localhost:3000/responder/${data._id}?product=${value}`
+      'link': `/responder/${data._id}?product=${value}`
     })
   }
   const handleSubmit = (e) => {

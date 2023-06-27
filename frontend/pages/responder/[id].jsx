@@ -58,7 +58,6 @@ const index = ({ id, data, product }) => {
       }
     })
   }
-  console.log(answer)
   const updateAnswer = () => {
     const idQuestion = questions[page + 1]?._id
     setAnswer({

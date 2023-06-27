@@ -10,21 +10,21 @@ const transporter = nodemailer.createTransport({
 
 async function sendEmail(req, res) {
     const { destinatary, subject, content, link } = req.body
-    console.log(destinatary)
+    //console.log(destinatary)
     try {
         const sendOption = {
             from: 'correo@prueba.com',
             to: destinatary.join(','),
             subject: subject,
-            text: content + link
+            text: content + process.env.DIRECTION + link
         }
 
         const info = await transporter.sendMail(sendOption)
-        console.log('Correo enviado:', info.messageId)
+        //console.log('Correo enviado:', info.messageId)
 
         res.status(200).json({ message: 'Correo enviado correctamente' })
     } catch (error) {
-        console.error('Error al enviar el correo:', error)
+        //console.error('Error al enviar el correo:', error)
         res.status(500).json({ error: 'Error al enviar el correo' })
     }
 }
