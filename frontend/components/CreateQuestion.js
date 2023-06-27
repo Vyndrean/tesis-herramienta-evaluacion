@@ -1,11 +1,11 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast as Toast, Stack, FormControl, FormLabel, Select, HStack, Input, Textarea } from '@chakra-ui/react'
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, useDisclosure, useToast as Toast, Stack, FormControl, FormLabel, Select, HStack, Input, Textarea, Text } from '@chakra-ui/react'
 import React, { useState as state } from 'react'
 import InputForm from '@/components/InputForm'
 import { createQuestion } from '@/data/question'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 
-const CreateQuestion = ({ id, reload }) => {
+const CreateQuestion = ({ id, reload, length, isEditable }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
   const [answer, setAnswer] = state([
@@ -16,7 +16,7 @@ const CreateQuestion = ({ id, reload }) => {
   const [question, setQuestion] = state({
     evaluation: id
   })
-
+  
   const handleChangeAnswer = (e, i) => {
     const { value } = e.target
     const updatedAnswer = [...answer]
@@ -33,13 +33,11 @@ const CreateQuestion = ({ id, reload }) => {
     setQuestion(prevQuestion => ({
       ...prevQuestion,
       [name]: value,
-      questionOptions: answer
+      questionOptions: answer,
+      "questionPosition": length
     })
     )
   }
-
-
-
   const handleAdd = () => {
     const newAnswer = [...answer, {
       value: ''
@@ -54,7 +52,6 @@ const CreateQuestion = ({ id, reload }) => {
       )
     }
   }
-
   const handleDelete = (e) => {
     const updatedAnswer = [...answer];
     updatedAnswer.splice(e, 1);
@@ -83,12 +80,13 @@ const CreateQuestion = ({ id, reload }) => {
   }
   return (
     <>
-      <Button onClick={onOpen} borderRadius="17" h="8" my={"2"}> Añadir pregunta </Button>
+      <Button onClick={onOpen} borderRadius="17" h="8" my={"2"} hidden={isEditable}> Añadir pregunta </Button>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"container.md"}>
           <ModalCloseButton />
           <ModalBody>
+            <Text>Pregunta {length}</Text>
             <form onSubmit={handleSubmit} id='form'>
               <Stack spacing={4} my={5} justify={"center"}>
                 <HStack>
@@ -106,7 +104,6 @@ const CreateQuestion = ({ id, reload }) => {
                   <FormLabel>Contexto</FormLabel>
                   <Textarea name='questionContext' placeholder='Proporciona el contexto de la pregunta' onChange={handleChange}></Textarea>
                 </FormControl>
-
 
                 <FormControl>
                   <FormLabel>Respuestas</FormLabel>

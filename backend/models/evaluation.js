@@ -22,7 +22,11 @@ const EvaluationSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'send', 'finished']
+        enum: ['pending', 'send', 'finished'],
+        required: true
+    },
+    isEditable: {
+        type: Boolean
     }
 }
 )

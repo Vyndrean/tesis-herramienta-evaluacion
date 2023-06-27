@@ -1,14 +1,15 @@
 const Question = require('../models/question')
 
 const createQuestion = (req, res) => {
-    const { questionName, evaluation, questionType, questionOptions, questionContext } = req.body
+    const { questionName, evaluation, questionType, questionOptions, questionContext, questionPosition } = req.body
     const newQuestion = new Question(
         {
             questionName,
             evaluation,
             questionType,
             questionOptions,
-            questionContext
+            questionContext,
+            questionPosition
         }
     )
     newQuestion.save((err, question) => {
@@ -72,8 +73,8 @@ const updateQuestion = (req, res) => {
 const searchOptions = (req, res) => {
     const { id } = req.params
     Question.findById(id, (err, question) => {
-        if(err){
-            return res.status(400).send({message: "Error al mostrar la pregunta"})
+        if (err) {
+            return res.status(400).send({ message: "Error al mostrar la pregunta" })
         }
         return res.status(200).send(question.questionOptions)
     })
@@ -82,12 +83,13 @@ const searchOptions = (req, res) => {
 const searchQuestion = (req, res) => {
     const { id } = req.params
     Question.findById(id, (err, question) => {
-        if(err){
-            return res.status(400).send({message: "Error al mostrar la pregunta"})
+        if (err) {
+            return res.status(400).send({ message: "Error al mostrar la pregunta" })
         }
         return res.status(200).send(question)
     })
 }
+
 
 module.exports = {
     createQuestion,

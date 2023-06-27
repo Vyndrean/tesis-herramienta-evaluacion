@@ -85,7 +85,7 @@ const CanEditQuestion = ({ id }) => {
                             ¿Quieres finalizar al edicion de las preguntas?<br />
 
                         </ModalHeader>
-                        <Text size="sm" textAlign="center">Esto limitara la edición de las preguntas a solo editar el texto de las preguntas, solo presionas “confirmar” solo si ha finalizado, ya que es una acción irreversible.</Text>
+                        <Text size="sm" textAlign="center">Esto limitara la edición de las preguntas a solo editar el texto, solo presione “confirmar” solo si ya finalizo, ya que es una acción irreversible.</Text>
                         <ModalFooter justifyContent="space-evenly">
                             <CustomButton colorScheme="green" type='submit' onClick={() => submitRespond()}>Confirmar</CustomButton>
                             <CustomButton colorScheme="red" onClick={onClose} >Cancelar</CustomButton>

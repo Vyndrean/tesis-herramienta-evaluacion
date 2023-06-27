@@ -21,7 +21,8 @@ const QuestionSchema = new Schema({
         required: true
     },
     questionPosition: {
-        type: Number
+        type: Number,
+        required: true
     }
 })
 

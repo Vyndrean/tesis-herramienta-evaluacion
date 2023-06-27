@@ -4,7 +4,7 @@ const CustomButton = ({ children, ...rest }) => {
     return (
         <Button
             borderRadius="17"
-            h="9"
+            h="8"
             {...rest}
         >
             {children}

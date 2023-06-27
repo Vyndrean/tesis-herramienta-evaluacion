@@ -31,7 +31,7 @@ const DeleteOption = ({ refe, id, reload, isEditable }) => {
 
     return (
         <>
-            <Button colorScheme='red' isDisabled={isEditable} onClick={onOpen}> <DeleteIcon /> </Button>
+            <Button colorScheme='red' hidden={isEditable} onClick={onOpen}> <DeleteIcon /> </Button>
             <AlertDialog
                 isOpen={isOpen}
                 leastDestructiveRef={cancelRef}
