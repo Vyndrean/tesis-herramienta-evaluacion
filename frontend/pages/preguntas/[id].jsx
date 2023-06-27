@@ -57,9 +57,9 @@ const questions = ({ id }) => {
       const question2 = questions.find((question) => question.questionPosition == newPosition)
 
       updateQuestion(question1._id, { questionPosition: newPosition }).then(res => {
-        if(res.status == 200){
+        if (res.status == 200) {
           updateQuestion(question2._id, { questionPosition: oldPosition }).then(res => {
-            if(res.status == 200){
+            if (res.status == 200) {
               contentReload()
             }
           })
@@ -75,11 +75,11 @@ const questions = ({ id }) => {
       const question2 = questions.find((question) => question.questionPosition == newPosition)
 
       updateQuestion(question1._id, { questionPosition: newPosition }).then(res => {
-        if(res.status == 200){
+        if (res.status == 200) {
           updateQuestion(question2._id, { questionPosition: oldPosition }).then(res => {
-            if(res.status == 200){
+            if (res.status == 200) {
               contentReload()
-              
+
             }
           })
         }
@@ -145,7 +145,7 @@ const questions = ({ id }) => {
               </Stack>
               <Stack paddingRight="25">
                 <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
-                <Button colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></Button>
+                <CustomButton colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></CustomButton>
                 <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
                 <DeleteOption refe='question' id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
                 <CustomButton colorScheme='blue' onClick={() => handleDownPosition(question.questionPosition + 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowDownIcon /> </CustomButton>

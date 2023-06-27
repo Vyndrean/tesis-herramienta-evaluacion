@@ -110,11 +110,7 @@ const evaluaciones = () => {
                 selector: (data) => (
                   <HStack>
                     <EmailForm data={data} />
-                    <IconButton
-                      icon={<EditIcon />}
-                      colorScheme='yellow'
-                      onClick={() => router.push(`/evaluaciones/actualizar/${data._id}`)}
-                    />
+                    <CustomButton colorScheme="yellow" onClick={() => router.push(`/evaluaciones/actualizar/${data._id}`)}> <EditIcon/> </CustomButton>
                     <DeleteOption refe='evaluation' id={data._id} reload={contentReload} />
                   </HStack>
                 )

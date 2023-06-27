@@ -4,6 +4,7 @@ import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import { Alert, AlertIcon, Button, Container, FormControl, FormHelperText, FormLabel, HStack, Input, Stack, Text, Textarea, useToast as Toast } from '@chakra-ui/react'
 import { getProduct, updateProduct } from '@/data/product'
+import CustomButton from '@/styles/customButton'
 
 export const getServerSideProps = async (context) => {
     const res = await getProduct(context.query.id)
@@ -84,8 +85,8 @@ const actualizar = ({ id , data}) => {
                         </FormControl>
                     </Stack>
                     <HStack spacing='auto' paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
-                        <Button type='submit'>Confirmar</Button>
-                        <Button onClick={() => router.back()}>Cancelar</Button>
+                        <CustomButton type='submit'>Confirmar</CustomButton>
+                        <CustomButton onClick={() => router.back()}>Cancelar</CustomButton>
                     </HStack>
                 </form>
             </Container>

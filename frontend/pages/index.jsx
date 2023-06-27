@@ -8,6 +8,7 @@ import { login, checkToken } from "../data/login"
 import Cookie from "js-cookie"
 import router from 'next/router'
 import { useToast as Toast } from '@chakra-ui/react'
+import CustomButton from '@/styles/customButton'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -93,7 +94,7 @@ const index = () => {
                     <FormLabel>Contraseña</FormLabel>
                     <Input type='password' name='password' id='password' onChange={handleChange} />
                   </FormControl>
-                  <Button colorScheme='green' onClick={submitSesion}>Ingresar</Button>
+                  <CustomButton colorScheme='green' onClick={submitSesion}>Ingresar</CustomButton>
                 </Stack>
               </form>
             </Box>

@@ -7,6 +7,7 @@ import DataTable from 'react-data-table-component'
 import { getProducts } from '@/data/product'
 import { EditIcon } from '@chakra-ui/icons'
 import DeleteOption from '@/components/DeleteOption'
+import CustomButton from '@/styles/customButton'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -46,7 +47,7 @@ const producto = () => {
             <Navbar />
             <Container maxW="container.xl">
                 <HStack mt="2">
-                    <Button colorScheme="green" onClick={() => router.push('/producto/crear')}>Crear producto</Button>
+                    <CustomButton colorScheme="green" onClick={() => router.push('/producto/crear')}>Crear producto</CustomButton>
                 </HStack>
                 <DataTable
                     columns={[
@@ -79,11 +80,7 @@ const producto = () => {
                             name: "OPCIONES",
                             selector: (data) => (
                                 <HStack>
-                                    <IconButton
-                                        icon={<EditIcon />}
-                                        colorScheme='yellow'
-                                        onClick={() => router.push(`/producto/actualizar/${data._id}`)}
-                                    />
+                                    <CustomButton colorScheme='yellow' onClick={() => router.push(`/producto/actualizar/${data._id}`)}> <EditIcon /> </CustomButton>
                                     <DeleteOption refe='product' id={data._id} reload={contentReload} />
                                 </HStack>
                             )

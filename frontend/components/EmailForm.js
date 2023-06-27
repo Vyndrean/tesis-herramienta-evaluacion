@@ -4,6 +4,7 @@ import React, { useState as state, useEffect as effect } from 'react'
 import { sendEmail } from '@/data/mail'
 import { updateEvaluation } from '@/data/evaluations'
 import { getProducts } from '@/data/product'
+import CustomButton from '@/styles/customButton'
 
 const EmailForm = ({ data }) => {
   const [email, setEmail] = state({
@@ -65,7 +66,7 @@ const EmailForm = ({ data }) => {
 
   return (
     <>
-      <Button onClick={() => handleButton()} colorScheme='blue'> <EmailIcon /> </Button>
+      <CustomButton onClick={() => handleButton()} colorScheme='blue'> <EmailIcon /> </CustomButton>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW="container.md">
@@ -91,10 +92,10 @@ const EmailForm = ({ data }) => {
               </FormControl>
             </ModalBody>
             <HStack justifyContent="space-between" marginBlock="5" marginInline="10">
-              <Button borderRadius="17" h="9" colorScheme='green' type='submit'>Enviar</Button>
-              <Button borderRadius="17" h="9" colorScheme='red' mr={3} onClick={onClose}>
+              <CustomButton borderRadius="17" h="9" colorScheme='green' type='submit'>Enviar</CustomButton>
+              <CustomButton borderRadius="17" h="9" colorScheme='red' mr={3} onClick={onClose}>
                 Cancelar
-              </Button>
+              </CustomButton>
             </HStack>
           </form>
         </ModalContent>

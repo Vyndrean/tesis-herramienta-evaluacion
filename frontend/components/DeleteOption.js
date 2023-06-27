@@ -2,6 +2,7 @@ import { DeleteIcon } from '@chakra-ui/icons'
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogHeader, AlertDialogOverlay, Button, HStack, useDisclosure, useToast as Toast } from '@chakra-ui/react'
 import React from 'react'
 import { deleteByRef } from '@/data/evaluations'
+import CustomButton from '@/styles/customButton'
 
 const DeleteOption = ({ refe, id, reload, isEditable }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -31,7 +32,7 @@ const DeleteOption = ({ refe, id, reload, isEditable }) => {
 
     return (
         <>
-            <Button colorScheme='red' hidden={isEditable} onClick={onOpen}> <DeleteIcon /> </Button>
+            <CustomButton colorScheme='red' hidden={isEditable} onClick={onOpen}> <DeleteIcon /> </CustomButton>
             <AlertDialog
                 isOpen={isOpen}
                 leastDestructiveRef={cancelRef}
@@ -48,12 +49,12 @@ const DeleteOption = ({ refe, id, reload, isEditable }) => {
                             Esta accion no puede deshacerse.
                         </AlertDialogBody>
                         <HStack justifyContent="space-between" paddingInline="10" paddingBlock="5">
-                            <Button colorScheme='green' borderRadius="17" h="9" onClick={() => handleDelete()}>
+                            <CustomButton colorScheme='green' borderRadius="17" h="9" onClick={() => handleDelete()}>
                                 Borrar
-                            </Button>
-                            <Button colorScheme='red' borderRadius="17" h="9" onClick={onClose}>
+                            </CustomButton>
+                            <CustomButton colorScheme='red' borderRadius="17" h="9" onClick={onClose}>
                                 Cancelar
-                            </Button>
+                            </CustomButton>
                         </HStack>
 
                     </AlertDialogContent>

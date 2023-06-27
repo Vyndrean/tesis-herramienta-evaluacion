@@ -6,6 +6,7 @@ import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 import { createParticipant } from '@/data/participant'
 import { createAnswer } from '@/data/answer'
+import CustomButton from '@/styles/customButton'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -121,9 +122,9 @@ const index = ({ id }) => {
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme='green' mr={3} type='submit' >
+              <CustomButton colorScheme='green' mr={3} type='submit' >
                 Confirmar
-              </Button>
+              </CustomButton>
             </ModalFooter>
           </form>
         </ModalContent>
@@ -134,18 +135,18 @@ const index = ({ id }) => {
   //Navegation
   const showButton = () => {
     if (page == -1) {
-      return <Button colorScheme='#FFD700' onClick={() => forwardQuestion()} ml="86.8%"><ArrowForwardIcon boxSize="8" /> </Button>
+      return <CustomButton colorScheme='#FFD700' onClick={() => forwardQuestion()} ml="86.8%"><ArrowForwardIcon boxSize="8" /> </CustomButton>
     }
     if (page >= -1 && page < questions.length) {
       return (
         <>
-          <Button colorScheme="#FFD700" onClick={() => backwardQuestion()}> <ArrowBackIcon boxSize="8" /> </Button>
-          <Button colorScheme='#FFD700' onClick={() => handleSubmit()}> <ArrowForwardIcon boxSize="8" /> </Button>
+          <CustomButton colorScheme="#FFD700" onClick={() => backwardQuestion()}> <ArrowBackIcon boxSize="8" /> </CustomButton>
+          <CustomButton colorScheme='#FFD700' onClick={() => handleSubmit()}> <ArrowForwardIcon boxSize="8" /> </CustomButton>
         </>
       )
     }
     if (page == questions.length) {
-      return <Button colorScheme="#FFD700" onClick={() => backwardQuestion()}> <ArrowBackIcon boxSize="8" /> </Button>
+      return <CustomButton colorScheme="#FFD700" onClick={() => backwardQuestion()}> <ArrowBackIcon boxSize="8" /> </CustomButton>
     }
   }
 
@@ -224,7 +225,7 @@ const index = ({ id }) => {
             </CardHeader>
             <CardBody textAlign='center' >
               <Heading size='sm' fontFamily='serif' fontSize='xl'>¡Gracias por su participacíon!<br />Esperamos verte pronto en futuras evaluaciones y no olvide enviar su respuesta</Heading>
-              <Button colorScheme='yellow' mt="50">Enviar respuestas</Button>
+              <CustomButton colorScheme='yellow' mt="50">Enviar respuestas</CustomButton>
             </CardBody>
           </>
         )}

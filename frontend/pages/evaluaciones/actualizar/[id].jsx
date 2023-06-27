@@ -6,6 +6,7 @@ import { Button, Container, FormControl, FormLabel, HStack, Heading, Input, Stac
 import { getEvaluation, updateEvaluation } from '@/data/evaluations'
 import InputForm from '@/components/InputForm'
 import moment from 'moment'
+import CustomButton from '@/styles/customButton'
 
 export const getServerSideProps = async (context) => {
     const res = await getEvaluation(context.query.id)
@@ -74,8 +75,8 @@ const actualizar = ({ data }) => {
                         </HStack>
                     </Stack>
                     <HStack justifyContent="space-between" paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
-                        <Button borderRadius="17" h="9" type='submit'>Confirmar</Button>
-                        <Button borderRadius="17" h="9" onClick={() => router.back()}>Cancelar</Button>
+                        <CustomButton borderRadius="17" h="9" type='submit'>Confirmar</CustomButton>
+                        <CustomButton borderRadius="17" h="9" onClick={() => router.back()}>Cancelar</CustomButton>
                     </HStack>
                 </form>
             </Container>
