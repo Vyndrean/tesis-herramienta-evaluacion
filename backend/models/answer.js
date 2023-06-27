@@ -14,6 +14,11 @@ const AnswerSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'participant',
         required: true
+    },
+    product: {
+        type: Schema.ObjectId,
+        ref: 'product',
+        required: true
     }
 })
 

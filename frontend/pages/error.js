@@ -2,7 +2,7 @@ import React from 'react'
 
 const error = () => {
   return (
-    <div>Error de acceso</div>
+    <div>Enlace incorrecto</div>
   )
 }
 

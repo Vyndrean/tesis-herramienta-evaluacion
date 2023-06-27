@@ -1,12 +1,13 @@
 const Answer = require('../models/answer')
 
 const createAnswer = (req, res) => {
-    const { answerUser, question, participant } = req.body
+    const { answerUser, question, participant, product } = req.body
     const newAnswer = new Answer(
         {
             answerUser,
             question,
-            participant
+            participant,
+            product
         }
     )
     newAnswer.save((err, answer) => {
@@ -19,7 +20,7 @@ const createAnswer = (req, res) => {
 
 const getAnswers = (req, res) => {
     Answer.find({})
-        .populate('question participant')
+        .populate('question participant product')
         .exec((err, answer) => {
             if (err) {
                 return res.status(400).send({ message: "Error al mostrar las respuestas" })
@@ -33,7 +34,7 @@ const getAnswer = (req, res) => {
     Answer.find({
         'question': id
     })
-        .populate('question participant')
+        .populate('question participant product')
         .exec((err, answer) => {
             if (err) {
                 return res.status(400).send({ message: "Error al mostrar las respuestas" })

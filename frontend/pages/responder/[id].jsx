@@ -13,12 +13,12 @@ export const getServerSideProps = async (context) => {
   try {
     const res = await getEvaluation(context.query.id)
     const product = await getProduct(context.query.product)
-
     if (product.status == 200) {
       return {
         props: {
           id: context.query.id,
-          data: res.data
+          data: res.data,
+          product: product.data
         }
       }
     } else {
@@ -39,7 +39,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const index = ({ id, data }) => {
+const index = ({ id, data, product }) => {
   const [questions, setQuestions] = state([])
   const [evaluation, setEvaluation] = state(data)
   const [page, setPage] = state(-1)
@@ -57,8 +57,8 @@ const index = ({ id, data }) => {
         [name]: value
       }
     })
-  };
-
+  }
+  console.log(answer)
   const updateAnswer = () => {
     const idQuestion = questions[page + 1]?._id
     setAnswer({
@@ -104,7 +104,8 @@ const index = ({ id, data }) => {
       createParticipant(userData).then(res => {
         setAnswer({
           ...answer,
-          ["participant"]: res.data._id
+          "participant": res.data._id,
+          "product": product._id
         })
       })
     }
@@ -164,9 +165,6 @@ const index = ({ id, data }) => {
   return (
     <Container maxW={"container.lg"} h="100%">
       {
-        //formUserData()
-      }
-      {
         !evaluation.isEditable && (
           <>
 
@@ -198,6 +196,9 @@ const index = ({ id, data }) => {
             </Modal>
           </>
         )
+      }
+      {
+        formUserData()
       }
       <Stack h="100"></Stack>
       <Stack h="35" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'>
