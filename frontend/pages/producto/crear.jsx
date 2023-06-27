@@ -4,6 +4,7 @@ import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import { Alert, AlertIcon, Button, Container, FormControl, FormHelperText, FormLabel, HStack, Input, Stack, Text, Textarea, useToast as Toast } from '@chakra-ui/react'
 import { createProduct } from '@/data/product'
+import CustomButton from '@/styles/customButton'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -66,12 +67,12 @@ const crear = () => {
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Tipo</FormLabel>
-                                <Input name='type' type='text' placeholder='Que tipo de producto es' onChange={handleChange} isRequired />
+                                <Input name='type' type='text' placeholder='¿Qué tipo de producto es?' onChange={handleChange} isRequired />
                             </FormControl>
                         </HStack>
                         <FormControl>
-                            <FormLabel>Descripcion</FormLabel>
-                            <Textarea name='description' type='text' placeholder='Descripcion sobre el producto' onChange={handleChange} isRequired />
+                            <FormLabel>Descripción</FormLabel>
+                            <Textarea name='description' type='text' placeholder='Descripción sobre el producto' onChange={handleChange} isRequired />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Enlace</FormLabel>
@@ -79,8 +80,8 @@ const crear = () => {
                         </FormControl>
                     </Stack>
                     <HStack spacing='auto' paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
-                        <Button type='submit'>Confirmar</Button>
-                        <Button onClick={() => router.back()}>Cancelar</Button>
+                        <CustomButton type='submit'>Confirmar</CustomButton>
+                        <CustomButton onClick={() => router.back()}>Cancelar</CustomButton>
                     </HStack>
                 </form>
             </Container>

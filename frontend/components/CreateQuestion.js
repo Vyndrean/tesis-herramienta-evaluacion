@@ -81,7 +81,7 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
   }
   return (
     <>
-      <CustomButton onClick={onOpen} my={"2"} hidden={isEditable}> Añadir pregunta </CustomButton>
+      <CustomButton colorScheme="#000080" onClick={onOpen} my={"2"} isDisabled={isEditable}> Añadir pregunta </CustomButton>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"container.md"}>

@@ -2,12 +2,13 @@ import React, { useEffect as effect, useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Button, Container, HStack, IconButton, Text } from '@chakra-ui/react'
+import { Button, Container, HStack, Heading, IconButton, List, ListItem, Text } from '@chakra-ui/react'
 import DataTable from 'react-data-table-component'
 import { getProducts } from '@/data/product'
 import { EditIcon } from '@chakra-ui/icons'
 import DeleteOption from '@/components/DeleteOption'
 import CustomButton from '@/styles/customButton'
+import moment from 'moment'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -42,6 +43,21 @@ const producto = () => {
         })
     }
 
+    const ExpandedComponent = ({ data }) => (
+        <List>
+            <ListItem>
+                <Heading size="sm">Descripción</Heading>
+                <Text>{data?.description}</Text>
+            </ListItem>
+            <hr />
+        </List>
+    )
+
+    const formatDate = (date) => {
+        const newFormat = moment(date.substring(0, 10)).format(`DD-MM-YYYY`)
+        return newFormat
+    }
+
     return (
         <>
             <Navbar />
@@ -58,17 +74,12 @@ const producto = () => {
                         },
                         {
                             name: "CREADO",
-                            selector: (data) => data.created_at,
+                            selector: (data) => formatDate(data.created_at),
                             sortable: true
                         },
                         {
                             name: "TIPO",
                             selector: (data) => data.type,
-                            sortable: true
-                        },
-                        {
-                            name: "DESCRIPCION",
-                            selector: (data) => data.description,
                             sortable: true
                         },
                         {
@@ -88,6 +99,8 @@ const producto = () => {
                     ]}
                     data={products}
                     pagination
+                    expandableRows
+                    expandableRowsComponent={ExpandedComponent}
                 />
             </Container>
         </>

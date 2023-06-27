@@ -2,7 +2,7 @@ import React, { useEffect as effect, useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Button, Container, HStack, useToast as Toast, Input, Card, CardHeader, Heading, CardBody, Stack, Box, Text } from '@chakra-ui/react'
+import { Container, HStack, useToast as Toast, Input, Card, CardHeader, Heading, CardBody, Stack, Box, Text, Radio } from '@chakra-ui/react'
 import { getQuestions, updateQuestion } from '@/data/question'
 import { ArrowDownIcon, ArrowRightIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import CreateQuestion from '@/components/CreateQuestion'
@@ -32,12 +32,9 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-
-
 const questions = ({ id }) => {
   const [questions, setQuestions] = state([])
   const [evaluation, setEvaluation] = state([])
-
   const contentReload = async () => {
     await getQuestions(id).then(res => {
       handleSortQuestions(res.data)
@@ -51,8 +48,6 @@ const questions = ({ id }) => {
 
   const handleUpPosition = (newPosition, oldPosition) => {
     if (oldPosition > 0 && newPosition > 0) {
-      console.log("NEW: " + newPosition, "OLD: " + oldPosition);
-
       const question1 = questions.find((question) => question.questionPosition == oldPosition)
       const question2 = questions.find((question) => question.questionPosition == newPosition)
 
@@ -63,14 +58,14 @@ const questions = ({ id }) => {
               contentReload()
             }
           })
+        } else {
+          updateQuestion(question1._id, { questionPosition: oldPosition })
         }
       })
     }
   }
   const handleDownPosition = (newPosition, oldPosition) => {
     if (oldPosition < questions.length) {
-      console.log("NEW: " + newPosition, "OLD: " + oldPosition)
-
       const question1 = questions.find((question) => question.questionPosition == oldPosition)
       const question2 = questions.find((question) => question.questionPosition == newPosition)
 
@@ -79,9 +74,10 @@ const questions = ({ id }) => {
           updateQuestion(question2._id, { questionPosition: oldPosition }).then(res => {
             if (res.status == 200) {
               contentReload()
-
             }
           })
+        } else {
+          updateQuestion(question1._id, { questionPosition: oldPosition })
         }
       })
     }
@@ -106,54 +102,56 @@ const questions = ({ id }) => {
           <CanEditQuestion id={id} />
         </HStack>
         {questions.map(((question, index) => (
-          <Card key={question._id} bg='#f4efd7' mb="5" border='1px solid black'>
-            <Text ml="5">{(index + 1) + ")"}</Text>
-            <HStack>
-              <Stack flex="80%">
-                <CardHeader textAlign={'center'}>
-                  <Text fontFamily='serif' fontSize='xl'>{question?.questionContext}</Text>
-                  <Heading size='md' textAlign='center' mt="50" fontFamily='-moz-initial'>{question?.questionName}</Heading>
-                </CardHeader>
-                <hr />
-                <CardBody>
-                  <Stack>
-                    <Box>
-                      <form>
-                        {question.questionOptions.map((res) => (
-                          <div key={res.name + res.value}>
-                            {question.questionType === 'radio' && (
-                              <>
-                                <input type="radio" id={res.name} value={res.value} name='answer' />
-                                <label htmlFor={res.name}> {res.value}</label>
-                              </>
-                            )}
-                            {question.questionType === 'text' && (
-                              <Input id={res?.name} type="text" />
-                            )}
-                            {question.questionType === 'checkbox' && (
-                              <div>
-                                <input type="checkbox" id={res.name} value={res.value} name='answer' />
-                                <label htmlFor={res.name}> {res.value} </label>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </form>
-                    </Box>
-                  </Stack>
-                </CardBody>
-              </Stack>
-              <Stack paddingRight="25">
-                <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
-                <CustomButton colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></CustomButton>
-                <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
-                <DeleteOption refe='question' id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
-                <CustomButton colorScheme='blue' onClick={() => handleDownPosition(question.questionPosition + 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowDownIcon /> </CustomButton>
-              </Stack>
-            </HStack>
-          </Card>
+          <>
+            <Card key={question._id} bg='#f4efd7' mb="5" border='1px solid black'>
+              <Heading ml="5" size="sm">Pregunta {(index + 1)}</Heading>
+              <HStack>
+                <Stack flex="80%">
+                  <CardHeader textAlign={'center'}>
+                    <Text fontFamily='serif' fontSize='xl'>{question?.questionContext}</Text>
+                    <Heading size='md' textAlign='center' mt="25" fontFamily='-moz-initial'>{question?.questionName}</Heading>
+                  </CardHeader>
+                  <hr />
+                  <CardBody>
+                    <Stack>
+                      <Box>
+                        <form id='form'>
+                          {question.questionOptions.map((res) => (
+                            <div key={res.name + res.value}>
+                              {question.questionType === 'radio' && (
+                                <>
+                                  <input type="radio" id={res.name} value={res.value} name='answer' />
+                                  <label htmlFor={res.name}> {res.value}</label>
+                                </>
+                              )}
+                              {question.questionType === 'text' && (
+                                <Input id={res?.name} type="text" />
+                              )}
+                              {question.questionType === 'checkbox' && (
+                                <div>
+                                  <input type="checkbox" id={res.name} value={res.value} name='answer' />
+                                  <label htmlFor={res.name}> {res.value} </label>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </form>
+                      </Box>
+                    </Stack>
+                  </CardBody>
+                </Stack>
+                <Stack paddingRight="25">
+                  <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
+                  <CustomButton colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></CustomButton>
+                  <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
+                  <DeleteOption refe='question' id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
+                  <CustomButton colorScheme='blue' onClick={() => handleDownPosition(question.questionPosition + 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowDownIcon /> </CustomButton>
+                </Stack>
+              </HStack>
+            </Card>
+          </>
         )))}
-        <hr />
+
       </Container>
     </>
   )

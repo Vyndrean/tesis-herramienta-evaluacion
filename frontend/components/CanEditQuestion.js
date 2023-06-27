@@ -32,11 +32,11 @@ const CanEditQuestion = ({ id }) => {
     const handleEditButton = () => {
         if (evaluation?.isEditable) {
             return (
-                <CustomButton onClick={() => isDone()}>Edición finalizada</CustomButton>
+                <CustomButton colorScheme="#000080" onClick={() => isDone()}>Edición finalizada</CustomButton>
             )
         } else {
             return (
-                <CustomButton onClick={onOpen}>Finalizar edición</CustomButton>
+                <CustomButton colorScheme="#000080" onClick={onOpen}>Finalizar edición</CustomButton>
             )
         }
     }
@@ -82,10 +82,10 @@ const CanEditQuestion = ({ id }) => {
                     <ModalCloseButton />
                     <ModalBody>
                         <ModalHeader textAlign="center">
-                            ¿Quieres finalizar al edicion de las preguntas?<br />
+                            ¿Deseas finalizar la edición de las preguntas?<br />
 
                         </ModalHeader>
-                        <Text size="sm" textAlign="center">Esto limitara la edición de las preguntas a solo editar el texto, solo presione “confirmar” solo si ya finalizo, ya que es una acción irreversible.</Text>
+                        <Text size="sm" textAlign="center">Esto limitará la edición de las preguntas solo al texto. Solo debes presionar "confirmar" si has finalizado, ya que esta acción es irreversible.</Text>
                         <ModalFooter justifyContent="space-evenly">
                             <CustomButton colorScheme="green" type='submit' onClick={() => submitRespond()}>Confirmar</CustomButton>
                             <CustomButton colorScheme="red" onClick={onClose} >Cancelar</CustomButton>

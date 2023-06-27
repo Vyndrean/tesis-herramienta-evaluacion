@@ -58,6 +58,11 @@ const evaluaciones = () => {
   const ExpandedComponent = ({ data }) => (
     <List>
       <ListItem>
+        <Heading size="sm">Título</Heading>
+        <Text>{data?.title}</Text>
+      </ListItem>
+      <hr />
+      <ListItem>
         <Heading size="sm">Fecha</Heading>
         <Text>Desde {formatDate(data.start_date)} hasta {formatDate(data.end_date)}</Text>
       </ListItem>
@@ -110,7 +115,7 @@ const evaluaciones = () => {
                 selector: (data) => (
                   <HStack>
                     <EmailForm data={data} />
-                    <CustomButton colorScheme="yellow" onClick={() => router.push(`/evaluaciones/actualizar/${data._id}`)}> <EditIcon/> </CustomButton>
+                    <CustomButton colorScheme="yellow" onClick={() => router.push(`/evaluaciones/actualizar/${data._id}`)}> <EditIcon /> </CustomButton>
                     <DeleteOption refe='evaluation' id={data._id} reload={contentReload} />
                   </HStack>
                 )
