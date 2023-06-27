@@ -17,7 +17,7 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
   const [question, setQuestion] = state({
     evaluation: id
   })
-  
+
   const handleChangeAnswer = (e, i) => {
     const { value } = e.target
     const updatedAnswer = [...answer]
@@ -75,7 +75,7 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
           duration: 4000,
           isClosable: true
         })
-
+        setAnswer([''])
       }
     })
   }

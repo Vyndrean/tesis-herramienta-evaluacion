@@ -165,10 +165,8 @@ const index = ({ id, data, product }) => {
   return (
     <Container maxW={"container.lg"} h="100%">
       {
-        !evaluation.isEditable && (
+        !evaluation.isEditable ? (
           <>
-
-
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />
               <ModalContent>
@@ -195,11 +193,11 @@ const index = ({ id, data, product }) => {
               </ModalContent>
             </Modal>
           </>
+        ) : (
+          formUserData()
         )
       }
-      {
-        formUserData()
-      }
+
       <Stack h="100"></Stack>
       <Stack h="35" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'>
 
