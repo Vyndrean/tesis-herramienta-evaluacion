@@ -1,7 +1,7 @@
 import React, { useEffect as effect, useState as state } from 'react'
 import { getQuestions } from '@/data/question'
 import { getEvaluation } from '@/data/evaluations'
-import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel, useDisclosure as Disc, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl } from '@chakra-ui/react'
+import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel, useDisclosure as Disc, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react'
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 import { createParticipant } from '@/data/participant'
@@ -10,11 +10,13 @@ import CustomButton from '@/styles/customButton'
 
 export const getServerSideProps = async (context) => {
   try {
+    const res = await getEvaluation(context.query.id)
     const val = context.query.validation
     if (val == 123) {
       return {
         props: {
-          id: context.query.id
+          id: context.query.id,
+          data: res.data
         }
       }
     } else {
@@ -35,9 +37,9 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const index = ({ id }) => {
+const index = ({ id, data }) => {
   const [questions, setQuestions] = state([])
-  const [evaluation, setEvaluation] = state([])
+  const [evaluation, setEvaluation] = state(data)
   const [page, setPage] = state(-1)
   const [answer, setAnswer] = state([])
   const [userData, setUserData] = state([])
@@ -63,7 +65,6 @@ const index = ({ id }) => {
       question: idQuestion
     })
   }
-  console.log(answer)
   const backwardQuestion = () => {
     if (page > -1) {
       setPage(page - 1)
@@ -79,7 +80,6 @@ const index = ({ id }) => {
   }
 
   const handleSubmit = () => {
-    console.log(answer)
     createAnswer(answer).then(res => {
       if (res.status == 200) {
         updateAnswer()
@@ -87,7 +87,6 @@ const index = ({ id }) => {
       }
     })
   }
-
   //Who want to respond
   const formUserData = () => {
     const handleUserData = (e) => {
@@ -106,7 +105,7 @@ const index = ({ id }) => {
           ["participant"]: res.data._id
         })
       })
-    };
+    }
     return (
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -134,10 +133,10 @@ const index = ({ id }) => {
 
   //Navegation
   const showButton = () => {
-    if (page == -1) {
+    if (page == -1 && evaluation.isEditable) {
       return <CustomButton colorScheme='#FFD700' onClick={() => forwardQuestion()} ml="86.8%"><ArrowForwardIcon boxSize="8" /> </CustomButton>
     }
-    if (page >= -1 && page < questions.length) {
+    if (page > -1 && page < questions.length) {
       return (
         <>
           <CustomButton colorScheme="#FFD700" onClick={() => backwardQuestion()}> <ArrowBackIcon boxSize="8" /> </CustomButton>
@@ -159,13 +158,45 @@ const index = ({ id }) => {
     getQuestions(id).then(res => {
       handleSortQuestions(res.data)
     })
-    getEvaluation(id).then(res => {
-      setEvaluation(res.data)
-    })
   }, [])
   return (
     <Container maxW={"container.lg"} h="100%">
-      {formUserData()}
+      {
+        //formUserData()
+      }
+      {
+        !evaluation.isEditable && (
+          <>
+
+
+            <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalBody>
+                  <Alert
+                    status='warning'
+                    variant='subtle'
+                    flexDirection='column'
+                    alignItems='center'
+                    justifyContent='center'
+                    textAlign='center'
+                    height='200px'
+                    bgColor="white"
+                  >
+                    <AlertIcon boxSize='40px' mr={0} />
+                    <AlertTitle mt={4} mb={1} fontSize='lg'>
+                      Evaluación no disponible
+                    </AlertTitle>
+                    <AlertDescription maxWidth='sm'>
+                      Lamentablemente, en este momento no es posible acceder a la evaluación que buscas. Te pedimos disculpas por las molestias y te sugerimos intentarlo nuevamente en otro momento.
+                    </AlertDescription>
+                  </Alert>
+                </ModalBody>
+              </ModalContent>
+            </Modal>
+          </>
+        )
+      }
       <Stack h="100"></Stack>
       <Stack h="35" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'>
 
