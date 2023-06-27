@@ -4,6 +4,7 @@ import InputForm from '@/components/InputForm'
 import { createQuestion } from '@/data/question'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import router from 'next/router'
+import CustomButton from '@/styles/customButton'
 
 const CreateQuestion = ({ id, reload, length, isEditable }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -80,7 +81,7 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
   }
   return (
     <>
-      <Button onClick={onOpen} borderRadius="17" h="8" my={"2"} hidden={isEditable}> Añadir pregunta </Button>
+      <CustomButton onClick={onOpen} my={"2"} hidden={isEditable}> Añadir pregunta </CustomButton>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"container.md"}>
@@ -131,8 +132,8 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
                 {addButton()}
               </Stack>
               <HStack justifyContent="space-between">
-                <Button borderRadius="17" h="9" colorScheme="green" type='submit'>Confirmar</Button>
-                <Button borderRadius="17" h="9" colorScheme="red" onClick={onClose}>Cancelar</Button>
+                <CustomButton colorScheme="green" type='submit'>Confirmar</CustomButton>
+                <CustomButton colorScheme="red" onClick={onClose}>Cancelar</CustomButton>
               </HStack>
             </form>
           </ModalBody>

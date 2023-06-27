@@ -4,7 +4,7 @@ import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import { Button, Container, HStack, useToast as Toast, Input, Card, CardHeader, Heading, CardBody, Stack, Box, Text } from '@chakra-ui/react'
 import { getQuestions, updateQuestion } from '@/data/question'
-import { ArrowDownIcon, ArrowRightIcon, ArrowUpIcon, EditIcon } from '@chakra-ui/icons'
+import { ArrowDownIcon, ArrowRightIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import CreateQuestion from '@/components/CreateQuestion'
 import DeleteOption from '@/components/DeleteOption'
 import UpdateQuestion from '@/components/UpdateQuestion'
@@ -50,17 +50,21 @@ const questions = ({ id }) => {
   }
 
   const handleUpPosition = (newPosition, oldPosition) => {
-    if (oldPosition > 0) {
+    if (oldPosition > 0 && newPosition > 0) {
       console.log("NEW: " + newPosition, "OLD: " + oldPosition);
 
       const question1 = questions.find((question) => question.questionPosition == oldPosition)
       const question2 = questions.find((question) => question.questionPosition == newPosition)
 
-      updateQuestion(question1._id, { questionPosition: newPosition })
-      updateQuestion(question2._id, { questionPosition: oldPosition })
-
-      router.reload()
-
+      updateQuestion(question1._id, { questionPosition: newPosition }).then(res => {
+        if(res.status == 200){
+          updateQuestion(question2._id, { questionPosition: oldPosition }).then(res => {
+            if(res.status == 200){
+              contentReload()
+            }
+          })
+        }
+      })
     }
   }
   const handleDownPosition = (newPosition, oldPosition) => {
@@ -70,17 +74,21 @@ const questions = ({ id }) => {
       const question1 = questions.find((question) => question.questionPosition == oldPosition)
       const question2 = questions.find((question) => question.questionPosition == newPosition)
 
-      updateQuestion(question1._id, { questionPosition: newPosition })
-      updateQuestion(question2._id, { questionPosition: oldPosition })
-
-      router.reload()
-
+      updateQuestion(question1._id, { questionPosition: newPosition }).then(res => {
+        if(res.status == 200){
+          updateQuestion(question2._id, { questionPosition: oldPosition }).then(res => {
+            if(res.status == 200){
+              contentReload()
+              
+            }
+          })
+        }
+      })
     }
   }
 
   effect(() => {
     getQuestions(id).then(res => {
-      //setQuestions(res.data)
       handleSortQuestions(res.data)
     })
     getEvaluation(id).then(res => {
