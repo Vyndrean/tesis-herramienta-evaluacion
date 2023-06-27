@@ -1,5 +1,5 @@
 import { EmailIcon, InfoIcon } from '@chakra-ui/icons'
-import { Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Textarea, useDisclosure, useToast as Toast, defineStyle, Heading, Text, IconButton, FormHelperText, Select } from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Textarea, useDisclosure, useToast as Toast, FormHelperText, Select } from '@chakra-ui/react'
 import React, { useState as state, useEffect as effect } from 'react'
 import { sendEmail } from '@/data/mail'
 import { updateEvaluation } from '@/data/evaluations'
@@ -7,26 +7,29 @@ import { getProducts } from '@/data/product'
 import CustomButton from '@/styles/customButton'
 
 const EmailForm = ({ data }) => {
-  const [email, setEmail] = state({
-    subject: data.title,
-    content: "Estimado/a,\n" + data?.introduction + "\nAccesible mediante el siguiente enlace " + `http://localhost:3000/responder/${data._id}?validation=${123}`
-  })
   const [product, setProduct] = state([])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
+  const [email, setEmail] = state({
+    subject: data.title,
+    content: "Estimado/a,\n\n" + data?.introduction +
+      "\n\nAccesible mediante el siguiente enlace "
+  })
   const handleChangeEmail = (e) => {
     const { value } = e.target
     const emailList = value.split(',').map((toWho) => toWho.trim())
     setEmail({
       ...email,
-      'destinatary': emailList
+      'destinatary': emailList,
     })
   }
-
   const handleChange = (e) => {
-    console.log("Bueno no hace nada")
+    const { value } = e.target
+    setEmail({
+      ...email,
+      'link': `http://localhost:3000/responder/${data._id}?product=${value}`
+    })
   }
-
   const handleSubmit = (e) => {
     e.preventDefault()
     sendEmail(email).then(res => {
@@ -73,11 +76,11 @@ const EmailForm = ({ data }) => {
           <ModalHeader textAlign="center">Envió de {data.title}</ModalHeader>
 
           <ModalCloseButton />
-          <form onSubmit={handleSubmit} >
+          <form onSubmit={handleSubmit} id='form'>
             <ModalBody>
               <FormControl>
                 <FormLabel>Producto</FormLabel>
-                <Select name='prodser' placeholder='Seleccione...' onChange={handleChange} isRequired>
+                <Select name='product' placeholder='Seleccione...' onChange={handleChange} isRequired>
                   {
                     product.map((res) => (
                       <option value={res._id} key={res._id}>{res.name}</option>

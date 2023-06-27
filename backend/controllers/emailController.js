@@ -9,14 +9,14 @@ const transporter = nodemailer.createTransport({
 })
 
 async function sendEmail(req, res) {
-    const { destinatary, subject, content } = req.body
+    const { destinatary, subject, content, link } = req.body
     console.log(destinatary)
     try {
         const sendOption = {
             from: 'correo@prueba.com',
             to: destinatary.join(','),
             subject: subject,
-            text: content
+            text: content + link
         }
 
         const info = await transporter.sendMail(sendOption)

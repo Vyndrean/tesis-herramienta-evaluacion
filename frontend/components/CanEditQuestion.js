@@ -27,7 +27,7 @@ export const getServerSideProps = async (context) => {
 const CanEditQuestion = ({ id }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const toast = Toast()
-    const [evaluation, setEvaluation] = state([])
+    const [evaluation, setEvaluation] = state()
 
     const handleEditButton = () => {
         if (evaluation?.isEditable) {
@@ -85,7 +85,9 @@ const CanEditQuestion = ({ id }) => {
                             ¿Deseas finalizar la edición de las preguntas?<br />
 
                         </ModalHeader>
-                        <Text size="sm" textAlign="center">Esto limitará la edición de las preguntas solo al texto. Solo debes presionar "confirmar" si has finalizado, ya que esta acción es irreversible.</Text>
+                        <Text size="sm" textAlign="center">
+                            Esto limitará la edición de las preguntas solo al texto. Solo debes presionar confirmar si has finalizado, ya que esta acción es irreversible.
+                        </Text>
                         <ModalFooter justifyContent="space-evenly">
                             <CustomButton colorScheme="green" type='submit' onClick={() => submitRespond()}>Confirmar</CustomButton>
                             <CustomButton colorScheme="red" onClick={onClose} >Cancelar</CustomButton>

@@ -6,13 +6,15 @@ import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 import { createParticipant } from '@/data/participant'
 import { createAnswer } from '@/data/answer'
+import { getProduct } from '@/data/product'
 import CustomButton from '@/styles/customButton'
 
 export const getServerSideProps = async (context) => {
   try {
     const res = await getEvaluation(context.query.id)
-    const val = context.query.validation
-    if (val == 123) {
+    const product = await getProduct(context.query.product)
+
+    if (product.status == 200) {
       return {
         props: {
           id: context.query.id,

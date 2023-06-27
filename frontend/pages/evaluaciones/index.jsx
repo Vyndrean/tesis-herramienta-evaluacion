@@ -85,7 +85,7 @@ const evaluaciones = () => {
         <HStack mt="2" spacing={"auto"}>
           <CustomButton colorScheme="green" onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluación</CustomButton>
         </HStack>
-        <Stack my="5" borderRadius="5">
+        <Stack>
           <DataTable
             columns={[
               {
