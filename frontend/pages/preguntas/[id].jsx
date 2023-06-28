@@ -103,18 +103,16 @@ const questions = ({ id }) => {
         </HStack>
         {questions.map(((question, index) => (
           <>
-            <Card key={question._id} bg='#f4efd7' mb="5" border='1px solid black'>
-              <Heading ml="5" size="sm">Pregunta {(index + 1)}</Heading>
+            <Card key={question._id} mb="5" border='1px solid #000080'>
               <HStack>
                 <Stack flex="80%">
-                  <CardHeader textAlign={'center'}>
-                    <Text fontFamily='serif' fontSize='xl'>{question?.questionContext}</Text>
-                    <Heading size='md' textAlign='center' mt="25" fontFamily='-moz-initial'>{question?.questionName}</Heading>
+                  <CardHeader >
+                    <Text fontSize='xl'>Pregunta {(index + 1)}: {question?.questionContext} {question?.questionName}</Text>
                   </CardHeader>
                   <hr />
                   <CardBody>
                     <Stack>
-                      <Box>
+                      <Box fontSize="md">
                         <form id='form'>
                           {question.questionOptions.map((res) => (
                             <div key={res.name + res.value}>
@@ -141,10 +139,10 @@ const questions = ({ id }) => {
                   </CardBody>
                 </Stack>
                 <Stack paddingRight="25">
-                  <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
                   <CustomButton colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></CustomButton>
                   <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
                   <DeleteOption refe='question' id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
+                  <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
                   <CustomButton colorScheme='blue' onClick={() => handleDownPosition(question.questionPosition + 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowDownIcon /> </CustomButton>
                 </Stack>
               </HStack>

@@ -164,7 +164,7 @@ const index = ({ id, data, product }) => {
   return (
     <Container maxW={"container.lg"} h="100%">
       {
-        !evaluation.isEditable ? (
+        evaluation.isEditable == 'false' ? (
           <>
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />
@@ -201,7 +201,7 @@ const index = ({ id, data, product }) => {
       <Stack h="35" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'>
 
       </Stack>
-      <Card h="500" w="400" bgColor="#f4efd7" border="1px solid black" borderRadius="0">
+      <Card h="500" w="400" border='1px solid #000080' borderRadius="0">
         {page == -1 && (
           <>
             <CardHeader>

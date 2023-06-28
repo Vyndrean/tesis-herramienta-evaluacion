@@ -15,7 +15,7 @@ const participantRoutes = require('./routes/participantRoutes')
 const productRoutes = require('./routes/productRoutes')
 
 app.use(cookieParser())
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
+app.use(cors({ credentials: true, origin: process.env.DIRECTION }))
 app.use(express.json())
 app.options('*', cors())
 app.use('/api', evaluationRoutes);

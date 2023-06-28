@@ -7,11 +7,11 @@ import Link from "next/link";
 
 const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    
+
     return (
         <Stack id="navFix">
             <Box width={["100%"]}>
-                <Flex h={12} alignItems={"center"} justifyContent={"space-between"} bgGradient={'linear(to-r, #000080, #412080,  #000080)'} paddingInline="10" borderBottomRadius="20">
+                <Flex h={12} alignItems={"center"} justifyContent={"space-between"} bgColor='#000080' paddingInline="10" borderBottomRadius="20">
                     <HStack w="10%">
                         <Show breakpoint="(min-width: 1000px)">
                             <Heading as={'h1'} fontSize="30" fontFamily="serif" onClick={() => router.push('/')} className="pointer" color={"white"}></Heading>
