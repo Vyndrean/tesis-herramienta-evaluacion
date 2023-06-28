@@ -1,4 +1,6 @@
 const Answer = require('../models/answer')
+const Question = require('../models/question')
+const Evaluation = require('../models/evaluation')
 
 const createAnswer = (req, res) => {
     const { answerUser, question, participant, product } = req.body
@@ -73,10 +75,41 @@ const updateAnswer = (req, res) => {
     })
 }
 
+const getAnswersByProduct = (req, res) => {
+    const { idEvaluation, idProduct } = req.body;
+    Question.find({
+        'evaluation': idEvaluation
+    })
+    .populate('question')
+    .exec((err, questions) => {
+        if (err) {
+            return res.status(400).send({ message: "Error al mostrar las preguntas de la evaluacion" })
+        }
+        
+        const questionIds = questions.map(question => question._id);
+        
+        Answer.find({
+            'question': { $in: questionIds },
+            'product': idProduct
+        })
+        .populate('participant product')
+        .exec((err, answers) => {
+            if (err) {
+                return res.status(400).send({ message: "Error al mostrar las respuestas de la evaluacion" })
+            }
+            
+            return res.status(200).send(answers)
+        })
+    })
+}
+
+
+
 module.exports = {
     createAnswer,
     getAnswers,
     deleteAnswer,
     getAnswer,
-    updateAnswer
+    updateAnswer,
+    getAnswersByProduct
 }
