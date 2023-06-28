@@ -10,7 +10,8 @@ const QuestionSchema = new Schema({
         required: true
     },
     questionOptions: { 
-        type: Array
+        type: Array,
+        required: true
     },
     questionContext: {
         type: String

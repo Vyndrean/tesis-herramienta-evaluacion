@@ -63,11 +63,6 @@ const evaluaciones = () => {
       </ListItem>
       <hr />
       <ListItem>
-        <Heading size="sm">Fecha</Heading>
-        <Text>Desde {formatDate(data.start_date)} hasta {formatDate(data.end_date)}</Text>
-      </ListItem>
-      <hr />
-      <ListItem>
         <Heading size="sm">Descripción</Heading>
         <Text>{data?.introduction}</Text>
       </ListItem>

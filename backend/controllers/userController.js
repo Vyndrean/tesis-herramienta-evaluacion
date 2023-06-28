@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const { createToken } = require('../services/token')
 
 const createUser = (req, res) => {
-    const { username } = req.body
+    const { username, rol } = req.body
     const password = bcrypt.hashSync(req.body.password, 5)
     User.findOne({ username }, (err, user) => {
         if (err) {
@@ -14,7 +14,8 @@ const createUser = (req, res) => {
         }
         const newUser = new User({
             username,
-            password
+            password,
+            rol
         })
         newUser.save((err, user) => {
             if (err) {
@@ -26,7 +27,7 @@ const createUser = (req, res) => {
 }
 
 const checkToken = (req, res) => {
-    return res.status(200).send({ message: 'Token valido' })
+    return res.status(200).send({ message: 'Token valido'})
 }
 
 const login = (req, res) => {
@@ -75,11 +76,22 @@ const deleteUser = (req, res) => {
     })
 }
 
+const updateUser = (req, res) => {
+    const { id } = req.params
+    User.findByIdAndUpdate(id, req.body, (err, user) => {
+        if(err){
+            return res.status(400).send({message: "Error al actualizar los datos de usuario"})
+        }
+        return res.status(200).send(user)
+    })
+}
+
 module.exports = {
     createUser,
     login,
     getUser,
     deleteUser,
     checkToken,
-    logout
+    logout,
+    updateUser
 }

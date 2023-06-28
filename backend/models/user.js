@@ -8,6 +8,11 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    rol: {
+        type: String,
+        enum: ['admin','assistant'],
+        required: true
     }
 })
 

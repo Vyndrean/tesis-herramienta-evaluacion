@@ -9,7 +9,9 @@ export const getServerSideProps = async (context) => {
     const check = await checkToken(context.req.headers.cookie)
     if (check.status == 200) {
       return {
-        props: {}
+        props: {
+          data: check.data
+        }
       }
     }
   } catch (error) {
@@ -22,7 +24,8 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const inicio = () => {
+const inicio = ({data}) => {
+  console.log(data)
   return (
     <>
       <Navbar />

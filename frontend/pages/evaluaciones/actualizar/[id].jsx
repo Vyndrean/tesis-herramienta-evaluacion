@@ -31,7 +31,6 @@ export const getServerSideProps = async (context) => {
 
 const actualizar = ({ data }) => {
     const [evaluation, setEvaluation] = state(data)
-    const currentDate = moment().format().substring(0, 10)
     const toast = Toast()
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -67,12 +66,8 @@ const actualizar = ({ data }) => {
                         <InputForm name="title" type="text" placeholder="Ingrese el titulo para la evaluación" handleChange={handleChange} label="Título" isRequired={true} value={evaluation.title} />
                         <FormControl>
                             <FormLabel>Descripción</FormLabel>
-                            <Textarea name='introduction' placeholder='Ingrese la descripción aquí' onChange={handleChange} value={evaluation.introduction}></Textarea>
+                            <Textarea h="200" name='introduction' placeholder='Ingrese la descripción aquí' onChange={handleChange} value={evaluation.introduction}></Textarea>
                         </FormControl>
-                        <HStack>
-                            <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleChange} label="Fecha de inicio" isRequired={true} min={currentDate} value={evaluation.start_date.substring(0, 10)} />
-                            <InputForm name="end_date" type="date" handleChange={handleChange} label="Fecha de termino" isRequired={true} min={evaluation?.start_date?.substring(0, 10)} value={evaluation.end_date.substring(0, 10)} />
-                        </HStack>
                     </Stack>
                     <HStack justifyContent="space-between" paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
                         <CustomButton borderRadius="17" h="9" type='submit'>Confirmar</CustomButton>

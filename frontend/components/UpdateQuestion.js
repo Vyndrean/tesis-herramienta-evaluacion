@@ -62,8 +62,6 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(question)
-
     updateQuestion(id, question).then(res => {
       reload()
       if (res.status == '200') {

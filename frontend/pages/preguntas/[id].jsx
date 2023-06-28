@@ -35,6 +35,7 @@ export const getServerSideProps = async (context) => {
 const questions = ({ id }) => {
   const [questions, setQuestions] = state([])
   const [evaluation, setEvaluation] = state([])
+  const [hideContent, setHideContent] = state(false)
   const contentReload = async () => {
     await getQuestions(id).then(res => {
       handleSortQuestions(res.data)
@@ -94,12 +95,13 @@ const questions = ({ id }) => {
   return (
     <>
       <Navbar />
-
       <Container maxW={"container.lg"}>
         <Stack h="2"></Stack>
         <HStack justifyContent="space-between" bgColor="#000080" borderTopRadius="20px" paddingInline="10" mb="2" h="12">
           <CreateQuestion id={id} reload={contentReload} length={questions?.length + 1} isEditable={evaluation?.isEditable} />
           <CanEditQuestion id={id} />
+          <CustomButton colorScheme="#000080" onClick={() => setHideContent(!hideContent)}>Ocultar respuestas</CustomButton>
+          <CustomButton colorScheme="#000080" onClick={() => router.push(`/preguntas/resultados/${id}`)}>Resultados</CustomButton>
         </HStack>
         {questions.map(((question, index) => (
           <>
@@ -110,7 +112,7 @@ const questions = ({ id }) => {
                     <Text fontSize='xl'>Pregunta {(index + 1)}: {question?.questionContext} {question?.questionName}</Text>
                   </CardHeader>
                   <hr />
-                  <CardBody>
+                  <CardBody hidden={hideContent} >
                     <Stack>
                       <Box fontSize="md">
                         <form id='form'>
@@ -139,11 +141,16 @@ const questions = ({ id }) => {
                   </CardBody>
                 </Stack>
                 <Stack paddingRight="25">
-                  <CustomButton colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></CustomButton>
-                  <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
-                  <DeleteOption refe='question' id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
-                  <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
-                  <CustomButton colorScheme='blue' onClick={() => handleDownPosition(question.questionPosition + 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowDownIcon /> </CustomButton>
+                  <Stack hidden={hideContent}>
+                    <CustomButton colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></CustomButton>
+                    <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
+                    <DeleteOption refe='question' id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
+                  </Stack>
+                  <Stack>
+                    <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
+                    <CustomButton colorScheme='blue' onClick={() => handleDownPosition(question.questionPosition + 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowDownIcon /> </CustomButton>
+                  </Stack>
+
                 </Stack>
               </HStack>
             </Card>
