@@ -49,15 +49,42 @@ const index = ({ id, data, product }) => {
   const { isOpen, onClose } = Disc({ defaultIsOpen: true })
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setAnswer({
-      ...answer,
-      answerUser: {
-        ...answer.answerUser,
-        [name]: value
+    const { value, id, type } = e.target
+
+    if (type == 'radio') {
+      setAnswer({
+        ...answer,
+        answerUser: [
+          id
+        ]
+      })
+    }
+    if (type == 'checkbox') {
+      const isSelected = answer.answerUser.includes(id)
+      if (isSelected) {
+        const updateOptions = answer.answerUser.filter(
+          (selected) => selected !== id
+        )
+        setAnswer({
+          ...answer,
+          answerUser: updateOptions
+        })
+      } else {
+        setAnswer({
+          ...answer,
+          answerUser: [
+            ...answer.answerUser,
+            id
+          ]
+        })
+
       }
-    })
+    }
+
   }
+
+
+  //console.log(answer)
   const updateAnswer = () => {
     const idQuestion = questions[page + 1]?._id
     setAnswer({
@@ -81,12 +108,16 @@ const index = ({ id, data, product }) => {
   }
 
   const handleSubmit = () => {
+    console.log(answer)
+    updateAnswer()
+    setPage(page + 1)
+    /*
     createAnswer(answer).then(res => {
       if (res.status == 200) {
         updateAnswer()
         setPage(page + 1)
       }
-    })
+    })*/
   }
   //Who want to respond
   const formUserData = () => {
@@ -193,7 +224,8 @@ const index = ({ id, data, product }) => {
             </Modal>
           </>
         ) : (
-          formUserData()
+          console.log("E")
+          //formUserData()
         )
       }
 
@@ -242,7 +274,7 @@ const index = ({ id, data, product }) => {
                         {questions[page]?.questionType === 'checkbox' && (
                           <>
                             <label>{(index + 1) + ')'} </label>
-                            <input type='checkbox' id={index} value={res.value} name={'answer' + index} onChange={handleChange}></input>
+                            <input type='checkbox' id={index} value={res.value} name='answer' onChange={handleChange}></input>
                             <label htmlFor={index}> {res.value}</label>
                           </>
                         )}

@@ -38,17 +38,17 @@ const questions = ({ id }) => {
   const [hideContent, setHideContent] = state(false)
   const contentReload = async () => {
     try {
-        const response = await getQuestions(id);
-        handleSortQuestions(response.data);
+      const response = await getQuestions(id);
+      handleSortQuestions(response.data);
     } catch (error) {
-        console.error("Error al obtener las preguntas:", error);
+      console.error("Error al obtener las preguntas:", error);
     }
-}
+  }
 
-const handleSortQuestions = (questions) => {
+  const handleSortQuestions = (questions) => {
     const sortedQuestions = [...questions].sort((a, b) => a.questionPosition - b.questionPosition);
     setQuestions(sortedQuestions);
-}
+  }
 
   const handleUpPosition = (newPosition, oldPosition) => {
     if (oldPosition > 0 && newPosition > 0) {
@@ -107,55 +107,55 @@ const handleSortQuestions = (questions) => {
           <CustomButton colorScheme="#000080" onClick={() => router.push(`/preguntas/resultados/${id}`)}>Resultados</CustomButton>
         </HStack>
         {questions.map(((question, index) => (
-            <Card key={question._id} mb="5" border='1px solid #000080'>
-              <HStack>
-                <Stack flex="80%">
-                  <CardHeader >
-                    <Text fontSize='xl'>Pregunta {(index + 1)}: {question?.questionContext} {question?.questionName}</Text>
-                  </CardHeader>
-                  <hr />
-                  <CardBody hidden={hideContent} >
-                    <Stack>
-                      <Box fontSize="md">
-                        <form id='form'>
-                          {question.questionOptions.map((res) => (
-                            <div key={res.name + res.value}>
-                              {question.questionType === 'radio' && (
-                                <>
-                                  <input type="radio" id={res.name} value={res.value} name='answer' />
-                                  <label htmlFor={res.name}> {res.value}</label>
-                                </>
-                              )}
-                              {question.questionType === 'text' && (
-                                <Input id={res?.name} type="text" />
-                              )}
-                              {question.questionType === 'checkbox' && (
-                                <div>
-                                  <input type="checkbox" id={res.name} value={res.value} name='answer' />
-                                  <label htmlFor={res.name}> {res.value} </label>
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </form>
-                      </Box>
-                    </Stack>
-                  </CardBody>
-                </Stack>
-                <Stack paddingRight="25">
-                  <Stack hidden={hideContent}>
-                    <CustomButton colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></CustomButton>
-                    <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
-                    <DeleteOption refe='question' id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
-                  </Stack>
+          <Card key={question._id} mb="5" border='1px solid #000080'>
+            <HStack>
+              <Stack flex="80%">
+                <CardHeader >
+                  <Text fontSize='xl'>Pregunta {(index + 1)}: {question?.questionContext} {question?.questionName}</Text>
+                </CardHeader>
+                <hr />
+                <CardBody hidden={hideContent} >
                   <Stack>
-                    <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
-                    <CustomButton colorScheme='blue' onClick={() => handleDownPosition(question.questionPosition + 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowDownIcon /> </CustomButton>
+                    <Box fontSize="md">
+                      <form id='form'>
+                        {question.questionOptions.map((res, index) => (
+                          <div key={'answer' + index}>
+                            {question.questionType === 'radio' && (
+                              <>
+                                <input type="radio" id={res.name} value={res.value} name='answer' />
+                                <label htmlFor={res.name}> {res.value}</label>
+                              </>
+                            )}
+                            {question.questionType === 'text' && (
+                              <Input id={res?.name} type="text" />
+                            )}
+                            {question.questionType === 'checkbox' && (
+                              <div>
+                                <input type="checkbox" id={res.name} value={res.value} name='answer' />
+                                <label htmlFor={res.name}> {res.value} </label>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </form>
+                    </Box>
                   </Stack>
-
+                </CardBody>
+              </Stack>
+              <Stack paddingRight="25">
+                <Stack hidden={hideContent}>
+                  <CustomButton colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></CustomButton>
+                  <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
+                  <DeleteOption refe='question' id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
                 </Stack>
-              </HStack>
-            </Card>
+                <Stack>
+                  <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
+                  <CustomButton colorScheme='blue' onClick={() => handleDownPosition(question.questionPosition + 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowDownIcon /> </CustomButton>
+                </Stack>
+
+              </Stack>
+            </HStack>
+          </Card>
         )))}
 
       </Container>

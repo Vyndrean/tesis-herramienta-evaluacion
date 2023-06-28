@@ -22,12 +22,11 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
     const { value } = e.target
     const updatedAnswer = [...answer]
     updatedAnswer[i] = { value }
-
     setAnswer(updatedAnswer)
     setQuestion(prevQuestion => ({
       ...prevQuestion,
       questionOptions: updatedAnswer
-    }));
+    }))
   }
   const handleChange = (e) => {
     const { name, value } = e.target
