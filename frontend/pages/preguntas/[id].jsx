@@ -37,15 +37,18 @@ const questions = ({ id }) => {
   const [evaluation, setEvaluation] = state([])
   const [hideContent, setHideContent] = state(false)
   const contentReload = async () => {
-    await getQuestions(id).then(res => {
-      handleSortQuestions(res.data)
-    })
-  }
+    try {
+        const response = await getQuestions(id);
+        handleSortQuestions(response.data);
+    } catch (error) {
+        console.error("Error al obtener las preguntas:", error);
+    }
+}
 
-  const handleSortQuestions = (questions) => {
-    const sortedQuestions = [...questions].sort((a, b) => a.questionPosition - b.questionPosition)
-    setQuestions(sortedQuestions)
-  }
+const handleSortQuestions = (questions) => {
+    const sortedQuestions = [...questions].sort((a, b) => a.questionPosition - b.questionPosition);
+    setQuestions(sortedQuestions);
+}
 
   const handleUpPosition = (newPosition, oldPosition) => {
     if (oldPosition > 0 && newPosition > 0) {
@@ -104,7 +107,6 @@ const questions = ({ id }) => {
           <CustomButton colorScheme="#000080" onClick={() => router.push(`/preguntas/resultados/${id}`)}>Resultados</CustomButton>
         </HStack>
         {questions.map(((question, index) => (
-          <>
             <Card key={question._id} mb="5" border='1px solid #000080'>
               <HStack>
                 <Stack flex="80%">
@@ -154,7 +156,6 @@ const questions = ({ id }) => {
                 </Stack>
               </HStack>
             </Card>
-          </>
         )))}
 
       </Container>

@@ -10,7 +10,13 @@ const getQuestionAnswer = (id) => {
     return res
 }
 
+const getAnswersByProduct = (data) => {
+    const res = axios.post(`${process.env.SERVIDOR}/answers/product`, data)
+    return res
+}
+
 module.exports = {
     createAnswer,
-    getQuestionAnswer
+    getQuestionAnswer,
+    getAnswersByProduct
 }

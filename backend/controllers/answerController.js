@@ -76,31 +76,31 @@ const updateAnswer = (req, res) => {
 }
 
 const getAnswersByProduct = (req, res) => {
-    const { idEvaluation, idProduct } = req.body;
+    const { idEvaluation, idProduct } = req.body
     Question.find({
         'evaluation': idEvaluation
     })
-    .populate('question')
-    .exec((err, questions) => {
-        if (err) {
-            return res.status(400).send({ message: "Error al mostrar las preguntas de la evaluacion" })
-        }
-        
-        const questionIds = questions.map(question => question._id);
-        
-        Answer.find({
-            'question': { $in: questionIds },
-            'product': idProduct
-        })
-        .populate('participant product')
-        .exec((err, answers) => {
+        .populate('question')
+        .exec((err, questions) => {
             if (err) {
-                return res.status(400).send({ message: "Error al mostrar las respuestas de la evaluacion" })
+                return res.status(400).send({ message: "Error al mostrar las preguntas de la evaluacion" })
             }
-            
-            return res.status(200).send(answers)
+
+            const questionIds = questions.map(question => question._id)
+
+            Answer.find({
+                'question': { $in: questionIds },
+                'product': idProduct
+            })
+                .populate('participant product question')
+                .exec((err, answers) => {
+                    if (err) {
+                        return res.status(400).send({ message: "Error al mostrar las respuestas de la evaluacion" })
+                    }
+
+                    return res.status(200).send(answers)
+                })
         })
-    })
 }
 
 
