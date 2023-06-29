@@ -88,7 +88,7 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
 
   return (
     <>
-      <CustomButton onClick={onOpen} colorScheme='yellow' my={"2"}> <EditIcon /> </CustomButton>
+      <CustomButton onClick={onOpen} colorScheme='yellow'> <EditIcon /> </CustomButton>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"container.md"}>

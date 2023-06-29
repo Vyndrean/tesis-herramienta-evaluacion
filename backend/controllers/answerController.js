@@ -92,7 +92,7 @@ const getAnswersByProduct = (req, res) => {
                 'question': { $in: questionIds },
                 'product': idProduct
             })
-                .populate('participant product question')
+                .populate('participant product')
                 .exec((err, answers) => {
                     if (err) {
                         return res.status(400).send({ message: "Error al mostrar las respuestas de la evaluacion" })

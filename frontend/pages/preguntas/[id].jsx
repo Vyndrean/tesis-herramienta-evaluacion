@@ -144,7 +144,6 @@ const questions = ({ id }) => {
               </Stack>
               <Stack paddingRight="25">
                 <Stack hidden={hideContent}>
-                  <CustomButton colorScheme='blue' onClick={() => router.push(`/preguntas/resultado/${question._id}`)}><ArrowRightIcon /></CustomButton>
                   <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
                   <DeleteOption refe='question' id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
                 </Stack>

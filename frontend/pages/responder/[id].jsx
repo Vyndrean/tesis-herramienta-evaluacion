@@ -48,9 +48,9 @@ const index = ({ id, data, product }) => {
   const toast = Toast()
   const { isOpen, onClose } = Disc({ defaultIsOpen: true })
 
+  //This is the most important part, this handle how the answer is send
   const handleChange = (e) => {
-    const { value, id, type } = e.target
-
+    const { id, type } = e.target
     if (type == 'radio') {
       setAnswer({
         ...answer,
@@ -80,11 +80,12 @@ const index = ({ id, data, product }) => {
 
       }
     }
+    
 
   }
 
 
-  //console.log(answer)
+  //
   const updateAnswer = () => {
     const idQuestion = questions[page + 1]?._id
     setAnswer({
@@ -108,16 +109,12 @@ const index = ({ id, data, product }) => {
   }
 
   const handleSubmit = () => {
-    console.log(answer)
-    updateAnswer()
-    setPage(page + 1)
-    /*
     createAnswer(answer).then(res => {
       if (res.status == 200) {
         updateAnswer()
         setPage(page + 1)
       }
-    })*/
+    })
   }
   //Who want to respond
   const formUserData = () => {
@@ -224,8 +221,7 @@ const index = ({ id, data, product }) => {
             </Modal>
           </>
         ) : (
-          console.log("E")
-          //formUserData()
+          formUserData()
         )
       }
 
