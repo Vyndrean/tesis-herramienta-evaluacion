@@ -40,14 +40,43 @@ const resultados = ({ id }) => {
     const bringThoseChosen = (e) => {
         e.preventDefault()
         getAnswersByProduct(theChosenOne).then(res => {
-            setAnswers(res.data)
+            const newAnswer = groupedData(res.data, 'question')
+            console.log(newAnswer)
+            setAnswers(newAnswer)
         })
     }
 
-    const contentReload = async () => {
-        await getQuestions(id).then(res => {
-            handleSortQuestions(res.data)
-        })
+    const groupedData = (data, key) => {
+        return data.reduce((result, obj) => {
+            const keyValue = obj[key]
+
+            if (!result[keyValue]) {
+                result[keyValue] = []
+            }
+
+            result[keyValue].push(obj)
+
+            return result
+        }, {})
+    }
+
+    const handleResult = (index, idQuestion, data) => {
+        let score = 0
+        if(data){
+            data.map(res => {
+                res.answerUser.map(answer => {
+                    if(answer == index){
+                        score+=1
+                    }
+                })
+            })
+            console.log("\n")
+        }
+
+
+        return (
+            <Text>{score}</Text>
+        )
     }
 
     const handleSortQuestions = (questions) => {
@@ -95,19 +124,27 @@ const resultados = ({ id }) => {
                     <CustomButton colorScheme="#000080" onClick={() => router.back()}>Regresar</CustomButton>
                 </HStack>
 
-                {answers.map(((answer, index) => (
-                    <Card key={answer._id} mb="5" border='1px solid #000080'>
-                        {console.log(answer)}
+                {questions.map(((question, index) => (
+                    <Card key={question._id} mb="5" border='1px solid #000080'>
                         <HStack>
                             <Stack flex="80%">
                                 <CardHeader >
-                                    <Text fontSize='xl'>Pregunta {(index + 1)}: {answer.question.questionName} </Text>
+                                    <Text fontSize='xl'>Pregunta {(index + 1)}: {question.questionName} </Text>
                                 </CardHeader>
                                 <hr />
                                 <CardBody >
                                     <Stack>
                                         <Box fontSize="md">
-
+                                            {question.questionOptions.map((res, index) => {
+                                                return (
+                                                    <div key={index}>
+                                                        <HStack>
+                                                            <Text>{(index) + ")"} {res.value}</Text>
+                                                            {handleResult(index, question._id, answers[question._id])}
+                                                        </HStack>
+                                                    </div>
+                                                )
+                                            })}
                                         </Box>
                                     </Stack>
                                 </CardBody>
