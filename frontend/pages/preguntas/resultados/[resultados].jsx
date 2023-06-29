@@ -41,7 +41,6 @@ const resultados = ({ id }) => {
         e.preventDefault()
         getAnswersByProduct(theChosenOne).then(res => {
             const newAnswer = groupedData(res.data, 'question')
-            console.log(newAnswer)
             setAnswers(newAnswer)
         })
     }
@@ -60,23 +59,21 @@ const resultados = ({ id }) => {
         }, {})
     }
 
-    const handleResult = (index, idQuestion, data) => {
+    const handleResult = (index, data) => {
         let score = 0
-        if(data){
+        if (data) {
             data.map(res => {
                 res.answerUser.map(answer => {
-                    if(answer == index){
-                        score+=1
+                    if (answer == index) {
+                        score += 1
                     }
                 })
             })
-            console.log("\n")
+            return (
+                <Text>{score} puntos</Text>
+            )
         }
 
-
-        return (
-            <Text>{score}</Text>
-        )
     }
 
     const handleSortQuestions = (questions) => {
@@ -133,20 +130,26 @@ const resultados = ({ id }) => {
                                 </CardHeader>
                                 <hr />
                                 <CardBody >
-                                    <Stack>
-                                        <Box fontSize="md">
-                                            {question.questionOptions.map((res, index) => {
-                                                return (
-                                                    <div key={index}>
-                                                        <HStack>
-                                                            <Text>{(index) + ")"} {res.value}</Text>
-                                                            {handleResult(index, question._id, answers[question._id])}
-                                                        </HStack>
-                                                    </div>
-                                                )
-                                            })}
-                                        </Box>
-                                    </Stack>
+                                    <HStack>
+                                        <Stack flex="50%">
+                                            <Text>Total de respuestas de registradas {answers[question._id]?.length || 0}</Text>
+                                            <Box fontSize="md">
+                                                {question.questionOptions.map((res, index) => {
+                                                    return (
+                                                        <div key={index}>
+                                                            <HStack>
+                                                                <Text>Respuesta {res.value}:</Text>
+                                                                {handleResult(index, answers[question._id])}
+                                                            </HStack>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </Box>
+                                        </Stack>
+                                        <Stack flex="50%">
+
+                                        </Stack>
+                                    </HStack>
                                 </CardBody>
                             </Stack>
                         </HStack>
