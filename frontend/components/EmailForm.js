@@ -5,15 +5,22 @@ import { sendEmail } from '@/data/mail'
 import { updateEvaluation } from '@/data/evaluations'
 import { getProducts } from '@/data/product'
 import CustomButton from '@/styles/customButton'
+import InputForm from './InputForm'
+import moment from 'moment'
+import { createEvaPro } from '@/data/evaPro'
 
 const EmailForm = ({ data }) => {
   const [product, setProduct] = state([])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
+  const currentDate = moment().format().substring(0, 10)
   const [email, setEmail] = state({
     subject: data.title,
     content: "Estimado/a,\n\n" + data?.introduction +
       "\n\nAccesible mediante el siguiente enlace "
+  })
+  const [toEvaluate, setToEvaluate] = state({
+    evaluation: data._id
   })
   const handleChangeEmail = (e) => {
     const { value } = e.target
@@ -22,28 +29,56 @@ const EmailForm = ({ data }) => {
       ...email,
       'destinatary': emailList,
     })
+    setToEvaluate({
+      ...toEvaluate,
+      'emails': emailList
+    })
   }
   const handleChange = (e) => {
-    const { value } = e.target
+    const { name, value } = e.target
     setEmail({
       ...email,
       'link': `/responder/${data._id}?product=${value}`
     })
+    setToEvaluate({
+      ...toEvaluate,
+      [name]: value
+    })
   }
+
+  const handleEvaluationChange = (e) => {
+    const { name, value } = e.target
+    setToEvaluate({
+      ...toEvaluate,
+      [name]: value
+    })
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    sendEmail(email).then(res => {
-      if (res.status == 200) {
-        updateEvaluation(data._id, { status: 'send' })
-        toast({
-          title: 'Enviado correctamente',
-          status: 'success',
-          duration: 5000,
-          isClosable: true
+    sendEmail(email).then(eva => {
+      if (eva.status == 200) {
+        createEvaPro(toEvaluate).then(res => {
+          if (res.status == 200) {
+            updateEvaluation(data._id, { status: 'send' })
+            toast({
+              title: 'Enviado correctamente',
+              status: 'success',
+              duration: 5000,
+              isClosable: true
+            })
+            onClose()
+          }
         })
-        onClose()
       }
     })
+
+  }
+
+  const startDateStatus = () => {
+    if (toEvaluate.start_date) {
+      return <InputForm name="end_date" type="date" handleChange={handleEvaluationChange} label="Fecha de termino" isRequired={true} min={toEvaluate?.start_date?.substring(0, 10)} />
+    }
   }
 
   effect(() => {
@@ -93,6 +128,10 @@ const EmailForm = ({ data }) => {
                 <Textarea name='destinatary' onChange={handleChangeEmail} isRequired></Textarea>
                 <FormHelperText textAlign="center">Para ingresar múltiples correos estos deben ser separados por una coma</FormHelperText>
               </FormControl>
+              <HStack>
+                <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleEvaluationChange} label="Fecha de inicio" isRequired={true} min={currentDate} />
+                {startDateStatus()}
+              </HStack>
             </ModalBody>
             <HStack justifyContent="space-between" marginBlock="5" marginInline="10">
               <CustomButton borderRadius="17" h="9" colorScheme='green' type='submit'>Enviar</CustomButton>
