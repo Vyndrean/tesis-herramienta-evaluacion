@@ -24,7 +24,7 @@ export const getServerSideProps = async (context) => {
     } else {
       return {
         redirect: {
-          destination: "/error",
+          destination: "/responder/error",
           permanent: false
         }
       }
@@ -32,7 +32,7 @@ export const getServerSideProps = async (context) => {
   } catch (error) {
     return {
       redirect: {
-        destination: "/error",
+        destination: "/responder/error",
         permanent: false
       }
     }

@@ -25,7 +25,6 @@ export const getServerSideProps = async (context) => {
 }
 
 const inicio = ({data}) => {
-  console.log(data)
   return (
     <>
       <Navbar />
