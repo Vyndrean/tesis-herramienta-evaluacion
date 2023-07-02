@@ -147,9 +147,9 @@ const questions = ({ id }) => {
                   <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
                   <DeleteOption refe='question' id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
                 </Stack>
-                <Stack>
-                  <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
-                  <CustomButton colorScheme='blue' onClick={() => handleDownPosition(question.questionPosition + 1, question.questionPosition)} hidden={evaluation?.isEditable}> <ArrowDownIcon /> </CustomButton>
+                <Stack hidden={evaluation?.isEditable}>
+                  <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} isDisabled={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
+                  <CustomButton colorScheme='blue' onClick={() => handleDownPosition(question.questionPosition + 1, question.questionPosition)} isDisabled={evaluation?.isEditable}> <ArrowDownIcon /> </CustomButton>
                 </Stack>
 
               </Stack>
