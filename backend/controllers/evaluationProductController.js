@@ -58,9 +58,27 @@ const deleteEvaluationProduct = (req, res) => {
     })
 }
 
+const validateEvaluationProduct = (req, res) => {
+    const { evaluation, product } = req.body
+    EvaluationProduct.findOne({
+        evaluation,
+        product
+    })
+        .exec((err, evaPro) => {
+            if (err) {
+                return res.status(400).send({ message: "Error al validar" })
+            }
+            if(!evaPro){
+                return res.status(404).send({message: "Error al validar"})
+            }
+            return res.status(200).send(evaPro)
+        })
+}
+
 module.exports = {
     createEvaluationProduct,
     getEvaluationProduct,
     getEvaluationProducts,
-    deleteEvaluationProduct
+    deleteEvaluationProduct,
+    validateEvaluationProduct
 }

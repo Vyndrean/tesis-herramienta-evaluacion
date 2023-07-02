@@ -6,5 +6,6 @@ api.post('/evaPro', evaluationProduct.createEvaluationProduct)
 api.get('/evaPros', evaluationProduct.getEvaluationProducts)
 api.get('/evaPro/search/:id', evaluationProduct.getEvaluationProduct)
 api.delete('/evaPro/delete/:id', evaluationProduct.deleteEvaluationProduct)
+api.post('/validate/evaPro', evaluationProduct.validateEvaluationProduct)
 
 module.exports = api

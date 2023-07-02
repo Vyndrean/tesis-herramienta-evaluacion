@@ -5,6 +5,12 @@ const createEvaPro = (data) => {
     return res
 }
 
+const validateEvaPro = (data) => {
+    const res = axios.post(`${process.env.SERVIDOR}/validate/evaPro`, data)
+    return res
+}
+
 module.exports = {
-    createEvaPro
+    createEvaPro,
+    validateEvaPro
 }

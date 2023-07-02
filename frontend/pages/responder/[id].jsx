@@ -8,17 +8,24 @@ import { createParticipant } from '@/data/participant'
 import { createAnswer } from '@/data/answer'
 import { getProduct } from '@/data/product'
 import CustomButton from '@/styles/customButton'
-
+import { validateEvaPro } from '@/data/evaPro'
+import Cookie from "js-cookie"
+import moment from 'moment'
 export const getServerSideProps = async (context) => {
   try {
     const res = await getEvaluation(context.query.id)
     const product = await getProduct(context.query.product)
-    if (product.status == 200) {
+    const validate = await validateEvaPro({
+      'evaluation': context.query.id,
+      'product': context.query.product
+    })
+    if (validate.status == 200) {
       return {
         props: {
           id: context.query.id,
           data: res.data,
-          product: product.data
+          product: product.data,
+          end: validate.data.end_date
         }
       }
     } else {
@@ -39,7 +46,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const index = ({ id, data, product }) => {
+const index = ({ id, data, product, end }) => {
   const [questions, setQuestions] = state([])
   const [evaluation, setEvaluation] = state(data)
   const [page, setPage] = state(-1)
@@ -80,7 +87,7 @@ const index = ({ id, data, product }) => {
 
       }
     }
-    
+
 
   }
 
@@ -116,6 +123,20 @@ const index = ({ id, data, product }) => {
       }
     })
   }
+
+  const formatDate = (date) => {
+    const newFormat = moment(date.substring(0, 10)).format(`DD-MM-YYYY`)
+    return newFormat
+  }
+  console.log(formatDate(end))
+
+  const handleEndEvaluation = () => {
+    const end_date = formatDate(end);
+    Cookie.set("evaluation", true, { expires: new Date(end_date) })
+    router.push('/responder/terminado')
+  }
+
+
   //Who want to respond
   const formUserData = () => {
     const handleUserData = (e) => {
@@ -185,6 +206,12 @@ const index = ({ id, data, product }) => {
   }
 
   effect(() => {
+    const alreadyHere = Cookie.get('evaluation')
+    console.log(alreadyHere)
+    if (alreadyHere) {
+      console.log("HEY")
+      router.replace('/responder/terminado')
+    }
     getQuestions(id).then(res => {
       handleSortQuestions(res.data)
     })
@@ -289,7 +316,9 @@ const index = ({ id, data, product }) => {
             </CardHeader>
             <CardBody textAlign='center' >
               <Heading size='sm' fontFamily='serif' fontSize='xl'>¡Gracias por su participacíon!<br />Esperamos verte pronto en futuras evaluaciones y no olvide enviar su respuesta</Heading>
-              <CustomButton colorScheme='yellow' mt="50">Enviar respuestas</CustomButton>
+              <CustomButton colorScheme='yellow' mt="50" onClick={
+                () => handleEndEvaluation()
+              }>Enviar respuestas</CustomButton>
             </CardBody>
           </>
         )}
