@@ -1,9 +1,9 @@
 FROM node:18.16.0
 WORKDIR /usr/src/app
 COPY package*.json ./
+RUN npm update
+RUN npm upgrade
 RUN npm install
 COPY . .
-EXPOSE 80
+EXPOSE 3001
 CMD [ "npm", "start"]
-
-
