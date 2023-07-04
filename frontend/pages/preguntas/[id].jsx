@@ -2,9 +2,9 @@ import React, { useEffect as effect, useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Container, HStack, useToast as Toast, Input, Card, CardHeader, Heading, CardBody, Stack, Box, Text, Radio } from '@chakra-ui/react'
+import { Container, HStack, Input, Card, CardHeader,  CardBody, Stack, Box, Text } from '@chakra-ui/react'
 import { getQuestions, updateQuestion } from '@/data/question'
-import { ArrowDownIcon, ArrowRightIcon, ArrowUpIcon } from '@chakra-ui/icons'
+import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import CreateQuestion from '@/components/CreateQuestion'
 import DeleteOption from '@/components/DeleteOption'
 import UpdateQuestion from '@/components/UpdateQuestion'
@@ -104,7 +104,7 @@ const questions = ({ id }) => {
           <CreateQuestion id={id} reload={contentReload} length={questions?.length + 1} isEditable={evaluation?.isEditable} />
           <CanEditQuestion id={id} />
           <CustomButton colorScheme="#000080" onClick={() => setHideContent(!hideContent)}>Ocultar respuestas</CustomButton>
-          <CustomButton colorScheme="#000080" onClick={() => router.push(`/preguntas/resultados/${id}`)}>Resultados</CustomButton>
+          <CustomButton colorScheme="#000080" onClick={() => router.push(`/preguntas/resultados/${id}`)} isDisabled={!evaluation?.isEditable}>Resultados</CustomButton>
         </HStack>
         {questions.map(((question, index) => (
           <Card key={question._id} mb="5" border='1px solid #000080'>
@@ -151,7 +151,6 @@ const questions = ({ id }) => {
                   <CustomButton colorScheme='blue' onClick={() => handleUpPosition(question.questionPosition - 1, question.questionPosition)} isDisabled={evaluation?.isEditable}> <ArrowUpIcon /> </CustomButton>
                   <CustomButton colorScheme='blue' onClick={() => handleDownPosition(question.questionPosition + 1, question.questionPosition)} isDisabled={evaluation?.isEditable}> <ArrowDownIcon /> </CustomButton>
                 </Stack>
-
               </Stack>
             </HStack>
           </Card>

@@ -103,7 +103,22 @@ const getAnswersByProduct = (req, res) => {
         })
 }
 
-
+const getAnswerByQuestion = (req, res) => {
+    const { idQuestion, idProduct } = req.body
+    Answer.find({
+        'question': idQuestion,
+        'product': idProduct
+    })
+    .exec((err, answer) => {
+        if(err){
+            return res.status(400).send({message: "Error al mostrar las respuestas de la pregunta"})
+        }
+        if(!idQuestion){
+            return res.status(404).send({message: "Error al mostrar las respuestas, no la pregunta no existe"})
+        }
+        return res.status(200).send(answer)
+    })
+}
 
 module.exports = {
     createAnswer,
@@ -111,5 +126,6 @@ module.exports = {
     deleteAnswer,
     getAnswer,
     updateAnswer,
-    getAnswersByProduct
+    getAnswersByProduct,
+    getAnswerByQuestion
 }

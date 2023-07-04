@@ -7,6 +7,7 @@ import { getQuestions } from '@/data/question'
 import CustomButton from '@/styles/customButton'
 import { getProducts } from '@/data/product'
 import { getAnswersByProduct } from '@/data/answer'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -35,26 +36,26 @@ const resultados = ({ id }) => {
         idEvaluation: id,
         idProduct: ''
     })
+    const [selected, setSelected] = state(true)
     const [answers, setAnswers] = state([])
-
+    const [scores, setScores] = state([])
     const bringThoseChosen = (e) => {
         e.preventDefault()
         getAnswersByProduct(theChosenOne).then(res => {
             const newAnswer = groupedData(res.data, 'question')
             setAnswers(newAnswer)
+            setSelected(false)
         })
     }
 
+    //This function create a collection of answer by question id
     const groupedData = (data, key) => {
         return data.reduce((result, obj) => {
             const keyValue = obj[key]
-
             if (!result[keyValue]) {
                 result[keyValue] = []
             }
-
             result[keyValue].push(obj)
-
             return result
         }, {})
     }
@@ -69,11 +70,8 @@ const resultados = ({ id }) => {
                     }
                 })
             })
-            return (
-                <Text>{score} puntos</Text>
-            )
+            return score
         }
-
     }
 
     const handleSortQuestions = (questions) => {
@@ -89,6 +87,18 @@ const resultados = ({ id }) => {
         })
     }
 
+    const handleAverage = (data, length, dec) => {
+        if (length == 0) {
+            return 0
+        }
+        if (data && length) {
+            const average = (data / length) * 100
+            const newAverage = Math.floor(average)
+            return newAverage
+        }
+        return 0
+    }
+
     effect(() => {
         getQuestions(id).then(res => {
             handleSortQuestions(res.data)
@@ -97,6 +107,18 @@ const resultados = ({ id }) => {
             setProduct(res.data)
         })
     }, [])
+
+    effect(() => {
+        const newScores = questions.map(question => {
+            const newScore = question.questionOptions.map((_res, i) => handleResult(i, answers[question._id]))
+            return newScore
+        })
+        setScores({
+            ...scores,
+            newScores
+        })
+    }, [answers, questions])
+
     return (
         <>
             <Navbar />
@@ -110,11 +132,10 @@ const resultados = ({ id }) => {
                                 <Select name='idProduct' placeholder='Seleccione...' isRequired bgColor='white' w="40" maxW="60" onChange={handleChange}>
                                     {
                                         product.map((res) => (
-                                            <option value={res._id} key={res._id}>{res.name}</option>
+                                            <option value={res._id} key={res._id} onClick={bringThoseChosen}>{res.name}</option>
                                         ))
                                     }
                                 </Select>
-                                <CustomButton colorScheme="#000080" type="submit">Resultados</CustomButton>
                             </HStack>
                         </form>
                     </FormControl>
@@ -124,33 +145,37 @@ const resultados = ({ id }) => {
                 {questions.map(((question, index) => (
                     <Card key={question._id} mb="5" border='1px solid #000080'>
                         <HStack>
-                            <Stack flex="80%">
+                            <Stack flex="50%">
                                 <CardHeader >
                                     <Text fontSize='xl'>Pregunta {(index + 1)}: {question.questionName} </Text>
                                 </CardHeader>
                                 <hr />
                                 <CardBody >
                                     <HStack>
-                                        <Stack flex="50%">
-                                            <Text>Total de respuestas de registradas {answers[question._id]?.length || 0}</Text>
+                                        <Stack flex="80%">
+                                            <Text>Total de respuestas {answers[question._id]?.length || 'N/A'}</Text>
                                             <Box fontSize="md">
-                                                {question.questionOptions.map((res, index) => {
+                                                {question.questionOptions.map((res, i) => {
                                                     return (
-                                                        <div key={index}>
+                                                        <div key={i}>
                                                             <HStack>
-                                                                <Text>Respuesta {res.value}:</Text>
-                                                                {handleResult(index, answers[question._id])}
+                                                                <Text>Respuesta {i + 1}: {res.value} - </Text>
+                                                                <Text>{scores?.newScores[index]?.[i] || 0}</Text>
                                                             </HStack>
                                                         </div>
                                                     )
                                                 })}
                                             </Box>
                                         </Stack>
-                                        <Stack flex="50%">
-
+                                        <Stack hidden={true}>
+                                            <Text>{question._id}</Text>
+                                            <CustomButton onClick={() => console.log(scores.newScores[question.questionPosition - 1])}>TEST</CustomButton>
                                         </Stack>
                                     </HStack>
                                 </CardBody>
+                            </Stack>
+                            <Stack flex="50%">
+
                             </Stack>
                         </HStack>
                     </Card>
