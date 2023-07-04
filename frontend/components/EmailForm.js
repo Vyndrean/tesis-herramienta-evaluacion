@@ -1,5 +1,5 @@
-import { EmailIcon, InfoIcon } from '@chakra-ui/icons'
-import { Button, FormControl, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Textarea, useDisclosure, useToast as Toast, FormHelperText, Select } from '@chakra-ui/react'
+import { EmailIcon} from '@chakra-ui/icons'
+import { FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Textarea, useDisclosure, useToast as Toast, FormHelperText, Select } from '@chakra-ui/react'
 import React, { useState as state, useEffect as effect } from 'react'
 import { sendEmail } from '@/data/mail'
 import { updateEvaluation } from '@/data/evaluations'

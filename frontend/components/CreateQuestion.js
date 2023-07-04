@@ -3,7 +3,6 @@ import React, { useState as state } from 'react'
 import InputForm from '@/components/InputForm'
 import { createQuestion } from '@/data/question'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
-import router from 'next/router'
 import CustomButton from '@/styles/customButton'
 
 const CreateQuestion = ({ id, reload, length, isEditable }) => {

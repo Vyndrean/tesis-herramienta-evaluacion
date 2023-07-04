@@ -3,7 +3,6 @@ import { Box, Container, Flex, Heading, Stack } from '@chakra-ui/layout'
 import { FormControl, FormLabel } from '@chakra-ui/form-control'
 import { Input } from '@chakra-ui/input'
 import { Avatar } from '@chakra-ui/avatar'
-import { Button } from '@chakra-ui/button'
 import { login, checkToken } from "../data/login"
 import Cookie from "js-cookie"
 import router from 'next/router'

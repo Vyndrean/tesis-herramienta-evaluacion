@@ -1,5 +1,5 @@
 import { DeleteIcon } from '@chakra-ui/icons'
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogHeader, AlertDialogOverlay, Button, HStack, useDisclosure, useToast as Toast } from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogHeader, AlertDialogOverlay, HStack, useDisclosure, useToast as Toast } from '@chakra-ui/react'
 import React from 'react'
 import { deleteByRef } from '@/data/evaluations'
 import CustomButton from '@/styles/customButton'

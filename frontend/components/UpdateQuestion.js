@@ -1,9 +1,8 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast as Toast, Stack, FormControl, FormLabel, Select, HStack, Input, Textarea } from '@chakra-ui/react'
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalOverlay, useDisclosure, useToast as Toast, Stack, FormControl, FormLabel, Select, HStack, Input, Textarea } from '@chakra-ui/react'
 import React, { useState as state, useEffect as effect } from 'react'
 import InputForm from '@/components/InputForm'
 import { updateQuestion, searchQuestion, searchOptions } from '@/data/question'
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
-import router from 'next/router'
 import CustomButton from '@/styles/customButton'
 
 
@@ -97,7 +96,7 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
             <form onSubmit={handleSubmit} id='form'>
               <Stack spacing={4} my={5} justify={"center"}>
                 <HStack>
-                  <InputForm name="questionName" type="text" placeholder="Escribe la pregunta aqui" handleChange={handleChange} label="Pregunta" isRequired={true} value={question.questionName}/>
+                  <InputForm name="questionName" type="text" placeholder="Escribe la pregunta aqui" handleChange={handleChange} label="Pregunta" isRequired={true} value={question.questionName} />
                   <FormControl isDisabled={isEditable}>
                     <FormLabel>Tipo de pregunta</FormLabel>
                     <Select name='questionType' onChange={handleChange} placeholder='...' required value={question.questionType}>

@@ -1,8 +1,7 @@
 import React from 'react'
-import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Container, Heading, List, ListItem, OrderedList, Stack, Text } from '@chakra-ui/react'
+import { Container, Heading, ListItem, OrderedList, Stack, Text } from '@chakra-ui/react'
 
 export const getServerSideProps = async (context) => {
   try {

@@ -1,7 +1,7 @@
 import React, { useEffect as effect, useState as state } from 'react'
 import { getQuestions } from '@/data/question'
 import { getEvaluation } from '@/data/evaluations'
-import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Button, useToast as Toast, Input, FormLabel, useDisclosure as Disc, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react'
+import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Input, FormLabel, useDisclosure as Disc, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, FormControl, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react'
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 import { createParticipant } from '@/data/participant'
@@ -11,6 +11,7 @@ import CustomButton from '@/styles/customButton'
 import { validateEvaPro } from '@/data/evaPro'
 import Cookie from "js-cookie"
 import moment from 'moment'
+
 export const getServerSideProps = async (context) => {
   try {
     const res = await getEvaluation(context.query.id)
@@ -48,11 +49,10 @@ export const getServerSideProps = async (context) => {
 
 const index = ({ id, data, product, end }) => {
   const [questions, setQuestions] = state([])
-  const [evaluation, setEvaluation] = state(data)
+  const [evaluation] = state(data)
   const [page, setPage] = state(-1)
   const [answer, setAnswer] = state([])
   const [userData, setUserData] = state([])
-  const toast = Toast()
   const { isOpen, onClose } = Disc({ defaultIsOpen: true })
 
   //This is the most important part, this handle how the answer is send
@@ -84,11 +84,8 @@ const index = ({ id, data, product, end }) => {
             id
           ]
         })
-
       }
     }
-
-
   }
 
 
@@ -128,7 +125,6 @@ const index = ({ id, data, product, end }) => {
     const newFormat = moment(date.substring(0, 10)).format(`DD-MM-YYYY`)
     return newFormat
   }
-  console.log(formatDate(end))
 
   const handleEndEvaluation = () => {
     const end_date = formatDate(end);

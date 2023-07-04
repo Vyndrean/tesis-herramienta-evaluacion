@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar'
 import React, { useState as state, useEffect as effect } from 'react'
 import { checkToken } from '@/data/login'
-import { Badge, Button, Container, HStack, Heading, IconButton, List, ListItem, Stack, Text } from '@chakra-ui/react'
+import { Badge, Container, HStack, Heading, List, ListItem, Stack, Text } from '@chakra-ui/react'
 import { getEvaluations } from '@/data/evaluations'
 import DataTable from 'react-data-table-component'
 import router from 'next/router'

@@ -1,18 +1,5 @@
 import React from 'react'
-import router from 'next/router'
-import { checkToken } from '@/data/login'
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Center, Container, Heading, Text } from '@chakra-ui/react'
-
-export const getServerSideProps = async (context) => {
-    try {
-        return {
-            props: {}
-        }
-    } catch (error) {
-        return {
-        }
-    }
-}
+import { Box, Center, Container, Heading, Text } from '@chakra-ui/react'
 
 const evaluation_error = () => {
     return (

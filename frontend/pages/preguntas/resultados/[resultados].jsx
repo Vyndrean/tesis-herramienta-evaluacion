@@ -7,7 +7,6 @@ import { getQuestions } from '@/data/question'
 import CustomButton from '@/styles/customButton'
 import { getProducts } from '@/data/product'
 import { getAnswersByProduct } from '@/data/answer'
-import { ExternalLinkIcon } from '@chakra-ui/icons'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -36,7 +35,6 @@ const resultados = ({ id }) => {
         idEvaluation: id,
         idProduct: ''
     })
-    const [selected, setSelected] = state(true)
     const [answers, setAnswers] = state([])
     const [scores, setScores] = state([])
     const bringThoseChosen = (e) => {
@@ -44,7 +42,6 @@ const resultados = ({ id }) => {
         getAnswersByProduct(theChosenOne).then(res => {
             const newAnswer = groupedData(res.data, 'question')
             setAnswers(newAnswer)
-            setSelected(false)
         })
     }
 

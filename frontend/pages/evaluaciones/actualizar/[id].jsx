@@ -1,11 +1,10 @@
-import React, { useEffect as effect, useState as state } from 'react'
+import React, { useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Button, Container, FormControl, FormLabel, HStack, Heading, Input, Stack, Text, Textarea, useToast as Toast } from '@chakra-ui/react'
+import { Container, FormControl, FormLabel, HStack, Heading, Stack, Textarea, useToast as Toast } from '@chakra-ui/react'
 import { getEvaluation, updateEvaluation } from '@/data/evaluations'
 import InputForm from '@/components/InputForm'
-import moment from 'moment'
 import CustomButton from '@/styles/customButton'
 
 export const getServerSideProps = async (context) => {

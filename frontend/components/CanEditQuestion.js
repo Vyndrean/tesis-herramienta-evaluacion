@@ -1,8 +1,7 @@
 import React, { useState as state, useEffect as effect } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
-import Navbar from '@/components/Navbar'
-import { Container, Text, useDisclosure, useToast as Toast, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalBody, ModalHeader, ModalContextProvider, ModalFooter, Stack, Button, HStack } from '@chakra-ui/react'
+import { Text, useDisclosure, useToast as Toast, Modal, ModalOverlay, ModalContent, ModalCloseButton, ModalBody, ModalHeader, ModalFooter } from '@chakra-ui/react'
 import CustomButton from '@/styles/customButton'
 import { getEvaluation, updateEvaluation } from '@/data/evaluations'
 

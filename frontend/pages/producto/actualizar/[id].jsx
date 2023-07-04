@@ -2,7 +2,7 @@ import React, { useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Alert, AlertIcon, Button, Container, FormControl, FormHelperText, FormLabel, HStack, Input, Stack, Text, Textarea, useToast as Toast } from '@chakra-ui/react'
+import { Container, FormControl, FormLabel, HStack, Input, Stack, Textarea, useToast as Toast } from '@chakra-ui/react'
 import { getProduct, updateProduct } from '@/data/product'
 import CustomButton from '@/styles/customButton'
 
