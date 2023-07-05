@@ -84,16 +84,27 @@ const resultados = ({ id }) => {
         })
     }
 
-    const handleAverage = (data, length, dec) => {
+    const handleAverage = (data, length, questionName, questionOptions) => {
         if (length == 0) {
-            return 0
+            return 'Sin resultado'
         }
+        let maxR = 0
+        let maxP = 0
         if (data && length) {
-            const average = (data / length) * 100
-            const newAverage = Math.floor(average)
-            return newAverage
+            data.map((answer, index) => {
+                const average = (answer / length) * 100
+                const newAverage = Math.floor(average)
+                if (newAverage > maxR) {
+                    maxR = newAverage
+                    maxP = index
+                }
+                return maxR
+            })
+
+            return (
+                <Text>De acuerdo con los datos recopilados de todos los participantes, el {maxR}% ha elegido la respuesta {maxP + 1} como la opción preferida. Estos resultados sugieren que '{questionName}' se ha considerado {questionOptions[maxP].value}</Text>
+            )
         }
-        return 0
     }
 
     effect(() => {
@@ -107,7 +118,9 @@ const resultados = ({ id }) => {
 
     effect(() => {
         const newScores = questions.map(question => {
-            const newScore = question.questionOptions.map((_res, i) => handleResult(i, answers[question._id]))
+            const newScore = question.questionOptions.map((_res, i) => (
+                handleResult(i, answers[question._id])
+            ))
             return newScore
         })
         setScores({
@@ -138,7 +151,7 @@ const resultados = ({ id }) => {
                     </FormControl>
                     <CustomButton colorScheme="#000080" onClick={() => router.back()}>Regresar</CustomButton>
                 </HStack>
-
+                                    
                 {questions.map(((question, index) => (
                     <Card key={question._id} mb="5" border='1px solid #000080'>
                         <HStack>
@@ -172,7 +185,13 @@ const resultados = ({ id }) => {
                                 </CardBody>
                             </Stack>
                             <Stack flex="50%">
+                                <CardHeader>
 
+                                </CardHeader>
+                                <hr/>
+                                <CardBody>
+                                    {handleAverage(scores?.newScores[index], answers[question._id]?.length, question.questionName, question.questionOptions)}
+                                </CardBody>
                             </Stack>
                         </HStack>
                     </Card>
