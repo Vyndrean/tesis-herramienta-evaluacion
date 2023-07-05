@@ -102,7 +102,7 @@ const resultados = ({ id }) => {
             })
 
             return (
-                <Text>De acuerdo con los datos recopilados de todos los participantes, el {maxR}% ha elegido la respuesta {maxP + 1} como la opción preferida. Estos resultados sugieren que '{questionName}' se ha considerado {questionOptions[maxP].value}</Text>
+                <Text>De acuerdo con los datos recopilados de todos los participantes, el {maxR}% ha elegido la respuesta {maxP + 1} como la opción preferida. Estos resultados sugieren que {questionName} se ha considerado {questionOptions[maxP].value}</Text>
             )
         }
     }
