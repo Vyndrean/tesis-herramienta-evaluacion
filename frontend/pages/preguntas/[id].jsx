@@ -2,7 +2,7 @@ import React, { useEffect as effect, useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Container, HStack, Input, Card, CardHeader,  CardBody, Stack, Box, Text } from '@chakra-ui/react'
+import { Container, HStack, Input, Card, CardHeader, CardBody, Stack, Box, Text } from '@chakra-ui/react'
 import { getQuestions, updateQuestion } from '@/data/question'
 import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import CreateQuestion from '@/components/CreateQuestion'
@@ -11,6 +11,8 @@ import UpdateQuestion from '@/components/UpdateQuestion'
 import CanEditQuestion from '@/components/CanEditQuestion'
 import { getEvaluation } from '@/data/evaluations'
 import CustomButton from '@/styles/customButton'
+import axios from 'axios'
+import ToPDF from '@/util/ToPDF'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -86,6 +88,8 @@ const questions = ({ id }) => {
       })
     }
   }
+
+
 
   effect(() => {
     getQuestions(id).then(res => {

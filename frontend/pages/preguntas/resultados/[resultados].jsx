@@ -151,25 +151,25 @@ const resultados = ({ id }) => {
                     </FormControl>
                     <CustomButton colorScheme="#000080" onClick={() => router.back()}>Regresar</CustomButton>
                 </HStack>
-                                    
+
                 {questions.map(((question, index) => (
                     <Card key={question._id} mb="5" border='1px solid #000080'>
                         <HStack>
-                            <Stack flex="50%">
+                            <Stack>
                                 <CardHeader >
                                     <Text fontSize='xl'>Pregunta {(index + 1)}: {question.questionName} </Text>
                                 </CardHeader>
                                 <hr />
-                                <CardBody >
+                                <CardBody>
                                     <HStack>
-                                        <Stack flex="80%">
+                                        <Stack flex="50%">
                                             <Text>Total de respuestas {answers[question._id]?.length || 'N/A'}</Text>
                                             <Box fontSize="md">
                                                 {question.questionOptions.map((res, i) => {
                                                     return (
                                                         <div key={i}>
                                                             <HStack>
-                                                                <Text>Respuesta {i + 1}: {res.value} - </Text>
+                                                                <Text>{i + 1}{')'} {res.value} - </Text>
                                                                 <Text>{scores?.newScores[index]?.[i] || 0}</Text>
                                                             </HStack>
                                                         </div>
@@ -177,20 +177,10 @@ const resultados = ({ id }) => {
                                                 })}
                                             </Box>
                                         </Stack>
-                                        <Stack hidden={true}>
-                                            <Text>{question._id}</Text>
-                                            <CustomButton onClick={() => console.log(scores.newScores[question.questionPosition - 1])}>TEST</CustomButton>
+                                        <Stack flex="50%">
+                                            {handleAverage(scores?.newScores[index], answers[question._id]?.length, question.questionName, question.questionOptions)}
                                         </Stack>
                                     </HStack>
-                                </CardBody>
-                            </Stack>
-                            <Stack flex="50%">
-                                <CardHeader>
-
-                                </CardHeader>
-                                <hr/>
-                                <CardBody>
-                                    {handleAverage(scores?.newScores[index], answers[question._id]?.length, question.questionName, question.questionOptions)}
                                 </CardBody>
                             </Stack>
                         </HStack>

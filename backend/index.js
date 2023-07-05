@@ -14,6 +14,7 @@ const emailRoutes = require('./routes/emailRoutes')
 const participantRoutes = require('./routes/participantRoutes')
 const productRoutes = require('./routes/productRoutes')
 const evaProRoutes = require('./routes/evaluationProductRoutes')
+const pdfRoutes = require('./routes/pdfRoutes')
 
 app.use(cookieParser())
 app.use(cors({ credentials: true, origin: process.env.DIRECTION }))
@@ -27,6 +28,7 @@ app.use('/api', emailRoutes)
 app.use('/api', participantRoutes)
 app.use('/api', productRoutes)
 app.use('/api', evaProRoutes)
+app.use('/api', pdfRoutes)
 
 app.listen(process.env.PORT, () => console.log('Server connected'))
 

@@ -4,6 +4,7 @@ import router from "next/router";
 import axios from "axios";
 import Cookies from 'js-cookie'
 import Link from "next/link";
+import ToPDF from "@/util/ToPDF";
 
 const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -38,6 +39,7 @@ const Navbar = () => {
                                 <Text className="btnRes pointer" color={"white"} onClick={() => router.push('#')}>
                                     USUARIOS
                                 </Text>
+                                <ToPDF/>
                             </HStack>
                         </HStack>
                     </Flex>
