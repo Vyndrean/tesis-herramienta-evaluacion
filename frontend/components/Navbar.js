@@ -8,7 +8,7 @@ import ToPDF from "@/util/ToPDF";
 
 const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const Links = ['INICIO', 'EVALUACIONES', 'PRODUCTO', 'USUARIOS'];
+    const Links = ['INICIO', 'EVALUACION', 'PRODUCTO', 'USUARIOS'];
     return (
         <>
             <Box>

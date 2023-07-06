@@ -78,7 +78,7 @@ const evaluaciones = () => {
       <Navbar />
       <Container maxW={"container.xl"}>
         <HStack mt="2" spacing={"auto"}>
-          <CustomButton colorScheme="green" onClick={() => router.push('/evaluaciones/crear')}>Crear Evaluación</CustomButton>
+          <CustomButton colorScheme="green" onClick={() => router.push('/evaluacion/crear')}>Crear Evaluación</CustomButton>
         </HStack>
         <Stack>
           <DataTable
@@ -110,7 +110,7 @@ const evaluaciones = () => {
                 selector: (data) => (
                   <HStack>
                     <EmailForm data={data} />
-                    <CustomButton colorScheme="yellow" onClick={() => router.push(`/evaluaciones/actualizar/${data._id}`)}> <EditIcon /> </CustomButton>
+                    <CustomButton colorScheme="yellow" onClick={() => router.push(`/evaluacion/actualizar/${data._id}`)}> <EditIcon /> </CustomButton>
                     <DeleteOption refe='evaluation' id={data._id} reload={contentReload} />
                   </HStack>
                 )
