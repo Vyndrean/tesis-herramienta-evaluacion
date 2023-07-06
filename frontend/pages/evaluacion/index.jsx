@@ -3,7 +3,7 @@ import React, { useState as state, useEffect as effect } from 'react'
 import { checkToken } from '@/data/login'
 import { Badge, Container, HStack, Heading, List, ListItem, Stack, Text } from '@chakra-ui/react'
 import { getEvaluations } from '@/data/evaluations'
-import DataTable from 'react-data-table-component'
+import DataTable from 'react-data-table-component';
 import router from 'next/router'
 import { EditIcon } from '@chakra-ui/icons'
 import EmailForm from '@/components/EmailForm'
