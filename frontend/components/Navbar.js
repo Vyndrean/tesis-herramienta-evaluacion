@@ -8,41 +8,35 @@ import ToPDF from "@/util/ToPDF";
 
 const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-
+    const Links = ['INICIO', 'EVALUACIONES', 'PRODUCTO', 'USUARIOS'];
     return (
-        <Stack id="navFix">
-            <Box width={["100%"]}>
+        <>
+            <Box>
                 <Flex h={12} alignItems={"center"} justifyContent={"space-between"} bgColor='#000080' paddingInline="10" borderBottomRadius="20">
+                    <IconButton
+                        size={'md'}
+                        icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+                        aria-label={'Open Menu'}
+                        display={{ md: 'none' }}
+                        colorScheme="#000080"
+                        onClick={isOpen ? onClose : onOpen}
+                    />
                     <HStack w="10%">
                         <Show breakpoint="(min-width: 1000px)">
                             <Heading as={'h1'} fontSize="30" fontFamily="serif" onClick={() => router.push('/')} className="pointer" color={"white"}></Heading>
                         </Show>
                     </HStack>
-                    <Flex alignItems={"center"} justifyContent={"space-between"} >
-
-                        <HStack spacing={8} alignItems={"center"}  >
-                            <HStack
-                                as={"nav"}
-                                spacing={10}
-                                display={{ base: "none", md: "flex" }}
-                                id="myDIV"
-                            >
-                                <Text className="btnRes pointer" color={"white"} onClick={() => router.push('/inicio')}>
-                                    INICIO
-                                </Text>
-                                <Text className="btnRes pointer" color={"white"} onClick={() => router.push('/evaluaciones')}>
-                                    EVALUACIONES
-                                </Text>
-                                <Text className="btnRes pointer" color={"white"} onClick={() => router.push('/producto')}>
-                                    PRODUCTO
-                                </Text>
-                                <Text className="btnRes pointer" color={"white"} onClick={() => router.push('#')}>
-                                    USUARIOS
-                                </Text>
-                                <ToPDF/>
-                            </HStack>
+                    <HStack spacing={8} alignItems={'center'}>
+                        <HStack
+                            as={'nav'}
+                            spacing={8}
+                            color="white"
+                            display={{ base: 'none', md: 'flex' }}>
+                            {Links.map((link) => (
+                                <Link key={link} href={`/${link.toLowerCase()}`}>{link}</Link>
+                            ))}
                         </HStack>
-                    </Flex>
+                    </HStack>
                     <HStack as={"nav"} id="myDIV" display={{ base: "none", md: "flex" }} color={"white"}>
                         <Link color='teal.500' href='/' onClick={() => {
                             Cookies.remove("token")
@@ -52,44 +46,28 @@ const Navbar = () => {
                         </Link>
                     </HStack>
 
-                    <HStack w="90%" display={{ md: "none" }} >
-                        <Heading as={'h1'} fontSize="30" fontFamily="serif" onClick={() => router.push('/')} className="pointer" color={"white"}>Inicio</Heading>
-                    </HStack>
 
-                    <IconButton
-                        size={"md"}
-                        icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-                        aria-label={"Open Menu"}
-                        display={{ md: "none" }}
-                        onClick={isOpen ? onClose : onOpen}
-                    />
-
-                    {isOpen ? (
-
-                        <Box paddingInline="3" paddingBlock="2" borderRadius={"15"} mt="300" display={{ md: "none" }} bgGradient={'linear(to-b, #000080, black, #000080)'}>
-                            <Stack as={"nav"} spacing={4}>
-                                <Button onClick={isOpen ? onClose : onOpen}
-                                    _hover={{
-                                        textShadow: "#FC0 1px 0 10px",
-                                        transform: "scale(1.2)",
-                                    }}>
-                                    <Text onClick={() => router.push('/inicio')}>
-                                        <b>Inicio</b>
-                                    </Text>
-                                </Button>
-                                <Link color='teal.500' href='/' onClick={() => {
-                                    Cookies.remove("token")
-                                    axios.post(`${process.env.SERVIDOR}/logout`)
-                                }}>
-                                    Cerrar Sesion
-                                </Link>
-                            </Stack>
-                        </Box>
-                    ) : null}
                 </Flex>
+                {isOpen ? (
+                    <Box
+                        display={{ md: 'none' }}
+                        py="3"
+                        zIndex="1"
+                        color="white"
+                        bgColor="#000080"
+                        pl="15%"
+                        marginInline="4"
+                        borderBottomRadius="20"
+                    >
+                        <Stack as={'nav'} spacing={4}>
+                            {Links.map((link) => (
+                                <Link key={link} href={`/${link.toLowerCase()}`}>{link}</Link>
+                            ))}
+                        </Stack>
+                    </Box>
+                ) : null}
             </Box>
-            <hr />
-        </Stack>
+        </>
     );
 }
 export default Navbar

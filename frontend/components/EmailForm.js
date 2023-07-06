@@ -1,5 +1,5 @@
-import { EmailIcon} from '@chakra-ui/icons'
-import { FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Textarea, useDisclosure, useToast as Toast, FormHelperText, Select } from '@chakra-ui/react'
+import { EmailIcon } from '@chakra-ui/icons'
+import { FormControl, FormLabel, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Textarea, useDisclosure, useToast as Toast, FormHelperText, Select, Input } from '@chakra-ui/react'
 import React, { useState as state, useEffect as effect } from 'react'
 import { sendEmail } from '@/data/mail'
 import { updateEvaluation } from '@/data/evaluations'
@@ -123,15 +123,15 @@ const EmailForm = ({ data }) => {
                   }
                 </Select>
               </FormControl>
-              <FormControl>
-                <FormLabel>Destinatario/os</FormLabel>
-                <Textarea name='destinatary' onChange={handleChangeEmail} isRequired></Textarea>
-                <FormHelperText textAlign="center">Para ingresar múltiples correos estos deben ser separados por una coma</FormHelperText>
-              </FormControl>
               <HStack>
                 <InputForm name="start_date" type="date" placeholder="Fecha de inicio de la evaluacion" handleChange={handleEvaluationChange} label="Fecha de inicio" isRequired={true} min={currentDate} />
                 {startDateStatus()}
               </HStack>
+              <FormControl>
+                <FormLabel>Destinatario/os</FormLabel>
+                <Textarea name='destinatary' type='email' onChange={handleChangeEmail} isRequired ></Textarea>
+                <FormHelperText textAlign="center">Para ingresar múltiples correos estos deben ser separados por una coma</FormHelperText>
+              </FormControl>
             </ModalBody>
             <HStack justifyContent="space-between" marginBlock="5" marginInline="10">
               <CustomButton borderRadius="17" h="9" colorScheme='green' type='submit'>Enviar</CustomButton>
