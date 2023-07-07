@@ -77,14 +77,14 @@ const actualizar = ({ id , data}) => {
                         </HStack>
                         <FormControl>
                             <FormLabel>Descripcion</FormLabel>
-                            <Textarea name='description' type='text' placeholder='Descripcion sobre el producto' onChange={handleChange} value={product.description} isRequired />
+                            <Textarea h="200" name='description' type='text' placeholder='Descripcion sobre el producto' onChange={handleChange} value={product.description} isRequired />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Enlace</FormLabel>
                             <Input name='link' type='text' placeholder='Sitio oficial del producto a evaluar, por ejemplo https://www.google.cl/' onChange={handleChange} value={product.link} isRequired />
                         </FormControl>
                     </Stack>
-                    <HStack spacing='auto' paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
+                    <HStack justifyContent="space-between" paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
                         <CustomButton type='submit'>Confirmar</CustomButton>
                         <CustomButton onClick={() => router.back()}>Cancelar</CustomButton>
                     </HStack>

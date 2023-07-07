@@ -72,14 +72,14 @@ const crear = () => {
                         </HStack>
                         <FormControl>
                             <FormLabel>Descripción</FormLabel>
-                            <Textarea name='description' type='text' placeholder='Descripción sobre el producto' onChange={handleChange} isRequired />
+                            <Textarea h="200" name='description' type='text' placeholder='Descripción sobre el producto' onChange={handleChange} isRequired />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Enlace</FormLabel>
                             <Input name='link' type='text' placeholder='Sitio oficial del producto a evaluar, por ejemplo https://www.google.cl/' onChange={handleChange} isRequired />
                         </FormControl>
                     </Stack>
-                    <HStack spacing='auto' paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
+                    <HStack justifyContent="space-between" paddingInline="5" paddingBlock="2" borderBottomRadius="10" bgColor='#000080'>
                         <CustomButton type='submit'>Confirmar</CustomButton>
                         <CustomButton onClick={() => router.back()}>Cancelar</CustomButton>
                     </HStack>
