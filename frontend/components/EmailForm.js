@@ -13,7 +13,7 @@ const EmailForm = ({ data }) => {
   const [product, setProduct] = state([])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
-  const currentDate = moment().format().substring(0, 10)
+  const currentDate = moment().format().substring(0, 16)
   const [email, setEmail] = state({
     subject: data.title,
     content: "Estimado/a,\n\n" + data?.introduction +
@@ -46,7 +46,7 @@ const EmailForm = ({ data }) => {
     })
   }
 
-  const handleEvaluationChange = (e) => {
+  const handleDateChanges = (e) => {
     const { name, value } = e.target
     setToEvaluate({
       ...toEvaluate,
@@ -78,16 +78,10 @@ const EmailForm = ({ data }) => {
   const renderEndDate = () => {
     if (toEvaluate.start_date) {
       return (
-        <HStack>
-          <FormControl maxW="40%">
-            <FormLabel>Fecha de termino</FormLabel>
-            <Input name='end_date' type='date' placeholder='Fecha de termino de la evaluación' onChange={handleEvaluationChange} required min={toEvaluate.start_date} />
-          </FormControl>
-          <FormControl maxW="20%">
-            <FormLabel>Hora de termino</FormLabel>
-            <Input textAlign="center" name='end_time' type='time' placeholder='Hora de termino de la evaluación' onChange={handleEvaluationChange} required defaultValue="23:59" />
-          </FormControl>
-        </HStack>
+        <FormControl>
+          <FormLabel>Fecha de termino</FormLabel>
+          <Input name='end_date' type='datetime-local' placeholder='Fecha de termino de la evaluación' onChange={handleDateChanges} required min={toEvaluate.start_date} />
+        </FormControl>
       )
     }
   }
@@ -135,21 +129,16 @@ const EmailForm = ({ data }) => {
                 </Select>
               </FormControl>
 
-              <Stack>
-                <HStack>
-                  <FormControl maxW="40%">
-                    <FormLabel>Fecha de inicio</FormLabel>
-                    <Input name='start_date' type='date' placeholder='Fecha de inicio de la evaluación' onChange={handleEvaluationChange} required min={currentDate} />
-                  </FormControl>
-                  <FormControl maxW="20%">
-                    <FormLabel>Hora de inicio</FormLabel>
-                    <Input textAlign="center" name='start_time' type='time' placeholder='Hora de inicio de la evaluación' onChange={handleEvaluationChange} required defaultValue="00:00" />
-                  </FormControl>
-                </HStack>
-              </Stack>
-              {
-                renderEndDate()
-              }
+              <HStack>
+                <FormControl>
+                  <FormLabel>Fecha de inicio</FormLabel>
+                  <Input name='start_date' type='datetime-local' placeholder='Fecha de inicio de la evaluación' onChange={handleDateChanges} required min={currentDate} />
+                </FormControl>
+                {
+                  renderEndDate()
+                }
+              </HStack>
+
               <FormControl>
                 <FormLabel>Destinatario/os</FormLabel>
                 <Textarea name='destinatary' type='email' onChange={handleChangeEmail} isRequired ></Textarea>

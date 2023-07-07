@@ -66,6 +66,18 @@ const getUser = (req, res) => {
     })
 }
 
+const getUsers = (_req, res) => {
+    User.find({
+        rol:'assistant'
+    })
+    .exec((err, users) => {
+        if(err){
+            return res.status(400).send({message: "Error al mostrar a los usuarios"})
+        }
+        return res.status(200).send(users)
+    })
+}
+
 const deleteUser = (req, res) => {
     const { id } = req.params
     User.findByIdAndDelete(id, (err, user) => {
@@ -93,5 +105,6 @@ module.exports = {
     deleteUser,
     checkToken,
     logout,
-    updateUser
+    updateUser,
+    getUsers
 }

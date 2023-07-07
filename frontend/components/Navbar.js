@@ -4,7 +4,6 @@ import router from "next/router";
 import axios from "axios";
 import Cookies from 'js-cookie'
 import Link from "next/link";
-import ToPDF from "@/util/ToPDF";
 
 const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
