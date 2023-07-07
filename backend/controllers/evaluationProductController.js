@@ -75,10 +75,25 @@ const validateEvaluationProduct = (req, res) => {
         })
 }
 
+const getEvaProByID = (req, res) => {
+    const { evaluation, product } = req.body
+    EvaluationProduct.find({
+        evaluation
+    })
+    .populate('product')
+    .exec((err, evaPro) => {
+        if(err){
+            return res.status(400).send({message: "Error al mostrar las evaluaciones de productos enviados"})
+        }
+        return res.status(200).send(evaPro)
+    })
+}
+
 module.exports = {
     createEvaluationProduct,
     getEvaluationProduct,
     getEvaluationProducts,
     deleteEvaluationProduct,
-    validateEvaluationProduct
+    validateEvaluationProduct,
+    getEvaProByID
 }

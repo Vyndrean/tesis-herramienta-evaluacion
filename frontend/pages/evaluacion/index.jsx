@@ -5,7 +5,7 @@ import { Badge, Container, HStack, Heading, List, ListItem, Stack, Text } from '
 import { getEvaluations } from '@/data/evaluations'
 import DataTable from 'react-data-table-component';
 import router from 'next/router'
-import { EditIcon, ExternalLinkIcon } from '@chakra-ui/icons'
+import { EditIcon, ExternalLinkIcon, LinkIcon } from '@chakra-ui/icons'
 import EmailForm from '@/components/EmailForm'
 import DeleteOption from '@/components/DeleteOption'
 import moment from 'moment'
@@ -55,6 +55,7 @@ const evaluaciones = () => {
       setEvaluation(res.data)
     })
   }, [])
+
   const ExpandedComponent = ({ data }) => (
     <List>
       <ListItem>
@@ -106,9 +107,9 @@ const evaluaciones = () => {
                 )
               },
               {
-                name: "ENVIADAS",
+                name: "ESTADO DE ENVIO",
                 selector: (data) => (
-                  <CustomButton colorScheme='blue' onClick={() => router.push(`/evaluacion/enviada/${data._id}`)}> <ExternalLinkIcon/></CustomButton>
+                  <CustomButton colorScheme='blue' onClick={() => router.push(`/evaluacion/enviada/${data._id}`)}> Ver</CustomButton>
                 )
               },
               {

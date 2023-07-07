@@ -10,7 +10,13 @@ const validateEvaPro = (data) => {
     return res
 }
 
+const getEvaProByID = async (id) => {
+    const res = await axios.post(`${process.env.SERVIDOR}/evaPro/evaluation`, id)
+    return res
+}
+
 module.exports = {
     createEvaPro,
-    validateEvaPro
+    validateEvaPro,
+    getEvaProByID
 }

@@ -187,6 +187,7 @@ const resultados = ({ id }) => {
                     </Card>
                 )))}
             </Container>
+            
         </>
     )
 }
