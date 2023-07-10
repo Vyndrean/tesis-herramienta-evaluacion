@@ -120,6 +120,21 @@ const getAnswerByQuestion = (req, res) => {
     })
 }
 
+const getAnswerByUser = (req, res) => {
+    const { idQuestion, idProduct, idParticipant} = req.body
+    Answer.findOne({
+        'question':idQuestion,
+        'product':idProduct,
+        'participant':idParticipant
+    })
+    .exec((err, answer) => {
+        if(err){
+            return res.status(400).send({message: "Error al mostrar la respuesta"})
+        }
+        return res.status(200).send(answer)
+    })
+}
+
 module.exports = {
     createAnswer,
     getAnswers,
@@ -127,5 +142,6 @@ module.exports = {
     getAnswer,
     updateAnswer,
     getAnswersByProduct,
-    getAnswerByQuestion
+    getAnswerByQuestion,
+    getAnswerByUser
 }

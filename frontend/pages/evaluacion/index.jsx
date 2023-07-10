@@ -5,7 +5,7 @@ import { Badge, Container, HStack, Heading, List, ListItem, Stack, Text } from '
 import { getEvaluations } from '@/data/evaluations'
 import DataTable from 'react-data-table-component';
 import router from 'next/router'
-import { EditIcon, ExternalLinkIcon, LinkIcon } from '@chakra-ui/icons'
+import { EditIcon } from '@chakra-ui/icons'
 import EmailForm from '@/components/EmailForm'
 import DeleteOption from '@/components/DeleteOption'
 import moment from 'moment'

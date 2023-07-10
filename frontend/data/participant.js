@@ -5,6 +5,12 @@ const createParticipant = (data) => {
     return res
 }  
 
+const getParticipant = (id) => {
+    const res = axios.get(`${process.env.SERVIDOR}/participant/search/${id}`)
+    return res
+}
+
 module.exports = {
-    createParticipant
+    createParticipant,
+    getParticipant
 }

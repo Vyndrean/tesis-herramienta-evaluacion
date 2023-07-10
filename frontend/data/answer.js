@@ -20,9 +20,21 @@ const getAnswersByQuestion = (data) => {
     return res
 }
 
+const getAnswerOfParticipant = (data) => {
+    const res = axios.post(`${process.env.SERVIDOR}/participant/answer`, data)
+    return res
+}
+
+const updateAnswers = (id, data) => {
+    const res = axios.put(`${process.env.SERVIDOR}/answer/update/${id}`, data)
+    return res
+} 
+
 module.exports = {
     createAnswer,
     getQuestionAnswer,
     getAnswersByProduct,
-    getAnswersByQuestion
+    getAnswersByQuestion,
+    getAnswerOfParticipant,
+    updateAnswers
 }
