@@ -11,8 +11,6 @@ import UpdateQuestion from '@/components/UpdateQuestion'
 import CanEditQuestion from '@/components/CanEditQuestion'
 import { getEvaluation } from '@/data/evaluations'
 import CustomButton from '@/styles/customButton'
-import axios from 'axios'
-import ToPDF from '@/util/ToPDF'
 
 export const getServerSideProps = async (context) => {
   try {

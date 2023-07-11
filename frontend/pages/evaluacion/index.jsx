@@ -5,7 +5,7 @@ import { Badge, Container, HStack, Heading, List, ListItem, Stack, Text } from '
 import { getEvaluations } from '@/data/evaluations'
 import DataTable from 'react-data-table-component';
 import router from 'next/router'
-import { EditIcon } from '@chakra-ui/icons'
+import { ChevronRightIcon, EditIcon } from '@chakra-ui/icons'
 import EmailForm from '@/components/EmailForm'
 import DeleteOption from '@/components/DeleteOption'
 import moment from 'moment'
@@ -77,7 +77,7 @@ const evaluaciones = () => {
   return (
     <>
       <Navbar />
-      <Container maxW={"container.xl"}>
+      <Container maxW="container.xl">
         <HStack mt="2" spacing={"auto"}>
           <CustomButton colorScheme="green" onClick={() => router.push('/evaluacion/crear')}>Crear Evaluación</CustomButton>
         </HStack>
@@ -87,30 +87,37 @@ const evaluaciones = () => {
               {
                 name: "TÍTULO",
                 selector: (data) => data.title,
-                sortable: true
+                sortable: true,
+                width: '400px'
               },
               {
                 name: "CREADO",
                 selector: (data) => formatDate(data.created_at),
-                sortable: true
+                sortable: true,
+                width: '100px'
               },
               {
                 name: "ESTADO",
                 selector: (data) => (
                   handleStatus(data.status)
-                )
+                ),
+                width: '100px'
               },
               {
                 name: "PREGUNTAS",
                 selector: (data) => (
-                  <CustomButton colorScheme='blue' onClick={() => router.push(`/preguntas/${data._id}`)}>Ver</CustomButton>
-                )
+                  <CustomButton colorScheme="blue" onClick={() => router.push(`/preguntas/${data._id}`)}> <ChevronRightIcon boxSize="6"/> </CustomButton>
+                ),
+                center: true,
+                width: '100px'
               },
               {
                 name: "ESTADO DE ENVIO",
                 selector: (data) => (
-                  <CustomButton colorScheme='blue' onClick={() => router.push(`/evaluacion/enviada/${data._id}`)}> Ver</CustomButton>
-                )
+                  <CustomButton colorScheme='blue' onClick={() => router.push(`/evaluacion/enviada/${data._id}`)}> <ChevronRightIcon boxSize="6"/></CustomButton>
+                ),
+                center: true,
+                width: '130px'
               },
               {
                 name: "OPCIONES",
@@ -120,7 +127,8 @@ const evaluaciones = () => {
                     <CustomButton colorScheme="yellow" onClick={() => router.push(`/evaluacion/actualizar/${data._id}`)}> <EditIcon /> </CustomButton>
                     <DeleteOption refe='evaluation' id={data._id} reload={contentReload} />
                   </HStack>
-                )
+                ),
+                center: true
               }
             ]}
             data={evaluation}
