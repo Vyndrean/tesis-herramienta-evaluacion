@@ -32,15 +32,10 @@ export const getServerSideProps = async (context) => {
 const evaluaciones = () => {
   const [evaluation, setEvaluation] = state([])
   const handleStatus = (status) => {
-    switch (status) {
-      case "pending":
-        return <Badge colorScheme='orange'>Pendiente</Badge>
-
-      case "send":
-        return <Badge colorScheme='yellow'>Enviado</Badge>
-
-      case "finished":
-        return <Badge colorScheme='green'>Finalizado</Badge>
+    if (!status) {
+      return <Badge colorScheme='yellow'>En preparacion</Badge>
+    } else {
+      return <Badge colorScheme='green'>Listo para enviar</Badge>
     }
   }
 
@@ -99,9 +94,9 @@ const evaluaciones = () => {
               {
                 name: "ESTADO",
                 selector: (data) => (
-                  handleStatus(data.status)
+                  handleStatus(data.isEditable)
                 ),
-                width: '100px'
+                width: '150px'
               },
               {
                 name: "PREGUNTAS",

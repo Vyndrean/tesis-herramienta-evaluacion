@@ -2,7 +2,7 @@ import React, { useState as state, useEffect as effect } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Container, HStack, Heading, List, ListItem, Stack, Text, UnorderedList } from '@chakra-ui/react'
+import { Badge, Container, HStack, Heading, List, ListItem, Stack, Text, UnorderedList } from '@chakra-ui/react'
 import { getEvaProByID } from '@/data/evaPro'
 import DataTable from 'react-data-table-component'
 import moment from 'moment'
@@ -71,6 +71,22 @@ const actualizar = ({ id }) => {
         </>
     )
 
+    const handleStatus = (data) => {
+        switch(data?.status){
+            case 'pending':
+                return <Badge colorScheme='yellow'>Pendiente</Badge>
+
+            case 'active':
+                return <Badge colorScheme='orange'>Activo</Badge>
+
+            case 'Finalizado':
+                return <Badge colorScheme='green'>Finalizado</Badge>
+
+            default:
+                return <Badge colorScheme='yellow'>Pendiente</Badge>
+        }
+    }
+
     return (
         <>
             <Navbar />
@@ -85,6 +101,12 @@ const actualizar = ({ id }) => {
                                 name: "PRODUCTO",
                                 selector: (data) => data.product.name,
                                 sortable: true
+                            },
+                            {
+                                name: "ESTADO",
+                                selector: (data) => (
+                                    handleStatus(data)
+                                )
                             },
                             {
                                 name: "FECHA DE INICIO",
