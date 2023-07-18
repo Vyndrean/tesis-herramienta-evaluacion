@@ -106,7 +106,7 @@ const evaluaciones = () => {
               {
                 name: "PREGUNTAS",
                 selector: (data) => (
-                  <CustomButton colorScheme="blue" onClick={() => router.push(`/preguntas/${data._id}`)}> <ChevronRightIcon boxSize="6"/> </CustomButton>
+                  <CustomButton colorScheme="blue" onClick={() => router.push(`/evaluacion/preguntas/${data._id}`)}> <ChevronRightIcon boxSize="6" /> </CustomButton>
                 ),
                 center: true,
                 width: '100px'
@@ -114,10 +114,18 @@ const evaluaciones = () => {
               {
                 name: "ESTADO DE ENVIO",
                 selector: (data) => (
-                  <CustomButton colorScheme='blue' onClick={() => router.push(`/evaluacion/enviada/${data._id}`)}> <ChevronRightIcon boxSize="6"/></CustomButton>
+                  <CustomButton colorScheme='blue' onClick={() => router.push(`/evaluacion/enviada/${data._id}`)} isDisabled={!data.isEditable}> <ChevronRightIcon boxSize="6" /></CustomButton>
                 ),
                 center: true,
                 width: '130px'
+              },
+              {
+                name: "RESULTADOS",
+                selector: (data) => (
+                  <CustomButton colorScheme='blue' onClick={() => router.push(`/evaluacion/resultados/${data._id}`)} isDisabled={!data.isEditable}> <ChevronRightIcon boxSize="6" /></CustomButton>
+                ),
+                center: true,
+                width: '100px'
               },
               {
                 name: "OPCIONES",

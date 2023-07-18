@@ -97,7 +97,7 @@ const EmailForm = ({ data }) => {
     if (!data?.isEditable) {
       toast({
         title: "Acción pendiente",
-        description: "Se debe finalizar la edicion de la evaluacion, antes de poder enviar",
+        description: "Se debe finalizar la edición de la evaluación, antes de poder enviar.",
         status: "info",
         isClosable: true,
         duration: 3000

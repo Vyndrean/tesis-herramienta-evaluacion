@@ -106,7 +106,7 @@ const questions = ({ id }) => {
           <CreateQuestion id={id} reload={contentReload} length={questions?.length + 1} isEditable={evaluation?.isEditable} />
           <CanEditQuestion id={id} />
           <CustomButton colorScheme="#000080" onClick={() => setHideContent(!hideContent)}>Ocultar respuestas</CustomButton>
-          <CustomButton colorScheme="#000080" onClick={() => router.push(`/preguntas/resultados/${id}`)} isDisabled={!evaluation?.isEditable}>Resultados</CustomButton>
+          <CustomButton colorScheme="#000080" onClick={() => router.push(`/evaluacion/resultados/${id}`)} isDisabled={!evaluation?.isEditable}>Resultados</CustomButton>
         </HStack>
         {questions.map(((question, index) => (
           <Card key={question._id} mb="5" border='1px solid #000080'>

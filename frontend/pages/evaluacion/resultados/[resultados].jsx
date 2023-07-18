@@ -45,12 +45,17 @@ const resultados = ({ id }) => {
     const [scores2, setScores2] = state([])
     const [selectedProduct, setSelectedProduct] = state([])
     const [selectedProduct2, setSelectedProduct2] = state([])
+    const [selected, setSelected] = state(true)
     const bringThoseChosen = (e) => {
         e.preventDefault()
         setSelectedProduct(e.target.attributes.name.value)
         getAnswersByProduct(theChosenOne).then(res => {
             const newAnswer = groupedData(res.data, 'question')
             setAnswers(newAnswer)
+            setTheChosenOne({
+                ...theChosenOne,
+                'idProduct': ''
+            })
         })
     }
 
@@ -107,6 +112,7 @@ const resultados = ({ id }) => {
                 [name]: value
             })
         }
+        setSelected(false)
     }
     const handleAverage = (data, length, questionName, questionOptions) => {
         if (length == 0) {
@@ -178,11 +184,11 @@ const resultados = ({ id }) => {
             name = selectedProduct
         }
 
-        if(maxRF == 0){
+        if (maxRF == 0) {
             return (
                 <Text>No existe informacion suficiente para dar un resultado.</Text>
             )
-        }else {
+        } else {
             return (
                 <Text>Segun los datos proporcionados, se obtuvo como resultado que: <br />{selectedProduct} un {maxR}% a elegido {questionOptions[maxP].value} <br />  {selectedProduct2} un {maxR2}% a elegido {questionOptions[maxP2].value} <br /> Comparando los resultados, se observa que {name}, con un {maxRF}% en {questionOptions[maxPF].value} presento una mayor metrica evaluada en comparacion con el otro producto</Text>
             )
@@ -246,7 +252,7 @@ const resultados = ({ id }) => {
                                 </HStack>
                             </form>
                         </FormControl>
-                        <FormControl>
+                        <FormControl hidden={selected}>
                             <form>
                                 <HStack>
                                     <FormLabel color='white' pt="2">Comparar con</FormLabel>
@@ -260,6 +266,7 @@ const resultados = ({ id }) => {
                                 </HStack>
                             </form>
                         </FormControl>
+
                     </HStack>
                     <CustomButton colorScheme="#000080" onClick={() => router.back()}>Regresar</CustomButton>
                 </HStack>

@@ -40,7 +40,7 @@ const crear = () => {
         e.preventDefault()
         createEvaluation(evaluation).then(res => {
             if (res.status == '200') {
-                router.push('/evaluaciones')
+                router.push('/evaluacion')
                 toast({
                     title: "Evaluacion creada",
                     status: "success",

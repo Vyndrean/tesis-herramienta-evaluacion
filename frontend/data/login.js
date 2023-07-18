@@ -29,7 +29,12 @@ const createUser = (user) => {
     const response = axios.post(`${process.env.SERVIDOR}/register`, user)
     return response
 }
- 
+
+const getActiveUser = (id) => {
+    const response = axios.post(`${process.env.SERVIDOR}/user/active/${id}`)
+    return response
+}
+
 module.exports = {
     login,
     logout,

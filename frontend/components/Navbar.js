@@ -1,4 +1,4 @@
-import { Box, Flex, Button, Stack, Show, HStack, useDisclosure, IconButton, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Button, Stack, Show, HStack, useDisclosure, IconButton, Heading, Text, Divider } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import router from "next/router";
 import axios from "axios";
@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const Links = ['INICIO', 'EVALUACION', 'PRODUCTO', 'USUARIOS'];
+    const Links = ['INICIO', 'EVALUACION', 'PRODUCTO', 'USUARIOS']
     return (
         <>
             <Box>
@@ -66,6 +66,7 @@ const Navbar = () => {
                     </Box>
                 ) : null}
             </Box>
+            <Divider ></Divider>
         </>
     );
 }

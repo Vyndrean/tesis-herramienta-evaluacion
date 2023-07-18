@@ -57,7 +57,7 @@ const CanEditQuestion = ({ id }) => {
 
     const isDone = () => {
         toast({
-            title: "Esta evaluacion ya finalizo la edicion",
+            title: "Esta evaluación ya finalizo la edición",
             description: "Ahora solo puedes editar el texto de las preguntas y/o respuestas",
             status: "info",
             isClosable: true,

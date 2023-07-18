@@ -7,6 +7,7 @@ import CustomButton from '@/styles/customButton'
 
 const CreateQuestion = ({ id, reload, length, isEditable }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [addOption, setAddOption] = state(false)
   const toast = Toast()
   const [answer, setAnswer] = state([
     {
@@ -29,6 +30,16 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
   }
   const handleChange = (e) => {
     const { name, value } = e.target
+    if (value == 'text' && name == "questionType") {
+      setAddOption(true)
+      setAnswer([{value: ""}])
+      setQuestion({
+        ...question,
+        questionOptions: [""]
+      })
+    } else {
+      setAddOption(false)
+    }
     setQuestion(prevQuestion => ({
       ...prevQuestion,
       [name]: value,
@@ -37,29 +48,29 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
     })
     )
   }
+  console.log(question)
   const handleAdd = () => {
     const newAnswer = [...answer, {
       value: ''
     }]
     setAnswer(newAnswer)
   }
-
   const addButton = () => {
     if (question?.questionType != 'text') {
       return (
-        <Button ml="50%" mt="3" onClick={() => handleAdd()}> <AddIcon /></Button>
+        <CustomButton ml="80%" my="3" onClick={() => handleAdd()}> <AddIcon /></CustomButton>
       )
     }
   }
   const handleDelete = (e) => {
-    const updatedAnswer = [...answer];
-    updatedAnswer.splice(e, 1);
-    setAnswer(updatedAnswer);
+    const updatedAnswer = [...answer]
+    updatedAnswer.splice(e, 1)
+    setAnswer(updatedAnswer)
     setQuestion(prevQuestion => ({
       ...prevQuestion,
       questionOptions: updatedAnswer
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -82,14 +93,16 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
       <CustomButton colorScheme="#000080" onClick={onOpen} my={"2"} isDisabled={isEditable}> Añadir pregunta </CustomButton>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent maxW={"container.md"}>
+        <ModalContent maxW="container.md">
           <ModalCloseButton />
           <ModalBody>
             <Text>Pregunta {length}</Text>
             <form onSubmit={handleSubmit} id='form'>
               <Stack spacing={4} my={5} justify={"center"}>
                 <HStack>
+
                   <InputForm name="questionName" type="text" placeholder="Escribe la pregunta aqui" handleChange={handleChange} label="Pregunta" isRequired={true} />
+
                   <FormControl>
                     <FormLabel>Tipo de pregunta</FormLabel>
                     <Select name='questionType' onChange={handleChange} placeholder='...' required>
@@ -99,13 +112,17 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
                     </Select>
                   </FormControl>
                 </HStack>
+
                 <FormControl>
                   <FormLabel>Contexto</FormLabel>
                   <Textarea name='questionContext' placeholder='Proporciona el contexto de la pregunta' onChange={handleChange}></Textarea>
                 </FormControl>
 
-                <FormControl>
-                  <FormLabel>Respuestas</FormLabel>
+                <FormControl hidden={addOption} isDisabled={addOption}>
+                  <HStack>
+                    <FormLabel>Respuestas</FormLabel>
+                    {addButton()}
+                  </HStack>
                   <HStack>
                     <div>
                       {answer.map((data, i) => {
@@ -127,7 +144,6 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
                   </HStack>
                 </FormControl>
 
-                {addButton()}
               </Stack>
               <HStack justifyContent="space-between">
                 <CustomButton colorScheme="green" type='submit'>Confirmar</CustomButton>

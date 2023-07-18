@@ -46,6 +46,7 @@ const index = () => {
       const res = await login(sesion)
       if (res.status == 200) {
         Cookie.set("token", res.data.token, { expires: 1 })
+        Cookie.set("rol", `${res.data.user}`, {expires: 1})
         router.push('/inicio')
       }
     } catch (error) {

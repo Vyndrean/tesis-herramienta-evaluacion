@@ -78,6 +78,16 @@ const getUsers = (_req, res) => {
     })
 }
 
+const getActiveUser = (req, res) => {
+    const { id } = req.params
+    User.findById(id, (err, user) => {
+        if(err){
+            return res.status(400).send({message: "Error al mostar a los usuarios"})
+        }
+        return res.status(200).send({'rol': user.rol})
+    })
+}
+
 const deleteUser = (req, res) => {
     const { id } = req.params
     User.findByIdAndDelete(id, (err, user) => {
@@ -106,5 +116,6 @@ module.exports = {
     checkToken,
     logout,
     updateUser,
-    getUsers
+    getUsers,
+    getActiveUser
 }

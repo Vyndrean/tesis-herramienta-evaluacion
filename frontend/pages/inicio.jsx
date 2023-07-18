@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect as effect, useState as state} from 'react'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
 import { Container, Heading, ListItem, OrderedList, Stack, Text } from '@chakra-ui/react'
+import Cookie from 'js-cookie'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -24,11 +25,16 @@ export const getServerSideProps = async (context) => {
 }
 
 const inicio = ({data}) => {
+  const [user, setUser] = state()
+  effect(() => {
+    const name = Cookie.get('rol')
+    setUser(name)
+  }, [user])
   return (
     <>
       <Navbar />
       <Container maxW="container.lg">
-        <Heading textAlign="center" size="lg" mt="5" mb="10">Bienvenido/a </Heading>
+        <Heading textAlign="center" size="lg" mt="5" mb="10">Bienvenido/a {user}</Heading>
 
         <Stack>
           <Text mb="5">
