@@ -4,10 +4,12 @@ import InputForm from '@/components/InputForm'
 import { updateQuestion, searchQuestion, searchOptions } from '@/data/question'
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import CustomButton from '@/styles/customButton'
+import { Text } from '@chakra-ui/react'
 
 
 const UpdateQuestion = ({ id, reload, isEditable }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [addOption, setAddOption] = state(false)
   const toast = Toast()
   const [answer, setAnswer] = state([])
   const [question, setQuestion] = state([])
@@ -24,15 +26,27 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
   }
   const handleChange = (e) => {
     const { name, value } = e.target
-    setQuestion(prevQuestion => ({
-      ...prevQuestion,
-      [name]: value,
-      questionOptions: answer
-    })
-    )
+    if ((value == 'text' || value == 'textarea') && name == "questionType") {
+      console.log(name, value)
+      setAddOption(true)
+      setQuestion(prevQuestion => ({
+        ...prevQuestion,
+        [name]: value,
+        questionOptions: ""
+      })
+      )
+    } else {
+      setAddOption(false)
+      setQuestion(prevQuestion => ({
+        ...prevQuestion,
+        [name]: value,
+        questionOptions: answer
+      })
+      )
+    }
   }
 
-
+  console.log(question)
 
   const handleAdd = () => {
     const newAnswer = [...answer, {
@@ -42,9 +56,9 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
   }
 
   const addButton = () => {
-    if (question?.questionType != 'text') {
+    if (question?.questionType != 'text' && question?.questionType != 'textarea') {
       return (
-        <Button ml="50%" mt="3" onClick={() => handleAdd()} hidden={isEditable}> <AddIcon /></Button>
+        <CustomButton ml="80%" my="3" onClick={() => handleAdd()} hidden={isEditable}> <AddIcon /></CustomButton>
       )
     }
   }
@@ -102,7 +116,9 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
                     <Select name='questionType' onChange={handleChange} placeholder='...' required value={question.questionType}>
                       <option value='radio'>Opción múltiple</option>
                       <option value='checkbox'>Casillas de verificación</option>
-                      <option value='text'>Respuesta simple</option>
+
+                      <option value='textarea'>Parrafo</option>
+                      <option value='text'>Respuesta corta</option>
                     </Select>
                   </FormControl>
                 </HStack>
@@ -112,30 +128,45 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
                 </FormControl>
 
 
-                <FormControl>
-                  <FormLabel>Respuestas</FormLabel>
+                <FormControl hidden={addOption} isDisabled={addOption}>
+                  <HStack>
+                    <FormLabel>Respuestas</FormLabel>
+                    {addButton()}
+                  </HStack>
                   <HStack>
                     <div>
-                      {answer.map((data, i) => {
-                        const toDelete = (i) => {
-                          if (!i == 0 && question.questionType != 'text') {
+                      {
+                        answer.map((data, i) => {
+                          const toDelete = (i) => {
+                            if (!i == 0 && question.questionType != 'text' && question.questionType != 'textarea') {
+                              return (
+                                <Button onClick={() => handleDelete(i)} hidden={isEditable}> <DeleteIcon /> </Button>
+                              )
+                            }
+                          }
+                          const renderInput = (i) => {
+                            if (question.questionType == 'text' || question.questionType == 'textarea') {
+                              return null
+                            }
+
                             return (
-                              <Button onClick={() => handleDelete(i)} hidden={isEditable}> <DeleteIcon /> </Button>
+                              <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
                             )
                           }
-                        }
-                        return (
-                          <HStack key={i} spacing={8} mb="2">
-                            <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
-                            {toDelete(i)}
-                          </HStack>
-                        )
-                      })}
+
+                          return (
+                            <HStack key={i} spacing={8} mb="2">
+                              {renderInput(i)}
+                              {toDelete(i)}
+                            </HStack>
+                          )
+                        })
+                      }
+
                     </div>
                   </HStack>
                 </FormControl>
 
-                {addButton()}
               </Stack>
               <HStack justifyContent="space-between">
                 <CustomButton borderRadius="17" h="9" colorScheme="green" type='submit'>Confirmar</CustomButton>

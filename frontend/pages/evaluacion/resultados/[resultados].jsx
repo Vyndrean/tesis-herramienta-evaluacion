@@ -98,7 +98,7 @@ const resultados = ({ id }) => {
         const sortedQuestions = [...questions].sort((a, b) => a.questionPosition - b.questionPosition)
         setQuestions(sortedQuestions)
     }
-
+    console.log(scores)
     const handleChange = (e, pos) => {
         const { name, value } = e.target
         if (pos == 0) {
@@ -178,6 +178,10 @@ const resultados = ({ id }) => {
             maxRF = maxR2
             maxPF = maxP2
             name = selectedProduct2
+        } else if (maxR == maxR2) {
+            return (
+                <Text>Basándonos en los resultados, podemos concluir que tanto el {selectedProduct} como {selectedProduct2} presentan un número significativo de usuarios similares. Sin embargo, el producto B muestra un promedio ligeramente mayor en comparacion</Text>
+            )
         } else {
             maxRF = maxR
             maxPF = maxP

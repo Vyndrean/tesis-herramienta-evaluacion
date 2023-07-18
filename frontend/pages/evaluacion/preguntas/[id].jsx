@@ -2,7 +2,7 @@ import React, { useEffect as effect, useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Container, HStack, Input, Card, CardHeader, CardBody, Stack, Box, Text } from '@chakra-ui/react'
+import { Container, HStack, Input, Card, CardHeader, CardBody, Stack, Box, Text, Textarea } from '@chakra-ui/react'
 import { getQuestions, updateQuestion } from '@/data/question'
 import { ArrowDownIcon, ArrowUpIcon } from '@chakra-ui/icons'
 import CreateQuestion from '@/components/CreateQuestion'
@@ -113,12 +113,14 @@ const questions = ({ id }) => {
             <HStack>
               <Stack flex="80%">
                 <CardHeader >
-                  <Text fontSize='xl'>Pregunta {(index + 1)}: {question?.questionContext} {question?.questionName}</Text>
+                  <Text fontSize='xl'>
+                    Pregunta {(index + 1)}: {question?.questionContext}, {question?.questionName}
+                  </Text>
                 </CardHeader>
                 <hr />
                 <CardBody hidden={hideContent} >
                   <Stack>
-                    <Box fontSize="md">
+                    <Box fontSize="md" minH="100px">
                       <form id='form'>
                         {question.questionOptions.map((res, index) => (
                           <div key={'answer' + index}>
@@ -137,6 +139,9 @@ const questions = ({ id }) => {
                                 <label htmlFor={res.name}> {res.value} </label>
                               </div>
                             )}
+                            {question.questionType === 'textarea' && (
+                              <Textarea id={res?.name}></Textarea>
+                            )}
                           </div>
                         ))}
                       </form>
@@ -146,7 +151,7 @@ const questions = ({ id }) => {
               </Stack>
               <Stack paddingRight="25">
                 <Stack hidden={hideContent}>
-                  <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
+                  <UpdateQuestion id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} position={questions?.length + 1} />
                   <DeleteOption refe='question' id={question._id} reload={contentReload} isEditable={evaluation?.isEditable} />
                 </Stack>
                 <Stack hidden={evaluation?.isEditable}>

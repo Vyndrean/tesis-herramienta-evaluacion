@@ -5,7 +5,6 @@ import { sendEmail } from '@/data/mail'
 import { updateEvaluation } from '@/data/evaluations'
 import { getProducts } from '@/data/product'
 import CustomButton from '@/styles/customButton'
-import InputForm from './InputForm'
 import moment from 'moment'
 import { createEvaPro } from '@/data/evaPro'
 
@@ -20,7 +19,8 @@ const EmailForm = ({ data }) => {
       "\n\nAccesible mediante el siguiente enlace "
   })
   const [toEvaluate, setToEvaluate] = state({
-    evaluation: data._id
+    evaluation: data._id,
+    status: "pending",
   })
   const handleChangeEmail = (e) => {
     const { value } = e.target
@@ -53,7 +53,6 @@ const EmailForm = ({ data }) => {
       [name]: value
     })
   }
-
   const handleSubmit = (e) => {
     e.preventDefault()
     sendEmail(email).then(eva => {

@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, useDisclosure, useToast as Toast, Stack, FormControl, FormLabel, Select, HStack, Input, Textarea, Text } from '@chakra-ui/react'
+import { Button, Modal, ModalBody, FormHelperText, ModalCloseButton, ModalContent, ModalOverlay, useDisclosure, useToast as Toast, Stack, FormControl, FormLabel, Select, HStack, Input, Textarea, Text } from '@chakra-ui/react'
 import React, { useState as state } from 'react'
 import InputForm from '@/components/InputForm'
 import { createQuestion } from '@/data/question'
@@ -9,11 +9,7 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [addOption, setAddOption] = state(false)
   const toast = Toast()
-  const [answer, setAnswer] = state([
-    {
-      value: ''
-    }
-  ])
+  const [answer, setAnswer] = state([])
   const [question, setQuestion] = state({
     evaluation: id
   })
@@ -30,24 +26,28 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
   }
   const handleChange = (e) => {
     const { name, value } = e.target
-    if (value == 'text' && name == "questionType") {
+    if ((value == 'text' || value == 'textarea') && name == "questionType") {
+      console.log(name, value)
       setAddOption(true)
-      setAnswer([{value: ""}])
-      setQuestion({
-        ...question,
-        questionOptions: [""]
+      setQuestion(prevQuestion => ({
+        ...prevQuestion,
+        [name]: value,
+        questionOptions: "",
+        "questionPosition": length
       })
+      )
     } else {
       setAddOption(false)
+      setQuestion(prevQuestion => ({
+        ...prevQuestion,
+        [name]: value,
+        questionOptions: answer,
+        "questionPosition": length
+      })
+      )
     }
-    setQuestion(prevQuestion => ({
-      ...prevQuestion,
-      [name]: value,
-      questionOptions: answer,
-      "questionPosition": length
-    })
-    )
   }
+
   console.log(question)
   const handleAdd = () => {
     const newAnswer = [...answer, {
@@ -56,9 +56,9 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
     setAnswer(newAnswer)
   }
   const addButton = () => {
-    if (question?.questionType != 'text') {
+    if (question?.questionType != 'text' && question?.questionType != 'textarea') {
       return (
-        <CustomButton ml="80%" my="3" onClick={() => handleAdd()}> <AddIcon /></CustomButton>
+        <CustomButton ml="80%" my="3" onClick={() => handleAdd()} > <AddIcon /></CustomButton>
       )
     }
   }
@@ -105,10 +105,12 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
 
                   <FormControl>
                     <FormLabel>Tipo de pregunta</FormLabel>
-                    <Select name='questionType' onChange={handleChange} placeholder='...' required>
+                    <Select name='questionType' onChange={handleChange} placeholder='...' isRequired={true}>
                       <option value='radio'>Opción múltiple</option>
                       <option value='checkbox'>Casillas de verificación</option>
-                      <option value='text'>Respuesta simple</option>
+
+                      <option value='textarea'>Parrafo</option>
+                      <option value='text'>Respuesta corta</option>
                     </Select>
                   </FormControl>
                 </HStack>
@@ -116,30 +118,44 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
                 <FormControl>
                   <FormLabel>Contexto</FormLabel>
                   <Textarea name='questionContext' placeholder='Proporciona el contexto de la pregunta' onChange={handleChange}></Textarea>
+                  <FormHelperText textAlign="center">La pregunta y el tipo de pregunta son requeridos</FormHelperText>
                 </FormControl>
 
-                <FormControl hidden={addOption} isDisabled={addOption}>
+                <FormControl>
                   <HStack>
-                    <FormLabel>Respuestas</FormLabel>
+                    <FormLabel hidden={addOption} isDisabled={addOption}>Respuestas</FormLabel>
                     {addButton()}
                   </HStack>
                   <HStack>
                     <div>
-                      {answer.map((data, i) => {
-                        const toDelete = (i) => {
-                          if (!i == 0 && question.questionType != 'text') {
+                      {
+                        answer.map((data, i) => {
+                          const toDelete = (i) => {
+                            if (!i == 0 && question.questionType != 'text' && question.questionType != 'textarea') {
+                              return (
+                                <Button onClick={() => handleDelete(i)}> <DeleteIcon /> </Button>
+                              )
+                            }
+                          }
+                          const renderInput = (i) => {
+                            if (question.questionType == 'text' || question.questionType == 'textarea') {
+                              return null
+                            }
+
                             return (
-                              <Button onClick={() => handleDelete(i)}> <DeleteIcon /> </Button>
+                              <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
                             )
                           }
-                        }
-                        return (
-                          <HStack key={i} spacing={8} mb="2">
-                            <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
-                            {toDelete(i)}
-                          </HStack>
-                        )
-                      })}
+
+                          return (
+                            <HStack key={i} spacing={8} mb="2">
+                              {renderInput(i)}
+                              {toDelete(i)}
+                            </HStack>
+                          )
+                        })
+                      }
+
                     </div>
                   </HStack>
                 </FormControl>
