@@ -33,7 +33,7 @@ const evaluaciones = () => {
   const [evaluation, setEvaluation] = state([])
   const handleStatus = (status) => {
     if (!status) {
-      return <Badge colorScheme='yellow'>En preparacion</Badge>
+      return <Badge colorScheme='yellow'>En preparación</Badge>
     } else {
       return <Badge colorScheme='green'>Listo para enviar</Badge>
     }

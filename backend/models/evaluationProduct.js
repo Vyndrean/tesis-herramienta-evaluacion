@@ -17,6 +17,11 @@ const EvaluationProduct = new Schema({
         type: Array,
         required: true
     },
+    status: {
+        type: String,
+        enum: ['pending', 'active', 'finished'],
+        required: true
+    },
     evaluation: {
         type: Schema.ObjectId,
         ref: 'evaluation',

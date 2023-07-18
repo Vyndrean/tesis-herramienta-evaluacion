@@ -1,14 +1,13 @@
 const Evaluation = require('../models/evaluation')
 
 const createEvaluation = (req, res) => {
-    const { title, introduction, status } = req.body
+    const { title, introduction } = req.body
     const newEvaluation = new Evaluation(
         {
             title,
-            introduction,
-            status
+            introduction
         }
-    );
+    )
     newEvaluation.save((err, evaluation) => {
         if (err) {
             return res.status(400).send({ message: "Error al crear la evaluacion" })

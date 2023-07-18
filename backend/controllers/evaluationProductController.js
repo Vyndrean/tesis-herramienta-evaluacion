@@ -1,14 +1,15 @@
 const EvaluationProduct = require('../models/evaluationProduct')
 
 const createEvaluationProduct = (req, res) => {
-    const { start_date, end_date,  emails, evaluation, product } = req.body
+    const { start_date, end_date,  emails, evaluation, product, status } = req.body
     const newEvaluationProduct = new EvaluationProduct(
         {
             start_date,
             end_date,
             emails,
             evaluation,
-            product
+            product,
+            status
         }
     )
     newEvaluationProduct.save((err, evaluationProduct) => {

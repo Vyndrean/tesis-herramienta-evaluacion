@@ -12,11 +12,6 @@ const EvaluationSchema = new Schema({
     introduction: {
         type: String
     },
-    status: {
-        type: String,
-        enum: ['pending', 'send', 'finished'],
-        required: true
-    },
     isEditable: {
         type: Boolean
     }
