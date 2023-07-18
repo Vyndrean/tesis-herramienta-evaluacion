@@ -51,10 +51,11 @@ const questions = ({ id }) => {
   }
 
   const handleUpPosition = (newPosition, oldPosition) => {
-    if (oldPosition > 0 && newPosition > 0) {
+    if (oldPosition > 0 && newPosition >= 0) {
+      console.log("HEY")
       const question1 = questions.find((question) => question.questionPosition == oldPosition)
       const question2 = questions.find((question) => question.questionPosition == newPosition)
-
+      console.log(question1, question2)
       updateQuestion(question1._id, { questionPosition: newPosition }).then(res => {
         if (res.status == 200) {
           updateQuestion(question2._id, { questionPosition: oldPosition }).then(res => {
@@ -69,7 +70,7 @@ const questions = ({ id }) => {
     }
   }
   const handleDownPosition = (newPosition, oldPosition) => {
-    if (oldPosition < questions.length) {
+    if (oldPosition <= questions.length) {
       const question1 = questions.find((question) => question.questionPosition == oldPosition)
       const question2 = questions.find((question) => question.questionPosition == newPosition)
 

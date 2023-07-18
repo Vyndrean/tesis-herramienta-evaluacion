@@ -27,7 +27,6 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
   const handleChange = (e) => {
     const { name, value } = e.target
     if ((value == 'text' || value == 'textarea') && name == "questionType") {
-      console.log(name, value)
       setAddOption(true)
       setQuestion(prevQuestion => ({
         ...prevQuestion,
@@ -48,7 +47,6 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
     }
   }
 
-  console.log(question)
   const handleAdd = () => {
     const newAnswer = [...answer, {
       value: ''
