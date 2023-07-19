@@ -52,10 +52,8 @@ const questions = ({ id }) => {
 
   const handleUpPosition = (newPosition, oldPosition) => {
     if (oldPosition > 0 && newPosition >= 0) {
-      console.log("HEY")
       const question1 = questions.find((question) => question.questionPosition == oldPosition)
       const question2 = questions.find((question) => question.questionPosition == newPosition)
-      console.log(question1, question2)
       updateQuestion(question1._id, { questionPosition: newPosition }).then(res => {
         if (res.status == 200) {
           updateQuestion(question2._id, { questionPosition: oldPosition }).then(res => {
@@ -89,7 +87,6 @@ const questions = ({ id }) => {
   }
 
 
-
   effect(() => {
     getQuestions(id).then(res => {
       handleSortQuestions(res.data)
@@ -119,20 +116,18 @@ const questions = ({ id }) => {
                   </Text>
                 </CardHeader>
                 <hr />
+
                 <CardBody hidden={hideContent} >
                   <Stack>
                     <Box fontSize="md" minH="100px">
                       <form id='form'>
-                        {question.questionOptions.map((res, index) => (
-                          <div key={'answer' + index}>
+                        {question.questionOptions.map((res, i) => (
+                          <div key={'answer' + i}>
                             {question.questionType === 'radio' && (
                               <>
                                 <input type="radio" id={res.name} value={res.value} name='answer' />
                                 <label htmlFor={res.name}> {res.value}</label>
                               </>
-                            )}
-                            {question.questionType === 'text' && (
-                              <Input id={res?.name} type="text" />
                             )}
                             {question.questionType === 'checkbox' && (
                               <div>
@@ -140,11 +135,45 @@ const questions = ({ id }) => {
                                 <label htmlFor={res.name}> {res.value} </label>
                               </div>
                             )}
-                            {question.questionType === 'textarea' && (
-                              <Textarea id={res?.name}></Textarea>
+                            {question.questionType === 'radio-matriz' && (
+                              <>
+                                {res.row.map((row) => (
+                                  <div key={row.value}>
+                                    <HStack>
+                                      <Text>{row.value.toString()} </Text>
+                                      <Stack marginInline="2"></Stack>
+                                      {res.col.map((col, icol) => (
+                                        <HStack key={col.value + row.name}>
+                                          <input type="radio" id={icol} value={col.value} name={row.value} />
+                                          <label htmlFor={icol}>{col.value.toString()}</label>
+                                        </HStack>
+                                      ))}
+                                    </HStack>
+                                  </div>
+                                ))}
+                              </>
+                            )}
+                            {question.questionType === 'checkbox-matriz' && (
+                              <>
+                                {res.row.map((row) => (
+                                  <div key={row.value}>
+                                    <HStack>
+                                      <Text>{row.value.toString()} </Text>
+                                      <Stack marginInline="2"></Stack>
+                                      {res.col.map((col, icol) => (
+                                        <HStack key={col.value}>
+                                          <input type="checkbox" id={icol} value={col.value} name={row.value} />
+                                          <label htmlFor={icol}>{col.value.toString()}</label>
+                                        </HStack>
+                                      ))}
+                                    </HStack>
+                                  </div>
+                                ))}
+                              </>
                             )}
                           </div>
                         ))}
+
                       </form>
                     </Box>
                   </Stack>

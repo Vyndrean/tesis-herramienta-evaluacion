@@ -9,11 +9,20 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [addOption, setAddOption] = state(false)
   const toast = Toast()
-  const [answer, setAnswer] = state([])
+  const [answer, setAnswer] = state([
+    { value: "" }
+  ])
+  const [answerCol, setAnswerCol] = state([
+    { col: "" }
+  ])
+  const [answerRow, setAnswerRow] = state([
+    { row: "" }
+  ])
   const [question, setQuestion] = state({
     evaluation: id
   })
 
+  //From here handle the changes of radio and checkbox
   const handleChangeAnswer = (e, i) => {
     const { value } = e.target
     const updatedAnswer = [...answer]
@@ -26,47 +35,106 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
   }
   const handleChange = (e) => {
     const { name, value } = e.target
-    if ((value == 'text' || value == 'textarea') && name == "questionType") {
-      setAddOption(true)
-      setQuestion(prevQuestion => ({
-        ...prevQuestion,
-        [name]: value,
-        questionOptions: "",
-        "questionPosition": length
-      })
-      )
-    } else {
-      setAddOption(false)
-      setQuestion(prevQuestion => ({
-        ...prevQuestion,
-        [name]: value,
-        questionOptions: answer,
-        "questionPosition": length
-      })
-      )
-    }
+    setAddOption(false)
+    setQuestion(prevQuestion => ({
+      ...prevQuestion,
+      [name]: value,
+      questionOptions: answer,
+      "questionPosition": length
+    })
+    )
   }
 
-  const handleAdd = () => {
-    const newAnswer = [...answer, {
-      value: ''
-    }]
-    setAnswer(newAnswer)
-  }
-  const addButton = () => {
-    if (question?.questionType != 'text' && question?.questionType != 'textarea') {
-      return (
-        <CustomButton ml="80%" my="3" onClick={() => handleAdd()} > <AddIcon /></CustomButton>
-      )
-    }
-  }
-  const handleDelete = (e) => {
+  const handleDelete = (e, val) => {
     const updatedAnswer = [...answer]
     updatedAnswer.splice(e, 1)
     setAnswer(updatedAnswer)
     setQuestion(prevQuestion => ({
       ...prevQuestion,
       questionOptions: updatedAnswer
+    }))
+  }
+
+  const handleAdd = (val) => {
+    if (val == 0) {
+      const newAnswer = [...answer, {
+        value: ''
+      }]
+      setAnswer(newAnswer)
+    } else if (val == 1) {
+      const newAnswer = [...answerRow, {
+        value: ''
+      }]
+      setAnswerRow(newAnswer)
+    } else if (val == 2) {
+      const newAnswer = [...answerCol, {
+        value: ''
+      }]
+      setAnswerCol(newAnswer)
+    }
+
+  }
+  //This function handle the button to add
+  const addButton = () => {
+    if (question?.questionType != 'radio-matriz' && question?.questionType != 'checkbox-matriz') {
+      return (
+        <CustomButton ml="80%" my="3" onClick={() => handleAdd(0)} > <AddIcon /></CustomButton>
+      )
+    } else {
+      return (
+        <HStack justifyContent="space-between">
+          <CustomButton ml="50%" my="3" onClick={() => handleAdd(1)} > <AddIcon mr="2" /> Fila</CustomButton>
+          <CustomButton ml="100%" my="3" onClick={() => handleAdd(2)} > <AddIcon mr="2" /> Columna</CustomButton>
+        </HStack>
+      )
+    }
+  }
+
+  const handleDeleteRow = (e) => {
+    const updatedAnswer = [...answerRow]
+    updatedAnswer.splice(e, 1)
+    setAnswerRow(updatedAnswer)
+    setQuestion(prevQuestion => ({
+      ...prevQuestion,
+      questionOptions: updatedAnswer
+    }))
+  }
+
+  const handleDeleteCol = (e) => {
+    const updatedAnswer = [...answerCol]
+    updatedAnswer.splice(e, 1)
+    setAnswerCol(updatedAnswer)
+    setQuestion(prevQuestion => ({
+      ...prevQuestion,
+      questionOptions: updatedAnswer
+    }))
+  }
+
+  const handleChangeAnswerCol = (e, i) => {
+    const { value } = e.target
+    const updatedAnswer = [...answerCol]
+    updatedAnswer[i] = { value }
+    setAnswerCol(updatedAnswer)
+    setQuestion(prevQuestion => ({
+      ...prevQuestion,
+      questionOptions: [
+        { 'row': answerRow ,
+         'col': answerCol }
+      ]
+    }))
+  }
+
+  const handleChangeAnswerRow = (e, i) => {
+    const { value } = e.target
+    const updatedAnswer = [...answerRow]
+    updatedAnswer[i] = { value }
+    setAnswerRow(updatedAnswer)
+    setQuestion(prevQuestion => ({
+      ...prevQuestion,
+      questionOptions: [
+        { 'row': answerRow ,
+         'col': answerCol }
+      ]
     }))
   }
 
@@ -83,12 +151,14 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
           isClosable: true
         })
         setAnswer([''])
+        setAnswerRow([''])
+        setAnswerCol([''])
       }
     })
   }
   return (
     <>
-      <CustomButton colorScheme="#000080" onClick={onOpen} my={"2"} isDisabled={isEditable}> Añadir pregunta </CustomButton>
+      <CustomButton colorScheme="#000080" onClick={onOpen} my={"2"}> Añadir pregunta </CustomButton>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW="container.md">
@@ -98,35 +168,33 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
             <form onSubmit={handleSubmit} id='form'>
               <Stack spacing={4} my={5} justify={"center"}>
                 <HStack>
-
                   <InputForm name="questionName" type="text" placeholder="Escribe la pregunta aqui" handleChange={handleChange} label="Pregunta" isRequired={true} />
-
                   <FormControl>
                     <FormLabel>Tipo de pregunta</FormLabel>
                     <Select name='questionType' onChange={handleChange} placeholder='...' isRequired={true}>
                       <option value='radio'>Opción múltiple</option>
                       <option value='checkbox'>Casillas de verificación</option>
 
-                      <option value='textarea'>Parrafo</option>
-                      <option value='text'>Respuesta corta</option>
+                      <option value='radio-matriz'>Cuadrícula de opción móltiple</option>
+                      <option value='checkbox-matriz'>Cuadrícula de casillas de verificación</option>
                     </Select>
                   </FormControl>
                 </HStack>
 
                 <FormControl>
                   <FormLabel>Contexto</FormLabel>
-                  <Textarea name='questionContext' placeholder='Proporciona el contexto de la pregunta' onChange={handleChange}></Textarea>
+                  <Textarea name='questionContext' placeholder='Proporciona el contexto o instrucciones necesarias para la pregunta' onChange={handleChange}></Textarea>
                   <FormHelperText textAlign="center">La pregunta y el tipo de pregunta son requeridos</FormHelperText>
                 </FormControl>
 
                 <FormControl>
                   <HStack>
-                    <FormLabel hidden={addOption} isDisabled={addOption}>Respuestas</FormLabel>
+                    <FormLabel>Respuestas</FormLabel>
                     {addButton()}
                   </HStack>
                   <HStack>
                     <div>
-                      {
+                      {question.questionType == 'radio' || question.questionType == 'checkbox' ? (
                         answer.map((data, i) => {
                           const toDelete = (i) => {
                             if (!i == 0 && question.questionType != 'text' && question.questionType != 'textarea') {
@@ -135,27 +203,63 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
                               )
                             }
                           }
-                          const renderInput = (i) => {
-                            if (question.questionType == 'text' || question.questionType == 'textarea') {
-                              return null
-                            }
-
-                            return (
-                              <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
-                            )
-                          }
 
                           return (
-                            <HStack key={i} spacing={8} mb="2">
-                              {renderInput(i)}
+                            <HStack key={i} mb="2">
+                              <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
                               {toDelete(i)}
                             </HStack>
                           )
                         })
+                      ) : (
+                        null
+                      )
                       }
+                      <HStack>
+                        <Stack>
+                          {question.questionType == 'radio-matriz' || question.questionType == 'checkbox-matriz' ? (
+                            answerRow.map((row, i) => {
+                              const toDelete = (i) => {
+                                if (!i == 0 && question.questionType != 'text' && question.questionType != 'textarea') {
+                                  return (
+                                    <Button onClick={() => handleDeleteRow(i)}> <DeleteIcon /> </Button>
+                                  )
+                                }
+                              }
 
+                              return (
+                                <HStack key={i} spacing={2} mb="2">
+                                  <Input w="300px" value={row.value} name={'row'} onChange={(e) => handleChangeAnswerRow(e, i)}></Input>
+                                  {toDelete(i)}
+                                </HStack>
+                              )
+                            })
+                          ) : (null)}
+                        </Stack>
+                        <Stack>
+                          {question.questionType == 'radio-matriz' || question.questionType == 'checkbox-matriz' ? (
+                            answerCol.map((col, i) => {
+                              const toDelete = (i) => {
+                                if (!i == 0 && question.questionType != 'text' && question.questionType != 'textarea') {
+                                  return (
+                                    <Button onClick={() => handleDeleteCol(i)}> <DeleteIcon /> </Button>
+                                  )
+                                }
+                              }
+
+                              return (
+                                <HStack key={i} spacing={2} mb="2">
+                                  <Input w="300px" value={col.value} name={'col'} onChange={(e) => handleChangeAnswerCol(e, i)}></Input>
+                                  {toDelete(i)}
+                                </HStack>
+                              )
+                            })
+                          ) : (null)}
+                        </Stack>
+                      </HStack>
                     </div>
                   </HStack>
+
                 </FormControl>
 
               </Stack>

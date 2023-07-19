@@ -26,23 +26,13 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
   }
   const handleChange = (e) => {
     const { name, value } = e.target
-    if ((value == 'text' || value == 'textarea') && name == "questionType") {
-      setAddOption(true)
-      setQuestion(prevQuestion => ({
-        ...prevQuestion,
-        [name]: value,
-        questionOptions: ""
-      })
-      )
-    } else {
-      setAddOption(false)
-      setQuestion(prevQuestion => ({
-        ...prevQuestion,
-        [name]: value,
-        questionOptions: answer
-      })
-      )
-    }
+    setAddOption(false)
+    setQuestion(prevQuestion => ({
+      ...prevQuestion,
+      [name]: value,
+      questionOptions: answer
+    })
+    )
   }
 
   const handleAdd = () => {

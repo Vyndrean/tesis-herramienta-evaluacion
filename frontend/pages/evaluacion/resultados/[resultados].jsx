@@ -2,7 +2,7 @@ import React, { useEffect as effect, useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Container, HStack, Card, CardHeader, CardBody, Stack, Box, Text, Select, FormLabel, FormControl } from '@chakra-ui/react'
+import { Container, HStack, Card, CardHeader, CardBody, Stack, Box, Text, Select, FormLabel, FormControl, OrderedList, ListItem } from '@chakra-ui/react'
 import { getQuestions } from '@/data/question'
 import CustomButton from '@/styles/customButton'
 import { getProducts } from '@/data/product'
@@ -98,7 +98,6 @@ const resultados = ({ id }) => {
         const sortedQuestions = [...questions].sort((a, b) => a.questionPosition - b.questionPosition)
         setQuestions(sortedQuestions)
     }
-    console.log(scores)
     const handleChange = (e, pos) => {
         const { name, value } = e.target
         if (pos == 0) {
@@ -270,12 +269,11 @@ const resultados = ({ id }) => {
                                 </HStack>
                             </form>
                         </FormControl>
-
                     </HStack>
                     <CustomButton colorScheme="#000080" onClick={() => router.back()}>Regresar</CustomButton>
                 </HStack>
 
-                {answers != '' && answers2 == '' && (
+                {answers != '' && answers2 == '' ? (
                     questions.map(((question, index) => (
                         <Card key={question._id} mb="5" border='1px solid #000080'>
                             <HStack>
@@ -289,16 +287,30 @@ const resultados = ({ id }) => {
                                             <Stack flex="50%">
                                                 <Text>Total de respuestas {answers[question._id]?.length || 'N/A'}</Text>
                                                 <Box fontSize="md">
-                                                    {question.questionOptions.map((res, i) => {
-                                                        return (
-                                                            <div key={i}>
-                                                                <HStack>
-                                                                    <Text>{i + 1}{')'} {res.value} - </Text>
-                                                                    <Text>{scores?.newScores[index]?.[i] || 0}</Text>
-                                                                </HStack>
-                                                            </div>
-                                                        )
-                                                    })}
+                                                    {question.questionType == 'radio' && (
+                                                        question.questionOptions.map((res, i) => {
+                                                            return (
+                                                                <div key={i}>
+                                                                    <HStack>
+                                                                        <Text>{i + 1}{')'} {res.value} - </Text>
+                                                                        <Text>{scores?.newScores[index]?.[i] || 0}</Text>
+                                                                    </HStack>
+                                                                </div>
+                                                            )
+                                                        })
+                                                    )}
+                                                    {question.questionType == 'checkbox' && (
+                                                        question.questionOptions.map((res, i) => {
+                                                            return (
+                                                                <div key={i}>
+                                                                    <HStack>
+                                                                        <Text>{i + 1}{')'} {res.value} - </Text>
+                                                                        <Text>{scores?.newScores[index]?.[i] || 0}</Text>
+                                                                    </HStack>
+                                                                </div>
+                                                            )
+                                                        })
+                                                    )}
                                                 </Box>
                                             </Stack>
                                             <Stack flex="50%">
@@ -310,6 +322,8 @@ const resultados = ({ id }) => {
                             </HStack>
                         </Card>
                     )))
+                ) : (
+                    null
                 )}
                 {answers != '' && answers2 != '' && (
                     questions.map(((question, index) => (

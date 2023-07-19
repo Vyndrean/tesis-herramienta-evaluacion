@@ -19,8 +19,7 @@ const EmailForm = ({ data }) => {
       "\n\nAccesible mediante el siguiente enlace "
   })
   const [toEvaluate, setToEvaluate] = state({
-    evaluation: data._id,
-    status: "pending",
+    evaluation: data._id
   })
   const handleChangeEmail = (e) => {
     const { value } = e.target

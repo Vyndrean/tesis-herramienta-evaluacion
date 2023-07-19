@@ -11,6 +11,7 @@ import CustomButton from '@/styles/customButton'
 import { validateEvaPro } from '@/data/evaPro'
 import Cookie from "js-cookie"
 import moment from 'moment'
+import { Textarea } from '@chakra-ui/react'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -59,7 +60,8 @@ const index = ({ id, data, product, end }) => {
   const toast = Toast()
   //This is the most important part, this handle how the answer is send. Do no touch
   const handleChange = (e) => {
-    const { id, type } = e.target
+    const { id, type, value } = e.target
+    console.log(value)
     if (type == 'radio') {
       setAnswer({
         ...answer,
@@ -88,8 +90,14 @@ const index = ({ id, data, product, end }) => {
         })
       }
     }
+    if(type == 'text' || type == 'textarea'){
+      setAnswer({
+        ...answer,
+        answerUser: value
+      })
+    }
   }
-
+  
 
   //This function update the answers after render next question
   const updateAnswer = async (pos) => {
@@ -328,6 +336,12 @@ const index = ({ id, data, product, end }) => {
                               <label>{(index + 1) + ')'} </label>
                               <input type='checkbox' id={index} value={res.value} name='answer' onChange={handleChange}></input>
                               <label htmlFor={index}> {res.value}</label>
+                            </>
+                          )}
+                          {questions[page]?.questionType === 'textarea' && (
+                            <>
+                              <FormLabel textAlign='center'>Respuesta</FormLabel>
+                              <Textarea w='200%' ml="15%" id={index} name='answer' onChange={handleChange} />
                             </>
                           )}
                         </div>

@@ -9,6 +9,7 @@ import moment from 'moment'
 import DeleteOption from '@/components/DeleteOption'
 import CustomButton from '@/styles/customButton'
 
+
 export const getServerSideProps = async (context) => {
     try {
         const check = await checkToken(context.req.headers.cookie)
@@ -31,6 +32,7 @@ export const getServerSideProps = async (context) => {
 
 const actualizar = ({ id }) => {
     const [evaluationProduct, setEvaluationProduct] = state([])
+    const currentDate = moment().format('YYYY-MM-DDTHH:MM')
     effect(() => {
         getEvaProByID({
             "evaluation": id
@@ -39,7 +41,7 @@ const actualizar = ({ id }) => {
             setEvaluationProduct(res.data)
         })
     }, [])
-
+    console.log(currentDate)
     const contentReload = async () => {
         await getEvaProByID({
             "evaluation": id
@@ -72,19 +74,16 @@ const actualizar = ({ id }) => {
     )
 
     const handleStatus = (data) => {
-        switch(data?.status){
-            case 'pending':
-                return <Badge colorScheme='yellow'>Pendiente</Badge>
-
-            case 'active':
-                return <Badge colorScheme='orange'>Activo</Badge>
-
-            case 'Finalizado':
-                return <Badge colorScheme='green'>Finalizado</Badge>
-
-            default:
-                return <Badge colorScheme='yellow'>Pendiente</Badge>
+        if (currentDate < data.start_date) {
+            return <Badge colorScheme='yellow'>Pendiente</Badge>
         }
+        if (currentDate >= data.start_date && currentDate < data.end_date) {
+            return <Badge colorScheme='yellow'>Pendiente</Badge>
+        }
+        if (currentDate > data.end_date) {
+            return <Badge colorScheme='green'>Finalizado</Badge>
+        }
+        return <Badge colorScheme='yellow'>Pendiente</Badge>
     }
 
     return (
