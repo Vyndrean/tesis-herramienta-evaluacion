@@ -51,7 +51,8 @@ const questions = ({ id }) => {
   }
 
   const handleUpPosition = (newPosition, oldPosition) => {
-    if (oldPosition > 0 && newPosition >= 0) {
+    console.log("NEW POSITION: ", newPosition, "\nOLD POSITION: ", oldPosition)
+    if (oldPosition > 0 && newPosition > 0) {
       const question1 = questions.find((question) => question.questionPosition == oldPosition)
       const question2 = questions.find((question) => question.questionPosition == newPosition)
       updateQuestion(question1._id, { questionPosition: newPosition }).then(res => {
@@ -68,7 +69,8 @@ const questions = ({ id }) => {
     }
   }
   const handleDownPosition = (newPosition, oldPosition) => {
-    if (oldPosition <= questions.length) {
+    console.log("NEW POSITION: ", newPosition, "\nOLD POSITION: ", oldPosition)
+    if (oldPosition < questions.length) {
       const question1 = questions.find((question) => question.questionPosition == oldPosition)
       const question2 = questions.find((question) => question.questionPosition == newPosition)
 
@@ -116,7 +118,6 @@ const questions = ({ id }) => {
                   </Text>
                 </CardHeader>
                 <hr />
-
                 <CardBody hidden={hideContent} >
                   <Stack>
                     <Box fontSize="md" minH="100px">
@@ -144,7 +145,7 @@ const questions = ({ id }) => {
                                       <Stack marginInline="2"></Stack>
                                       {res.col.map((col, icol) => (
                                         <HStack key={col.value + row.name}>
-                                          <input type="radio" id={icol} value={col.value} name={row.value} />
+                                          <input type="radio" id={icol} value={col.value} name={row.value} onClick={() => console.log(col.value)} />
                                           <label htmlFor={icol}>{col.value.toString()}</label>
                                         </HStack>
                                       ))}

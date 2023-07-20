@@ -45,14 +45,20 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
     )
   }
 
-  const handleDelete = (e, val) => {
-    const updatedAnswer = [...answer]
-    updatedAnswer.splice(e, 1)
-    setAnswer(updatedAnswer)
-    setQuestion(prevQuestion => ({
-      ...prevQuestion,
-      questionOptions: updatedAnswer
-    }))
+  const handleChangeAnswerCol = (e, i) => {
+    const { value } = e.target
+    const updatedAnswer = [...answerCol]
+    updatedAnswer[i] = { value }
+    setAnswerCol(updatedAnswer)
+    updateActualQuestion(answerRow, updatedAnswer)
+  }
+
+  const handleChangeAnswerRow = (e, i) => {
+    const { value } = e.target
+    const updatedAnswer = [...answerRow]
+    updatedAnswer[i] = { value }
+    setAnswerRow(updatedAnswer)
+    updateActualQuestion(updatedAnswer, answerCol)
   }
 
   const handleAdd = (val) => {
@@ -72,7 +78,6 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
       }]
       setAnswerCol(newAnswer)
     }
-
   }
   //This function handle the button to add
   const addButton = () => {
@@ -90,54 +95,41 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
     }
   }
 
-  const handleDeleteRow = (e) => {
-    const updatedAnswer = [...answerRow]
+  const handleDelete = (e, val) => {
+    const updatedAnswer = [...answer]
     updatedAnswer.splice(e, 1)
-    setAnswerRow(updatedAnswer)
+    setAnswer(updatedAnswer)
     setQuestion(prevQuestion => ({
       ...prevQuestion,
       questionOptions: updatedAnswer
     }))
+  }
+
+  const handleDeleteRow = (e) => {
+    const updatedAnswer = [...answerRow]
+    updatedAnswer.splice(e, 1)
+    setAnswerRow(updatedAnswer)
+    updateActualQuestion(updatedAnswer, answerCol)
   }
 
   const handleDeleteCol = (e) => {
     const updatedAnswer = [...answerCol]
     updatedAnswer.splice(e, 1)
     setAnswerCol(updatedAnswer)
-    setQuestion(prevQuestion => ({
-      ...prevQuestion,
-      questionOptions: updatedAnswer
-    }))
+    updateActualQuestion(answerRow, updatedAnswer)
   }
 
-  const handleChangeAnswerCol = (e, i) => {
-    const { value } = e.target
-    const updatedAnswer = [...answerCol]
-    updatedAnswer[i] = { value }
-    setAnswerCol(updatedAnswer)
-    setQuestion(prevQuestion => ({
-      ...prevQuestion,
+  const updateActualQuestion = (row, col) => {
+    setQuestion({
+      ...question,
       questionOptions: [
-        { 'row': answerRow ,
-         'col': answerCol }
+        {
+          'row': row,
+          'col': col
+        }
       ]
-    }))
+    })
   }
-
-  const handleChangeAnswerRow = (e, i) => {
-    const { value } = e.target
-    const updatedAnswer = [...answerRow]
-    updatedAnswer[i] = { value }
-    setAnswerRow(updatedAnswer)
-    setQuestion(prevQuestion => ({
-      ...prevQuestion,
-      questionOptions: [
-        { 'row': answerRow ,
-         'col': answerCol }
-      ]
-    }))
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault()
     createQuestion(question).then(res => {
@@ -175,7 +167,7 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
                       <option value='radio'>Opción múltiple</option>
                       <option value='checkbox'>Casillas de verificación</option>
 
-                      <option value='radio-matriz'>Cuadrícula de opción móltiple</option>
+                      <option value='radio-matriz'>Cuadrícula de opción múltiple</option>
                       <option value='checkbox-matriz'>Cuadrícula de casillas de verificación</option>
                     </Select>
                   </FormControl>
