@@ -51,12 +51,13 @@ const questions = ({ id }) => {
   }
 
   const handleUpPosition = (newPosition, oldPosition) => {
-    console.log("NEW POSITION: ", newPosition, "\nOLD POSITION: ", oldPosition)
     if (oldPosition > 0 && newPosition > 0) {
+      console.log("NEW POSITION: ", newPosition, "\nOLD POSITION: ", oldPosition)
       const question1 = questions.find((question) => question.questionPosition == oldPosition)
       const question2 = questions.find((question) => question.questionPosition == newPosition)
+
       updateQuestion(question1._id, { questionPosition: newPosition }).then(res => {
-        if (res.status == 200) {
+        if (res.status == 200 ) {
           updateQuestion(question2._id, { questionPosition: oldPosition }).then(res => {
             if (res.status == 200) {
               contentReload()
@@ -68,12 +69,13 @@ const questions = ({ id }) => {
       })
     }
   }
+
   const handleDownPosition = (newPosition, oldPosition) => {
-    console.log("NEW POSITION: ", newPosition, "\nOLD POSITION: ", oldPosition)
-    if (oldPosition < questions.length) {
+    console.log(questions.length)
+    if (oldPosition < questions.length && newPosition <= questions.length) {
+      console.log("NEW POSITION: ", newPosition, "\nOLD POSITION: ", oldPosition)
       const question1 = questions.find((question) => question.questionPosition == oldPosition)
       const question2 = questions.find((question) => question.questionPosition == newPosition)
-
       updateQuestion(question1._id, { questionPosition: newPosition }).then(res => {
         if (res.status == 200) {
           updateQuestion(question2._id, { questionPosition: oldPosition }).then(res => {
