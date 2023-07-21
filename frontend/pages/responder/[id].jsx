@@ -89,47 +89,47 @@ const index = ({ id, data, product, end }) => {
       }
     }
     if (val === 'radio-matriz') {
-      const existingAnswerIndex = answer.answerUser.findIndex(item => Object.keys(item)[0] === name);
+      const existingAnswerIndex = answer.answerUser.findIndex(item => Object.keys(item)[0] === name)
       console.log(name, ":", id)
       if (existingAnswerIndex !== -1) {
-        const updatedAnswer = [...answer.answerUser];
-        updatedAnswer[existingAnswerIndex] = { [name]: id };
+        const updatedAnswer = [...answer.answerUser]
+        updatedAnswer[existingAnswerIndex] = { [name]: id }
 
         setAnswer({
           ...answer,
-          answerUser: updatedAnswer,
-        });
+          answerUser: updatedAnswer
+        })
       } else {
         setAnswer({
           ...answer,
           answerUser: [
             ...answer.answerUser,
-            { [name]: id },
-          ],
-        });
+            { [name]: id }
+          ]
+        })
       }
     }
     if (val === 'checkbox-matriz') {
-      const existingAnswer = answer.answerUser.find(item => item.name === name);
-      const newIdSet = new Set();
+      const existingAnswer = answer.answerUser.find(item => item.name === name)
+      const newIdSet = new Set()
 
       if (existingAnswer) {
-        existingAnswer.ids.forEach(existingId => newIdSet.add(existingId));
+        existingAnswer.ids.forEach(existingId => newIdSet.add(existingId))
       }
 
       if (newIdSet.has(id)) {
-        newIdSet.delete(id);
+        newIdSet.delete(id)
       } else {
-        newIdSet.add(id);
+        newIdSet.add(id)
       }
 
-      const updatedAnswer = answer.answerUser.filter(item => item.name !== name);
-      updatedAnswer.push({ name, ids: Array.from(newIdSet) });
+      const updatedAnswer = answer.answerUser.filter(item => item.name !== name)
+      updatedAnswer.push({ name, ids: Array.from(newIdSet) })
 
       setAnswer({
         ...answer,
-        answerUser: updatedAnswer,
-      });
+        answerUser: updatedAnswer
+      })
     }
   }
 
