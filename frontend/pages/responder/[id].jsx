@@ -11,7 +11,6 @@ import CustomButton from '@/styles/customButton'
 import { validateEvaPro } from '@/data/evaPro'
 import Cookie from "js-cookie"
 import moment from 'moment'
-import { Textarea } from '@chakra-ui/react'
 
 export const getServerSideProps = async (context) => {
   try {
@@ -53,16 +52,15 @@ const index = ({ id, data, product, end }) => {
   const [evaluation] = state(data)
   const [page, setPage] = state(-1)
   const [answer, setAnswer] = state([])
-  const [userData, setUserData] = state([])
+  const [userData, setUserData] = state({ answerUser: [] })
   const { isOpen, onClose } = Disc({ defaultIsOpen: true })
   const [alreadyHere, setAlreadyHere] = state(false)
   const [prevAnswer, setPrevAnswer] = state([])
   const toast = Toast()
   //This is the most important part, this handle how the answer is send. Do no touch
-  const handleChange = (e) => {
-    const { id, type, value } = e.target
-    console.log(value)
-    if (type == 'radio') {
+  const handleChange = (e, val) => {
+    const { id, name } = e.target
+    if (val == 'radio') {
       setAnswer({
         ...answer,
         answerUser: [
@@ -70,7 +68,7 @@ const index = ({ id, data, product, end }) => {
         ]
       })
     }
-    if (type == 'checkbox') {
+    if (val == 'checkbox') {
       const isSelected = answer.answerUser.includes(id)
       if (isSelected) {
         const updateOptions = answer.answerUser.filter(
@@ -90,14 +88,51 @@ const index = ({ id, data, product, end }) => {
         })
       }
     }
-    if(type == 'text' || type == 'textarea'){
+    if (val === 'radio-matriz') {
+      const existingAnswerIndex = answer.answerUser.findIndex(item => Object.keys(item)[0] === name);
+      console.log(name, ":", id)
+      if (existingAnswerIndex !== -1) {
+        const updatedAnswer = [...answer.answerUser];
+        updatedAnswer[existingAnswerIndex] = { [name]: id };
+
+        setAnswer({
+          ...answer,
+          answerUser: updatedAnswer,
+        });
+      } else {
+        setAnswer({
+          ...answer,
+          answerUser: [
+            ...answer.answerUser,
+            { [name]: id },
+          ],
+        });
+      }
+    }
+    if (val === 'checkbox-matriz') {
+      const existingAnswer = answer.answerUser.find(item => item.name === name);
+      const newIdSet = new Set();
+
+      if (existingAnswer) {
+        existingAnswer.ids.forEach(existingId => newIdSet.add(existingId));
+      }
+
+      if (newIdSet.has(id)) {
+        newIdSet.delete(id);
+      } else {
+        newIdSet.add(id);
+      }
+
+      const updatedAnswer = answer.answerUser.filter(item => item.name !== name);
+      updatedAnswer.push({ name, ids: Array.from(newIdSet) });
+
       setAnswer({
         ...answer,
-        answerUser: value
-      })
+        answerUser: updatedAnswer,
+      });
     }
   }
-  
+
 
   //This function update the answers after render next question
   const updateAnswer = async (pos) => {
@@ -123,7 +158,7 @@ const index = ({ id, data, product, end }) => {
       if (res.data == "") {
         setAnswer({
           ...answer,
-          answerUser: "",
+          answerUser: [],
           question: idQuestion
         })
       }
@@ -146,6 +181,7 @@ const index = ({ id, data, product, end }) => {
 
   //Save answers and go forward to the next question
   const handleSubmit = () => {
+    console.log(answer, prevAnswer)
     if (answer.answerUser) {
       if (prevAnswer) {
         updateAnswers(prevAnswer, answer).then(res => {
@@ -321,27 +357,51 @@ const index = ({ id, data, product, end }) => {
                           {questions[page]?.questionType === 'radio' && (
                             <>
                               <label>{(index + 1) + ')'} </label>
-                              <input type='radio' id={index} value={res.value} name='answer' onChange={handleChange}></input>
+                              <input type='radio' id={index} value={res.value} name='radio' onChange={(e) => handleChange(e, 'radio')}></input>
                               <label htmlFor={index}> {res.value}</label>
-                            </>
-                          )}
-                          {questions[page]?.questionType === 'text' && (
-                            <>
-                              <FormLabel textAlign='center'>Respuesta</FormLabel>
-                              <Input w="70%" ml="15%" id={index} type='text' name='answer' onChange={handleChange} />
                             </>
                           )}
                           {questions[page]?.questionType === 'checkbox' && (
                             <>
                               <label>{(index + 1) + ')'} </label>
-                              <input type='checkbox' id={index} value={res.value} name='answer' onChange={handleChange}></input>
+                              <input type='checkbox' id={index} value={res.value} name='checkbox' onChange={(e) => handleChange(e, 'checkbox')}></input>
                               <label htmlFor={index}> {res.value}</label>
                             </>
                           )}
-                          {questions[page]?.questionType === 'textarea' && (
+                          {questions[page]?.questionType === 'radio-matriz' && (
                             <>
-                              <FormLabel textAlign='center'>Respuesta</FormLabel>
-                              <Textarea w='200%' ml="15%" id={index} name='answer' onChange={handleChange} />
+                              {res.row.map((row, irow) => (
+                                <div key={row.value}>
+                                  <HStack>
+                                    <Text>{row.value.toString()} </Text>
+                                    <Stack marginInline="2"></Stack>
+                                    {res.col.map((col, icol) => (
+                                      <HStack key={col.value + icol}>
+                                        <input type="radio" id={icol} value={col.value} name={irow} onChange={(e) => handleChange(e, 'radio-matriz')} />
+                                        <label htmlFor={icol}>{col.value.toString()}</label>
+                                      </HStack>
+                                    ))}
+                                  </HStack>
+                                </div>
+                              ))}
+                            </>
+                          )}
+                          {questions[page]?.questionType === 'checkbox-matriz' && (
+                            <>
+                              {res.row.map((row, irow) => (
+                                <div key={row.value}>
+                                  <HStack>
+                                    <Text>{row.value.toString()} </Text>
+                                    <Stack marginInline="2"></Stack>
+                                    {res.col.map((col, icol) => (
+                                      <HStack key={col.value}>
+                                        <input type="checkbox" id={icol} value={col.value} name={irow} onChange={(e) => handleChange(e, 'checkbox-matriz')} />
+                                        <label htmlFor={icol}>{col.value.toString()}</label>
+                                      </HStack>
+                                    ))}
+                                  </HStack>
+                                </div>
+                              ))}
                             </>
                           )}
                         </div>

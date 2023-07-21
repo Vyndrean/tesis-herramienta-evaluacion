@@ -7,7 +7,6 @@ import CustomButton from '@/styles/customButton'
 
 const CreateQuestion = ({ id, reload, length, isEditable }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [addOption, setAddOption] = state(false)
   const toast = Toast()
   const [answer, setAnswer] = state([
     { value: "" }
@@ -150,7 +149,7 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
   }
   return (
     <>
-      <CustomButton colorScheme="#000080" onClick={onOpen} my={"2"}> Añadir pregunta </CustomButton>
+      <CustomButton colorScheme="#000080" onClick={onOpen} my={"2"} isDisabled={isEditable}> Añadir pregunta </CustomButton>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW="container.md">

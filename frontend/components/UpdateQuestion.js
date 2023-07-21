@@ -75,13 +75,13 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
   const addButton = () => {
     if (question?.questionType != 'radio-matriz' && question?.questionType != 'checkbox-matriz') {
       return (
-        <CustomButton ml="80%" my="3" onClick={() => handleAdd(0)} > <AddIcon /></CustomButton>
+        <CustomButton ml="80%" my="3" onClick={() => handleAdd(0)} hidden={isEditable} isDisabled={isEditable}> <AddIcon /></CustomButton>
       )
     } else {
       return (
         <HStack justifyContent="space-between">
-          <CustomButton ml="50%" my="3" onClick={() => handleAdd(1)} > <AddIcon mr="2" /> Fila</CustomButton>
-          <CustomButton ml="100%" my="3" onClick={() => handleAdd(2)} > <AddIcon mr="2" /> Columna</CustomButton>
+          <CustomButton ml="50%" my="3" onClick={() => handleAdd(1)} hidden={isEditable} isDisabled={isEditable}> <AddIcon mr="2" /> Fila</CustomButton>
+          <CustomButton ml="100%" my="3" onClick={() => handleAdd(2)} hidden={isEditable} isDisabled={isEditable}> <AddIcon mr="2" /> Columna</CustomButton>
         </HStack>
       )
     }
@@ -193,7 +193,7 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
                           const toDelete = (i) => {
                             if (!i == 0 && question.questionType != 'text' && question.questionType != 'textarea') {
                               return (
-                                <Button onClick={() => handleDelete(i)} hidden={isEditable}> <DeleteIcon /> </Button>
+                                <Button onClick={() => handleDelete(i)} hidden={isEditable} isDisabled={isEditable}> <DeleteIcon /> </Button>
                               )
                             }
                           }
@@ -216,7 +216,7 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
                               const toDelete = (i) => {
                                 if (!i == 0 && question.questionType != 'text' && question.questionType != 'textarea') {
                                   return (
-                                    <Button onClick={() => handleDeleteRow(i)}> <DeleteIcon /> </Button>
+                                    <Button onClick={() => handleDeleteRow(i)} hidden={isEditable} isDisabled={isEditable}> <DeleteIcon /> </Button>
                                   )
                                 }
                               }
@@ -236,7 +236,7 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
                               const toDelete = (i) => {
                                 if (!i == 0 && question.questionType != 'text' && question.questionType != 'textarea') {
                                   return (
-                                    <Button onClick={() => handleDeleteCol(i)}> <DeleteIcon /> </Button>
+                                    <Button onClick={() => handleDeleteCol(i)} hidden={isEditable} isDisabled={isEditable}> <DeleteIcon /> </Button>
                                   )
                                 }
                               }

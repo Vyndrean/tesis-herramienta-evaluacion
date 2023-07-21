@@ -90,7 +90,6 @@ const questions = ({ id }) => {
     }
   }
 
-
   effect(() => {
     getQuestions(id).then(res => {
       handleSortQuestions(res.data)
@@ -146,7 +145,7 @@ const questions = ({ id }) => {
                                       <Text>{row.value.toString()} </Text>
                                       <Stack marginInline="2"></Stack>
                                       {res.col.map((col, icol) => (
-                                        <HStack key={col.value + row.name}>
+                                        <HStack key={col.value + icol}>
                                           <input type="radio" id={icol} value={col.value} name={row.value} onClick={() => console.log(col.value)} />
                                           <label htmlFor={icol}>{col.value.toString()}</label>
                                         </HStack>
