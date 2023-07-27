@@ -78,7 +78,7 @@ const actualizar = ({ id }) => {
             return <Badge colorScheme='yellow'>Pendiente</Badge>
         }
         if (currentDate >= data.start_date && currentDate < data.end_date) {
-            return <Badge colorScheme='yellow'>Pendiente</Badge>
+            return <Badge colorScheme='yellow'>En progreso</Badge>
         }
         if (currentDate > data.end_date) {
             return <Badge colorScheme='green'>Finalizado</Badge>

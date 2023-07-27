@@ -81,9 +81,10 @@ const resultados = ({ id }) => {
     }
 
     //This function calculate the score
-    const handleResult = (index, data) => {
-        let score = 0
-        if (data) {
+    const handleResult = (index, data, questionTemp) => {
+        let resultObj = []
+        if (data && (questionTemp.questionType == 'radio' || questionTemp.questionType == 'checkbox')) {
+            let score = 0
             data.map(res => {
                 res.answerUser.map(answer => {
                     if (answer == index) {
@@ -92,8 +93,44 @@ const resultados = ({ id }) => {
                 })
             })
             return score
+        } else if (data && questionTemp.questionType == 'radio-matriz') {
+            questionTemp.questionOptions[0].row.map((row, irow) => {
+                resultObj[irow] = []
+                questionTemp.questionOptions[0].col.map((col, icol) => {
+                    let score = 0
+                    data.map(res => {
+                        res.answerUser.map((answer, i) => {
+                            if (answer[irow] == icol) {
+                                score += 1
+                            }
+                        })
+                    })
+                    resultObj[irow][icol] = score
+                })
+            })
+            return resultObj
+        } else if (data && questionTemp.questionType == 'checkbox-matriz') {
+            const merge = data.flatMap(item => item.answerUser)
+            questionTemp.questionOptions[0].row.forEach((row, irow) => {
+                resultObj[irow] = [];
+                questionTemp.questionOptions[0].col.forEach((col, icol) => {
+                    resultObj[irow][icol] = 0
+                    merge.forEach(answer => {
+                        if (answer.name == irow) {
+                            answer.ids.map(res => {
+                                if (icol == res) {
+                                    resultObj[irow][icol] += 1
+                                }
+                            })
+                        }
+                    })
+                })
+            })
+            return resultObj
         }
+        return 0
     }
+
     const handleSortQuestions = (questions) => {
         const sortedQuestions = [...questions].sort((a, b) => a.questionPosition - b.questionPosition)
         setQuestions(sortedQuestions)
@@ -113,6 +150,7 @@ const resultados = ({ id }) => {
         }
         setSelected(false)
     }
+
     const handleAverage = (data, length, questionName, questionOptions) => {
         if (length == 0) {
             return 'Sin resultado'
@@ -198,7 +236,6 @@ const resultados = ({ id }) => {
         }
 
     }
-
     effect(() => {
         getQuestions(id).then(res => {
             handleSortQuestions(res.data)
@@ -211,7 +248,7 @@ const resultados = ({ id }) => {
     effect(() => {
         const newScores = questions.map(question => {
             const newScore = question.questionOptions.map((_res, i) => (
-                handleResult(i, answers[question._id])
+                handleResult(i, answers[question._id], question)
             ))
             return newScore
         })
@@ -308,6 +345,38 @@ const resultados = ({ id }) => {
                                                                         <Text>{scores?.newScores[index]?.[i] || 0}</Text>
                                                                     </HStack>
                                                                 </div>
+                                                            )
+                                                        })
+                                                    )}
+                                                    {question.questionType == 'radio-matriz' && (
+                                                        question.questionOptions[0].row.map((row, irow) => {
+                                                            return (
+                                                                <HStack key={irow}>
+                                                                    <Text>{irow + 1}{')'} {row.value}</Text>
+                                                                    <Stack marginInline="2"></Stack>
+                                                                    {question.questionOptions[0].col.map((col, icol) => (
+                                                                        <HStack key={icol}>
+                                                                            <Text>{col.value} - </Text>
+                                                                            <Text>{scores?.newScores[index]?.[0]?.[irow]?.[icol]}</Text>
+                                                                        </HStack>
+                                                                    ))}
+                                                                </HStack>
+                                                            )
+                                                        })
+                                                    )}
+                                                    {question.questionType == 'checkbox-matriz' && (
+                                                        question.questionOptions[0].row.map((row, irow) => {
+                                                            return (
+                                                                <HStack key={irow}>
+                                                                    <Text>{irow + 1}{')'} {row.value}</Text>
+                                                                    <Stack marginInline="2"></Stack>
+                                                                    {question.questionOptions[0].col.map((col, icol) => (
+                                                                        <HStack key={icol}>
+                                                                            <Text>{col.value} - </Text>
+                                                                            <Text>{scores?.newScores[index]?.[0]?.[irow]?.[icol]}</Text>
+                                                                        </HStack>
+                                                                    ))}
+                                                                </HStack>
                                                             )
                                                         })
                                                     )}

@@ -66,7 +66,7 @@ const evaluaciones = () => {
   )
 
   const formatDate = (date) => {
-    const newFormat = moment(date.substring(0, 10)).format(`DD-MM-YYYY`)
+    const newFormat = moment(date).format(`DD-MM-YYYY`)
     return newFormat
   }
   return (

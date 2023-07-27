@@ -212,7 +212,7 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
                       <HStack>
                         <Stack>
                           {question.questionType == 'radio-matriz' || question.questionType == 'checkbox-matriz' ? (
-                            answerRow.map((row, i) => {
+                            answerRow?.map((row, i) => {
                               const toDelete = (i) => {
                                 if (!i == 0 && question.questionType != 'text' && question.questionType != 'textarea') {
                                   return (
@@ -232,7 +232,7 @@ const UpdateQuestion = ({ id, reload, isEditable }) => {
                         </Stack>
                         <Stack>
                           {question.questionType == 'radio-matriz' || question.questionType == 'checkbox-matriz' ? (
-                            answerCol.map((col, i) => {
+                            answerCol?.map((col, i) => {
                               const toDelete = (i) => {
                                 if (!i == 0 && question.questionType != 'text' && question.questionType != 'textarea') {
                                   return (

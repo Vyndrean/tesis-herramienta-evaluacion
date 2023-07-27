@@ -34,7 +34,6 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
   }
   const handleChange = (e) => {
     const { name, value } = e.target
-    setAddOption(false)
     setQuestion(prevQuestion => ({
       ...prevQuestion,
       [name]: value,
