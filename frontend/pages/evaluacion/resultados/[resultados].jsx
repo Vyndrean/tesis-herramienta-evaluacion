@@ -7,6 +7,7 @@ import { getQuestions } from '@/data/question'
 import CustomButton from '@/styles/customButton'
 import { getProducts } from '@/data/product'
 import { getAnswersByProduct } from '@/data/answer'
+import BarChart from '@/components/BarChart'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -261,7 +262,7 @@ const resultados = ({ id }) => {
     effect(() => {
         const newScores = questions.map(question => {
             const newScore = question.questionOptions.map((_res, i) => (
-                handleResult(i, answers2[question._id])
+                handleResult(i, answers2[question._id], question)
             ))
             return newScore
         })
@@ -309,10 +310,10 @@ const resultados = ({ id }) => {
                     </HStack>
                     <CustomButton colorScheme="#000080" onClick={() => router.back()}>Regresar</CustomButton>
                 </HStack>
-
                 {answers != '' && answers2 == '' ? (
                     questions.map(((question, index) => (
                         <Card key={question._id} mb="5" border='1px solid #000080'>
+                            
                             <HStack>
                                 <Stack>
                                     <CardHeader >
