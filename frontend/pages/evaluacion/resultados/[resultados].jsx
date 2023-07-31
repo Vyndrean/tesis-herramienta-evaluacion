@@ -45,7 +45,7 @@ const resultados = ({ id }) => {
     const [answers2, setAnswers2] = state([])
     const [scores2, setScores2] = state([])
     const [selectedProduct, setSelectedProduct] = state([])
-    const [selectedProduct2, setSelectedProduct2] = state([])
+    const [selectedProduct2, setSelectedProduct2] = state("")
     const [selected, setSelected] = state(true)
     const bringThoseChosen = (e) => {
         e.preventDefault()
@@ -58,6 +58,7 @@ const resultados = ({ id }) => {
                 'idProduct': ''
             })
         })
+
     }
 
     const brinTheOtherChosenOne = (e) => {
@@ -152,91 +153,6 @@ const resultados = ({ id }) => {
         setSelected(false)
     }
 
-    const handleAverage = (data, length, questionName, questionOptions) => {
-        if (length == 0) {
-            return 'Sin resultado'
-        }
-        let maxR = 0
-        let maxP = 0
-        if (data && length) {
-            data.map((answer, index) => {
-                const average = (answer / length) * 100
-                const newAverage = Math.floor(average)
-                if (newAverage > maxR) {
-                    maxR = newAverage
-                    maxP = index
-                }
-                return maxR
-            })
-
-            return (
-                <Text>De acuerdo con los datos recopilados de todos los participantes, el {maxR}% ha elegido la respuesta {maxP + 1} como la opción preferida. Estos resultados sugieren que {questionName} se ha considerado {questionOptions[maxP].value}</Text>
-            )
-        }
-    }
-
-    const handleComparison = (data, data2, length, length2, questionName, questionOptions) => {
-        if (length == 0) {
-            return (
-                <Text>No es posible realizar la comparacion</Text>
-            )
-        }
-        let maxR = 0
-        let maxP = 0
-        let maxR2 = 0
-        let maxP2 = 0
-
-        let name
-        let maxRF
-        let maxPF
-        if (data && length) {
-            data.map((answer, index) => {
-                const average = (answer / length) * 100
-                const newAverage = Math.floor(average)
-                if (newAverage > maxR) {
-                    maxR = newAverage
-                    maxP = index
-                }
-                return maxR
-            })
-        }
-        if (data2 && length2) {
-            data2.map((answer, index) => {
-                const average = (answer / length2) * 100
-                const newAverage = Math.floor(average)
-                if (newAverage > maxR2) {
-                    maxR2 = newAverage
-                    maxP2 = index
-                }
-                return maxR2
-            })
-        }
-
-        if (maxR < maxR2) {
-            maxRF = maxR2
-            maxPF = maxP2
-            name = selectedProduct2
-        } else if (maxR == maxR2) {
-            return (
-                <Text>Basándonos en los resultados, podemos concluir que tanto el {selectedProduct} como {selectedProduct2} presentan un número significativo de usuarios similares. Sin embargo, el producto B muestra un promedio ligeramente mayor en comparacion</Text>
-            )
-        } else {
-            maxRF = maxR
-            maxPF = maxP
-            name = selectedProduct
-        }
-
-        if (maxRF == 0) {
-            return (
-                <Text>No existe informacion suficiente para dar un resultado.</Text>
-            )
-        } else {
-            return (
-                <Text>Segun los datos proporcionados, se obtuvo como resultado que: <br />{selectedProduct} un {maxR}% a elegido {questionOptions[maxP].value} <br />  {selectedProduct2} un {maxR2}% a elegido {questionOptions[maxP2].value} <br /> Comparando los resultados, se observa que {name}, con un {maxRF}% en {questionOptions[maxPF].value} presento una mayor metrica evaluada en comparacion con el otro producto</Text>
-            )
-        }
-
-    }
     effect(() => {
         getQuestions(id).then(res => {
             handleSortQuestions(res.data)
@@ -271,6 +187,46 @@ const resultados = ({ id }) => {
             newScores
         })
     }, [answers2])
+
+    const handleBar = (question) => {
+        if (question.questionType == 'radio' || question.questionType == 'checkbox') {
+            const barData = {
+                labels: question?.questionOptions?.map((res) => res.value) || [],
+                datasets: [
+                    {
+                        label: selectedProduct,
+                        data: scores?.newScores[question.questionPosition - 1] || [],
+                        borderWidth: 2,
+                    },
+                    {
+                        label: selectedProduct2,
+                        data: scores2?.newScores[question.questionPosition - 1] || [],
+                        borderWidth: 2,
+                    }
+                ]
+            }
+            return barData
+        } else if (question.questionType == 'radio-matriz' || question.questionType == 'checkbox-matriz') {
+            const barData = {
+                labels: question?.questionOptions[0]?.col?.map((col) => col.value) || [],
+                datasets: question.questionOptions[0]?.row?.map((row, irow) => (
+                    {
+                        label: row?.value + " - " + selectedProduct || '',
+                        data: scores?.newScores[question.questionPosition - 1]?.[0]?.[irow] || []
+                    }
+                )),
+            };
+            const additionalDatasets = question.questionOptions[0]?.row?.map((row, irow) => ({
+                label: row?.value + " - " + selectedProduct2 || '',
+                data: scores2?.newScores[question.questionPosition - 1]?.[0]?.[irow] || []
+            })
+            )
+            barData.datasets.push(...additionalDatasets);
+            return barData
+        } else {
+            return null
+        }
+    }
 
     return (
         <>
@@ -313,144 +269,38 @@ const resultados = ({ id }) => {
                 {answers != '' && answers2 == '' ? (
                     questions.map(((question, index) => (
                         <Card key={question._id} mb="5" border='1px solid #000080'>
-                            
-                            <HStack>
-                                <Stack>
-                                    <CardHeader >
-                                        <Text fontSize='xl'>Pregunta {(index + 1)}: {question.questionName} </Text>
-                                    </CardHeader>
-                                    <hr />
-                                    <CardBody>
-                                        <HStack>
-                                            <Stack flex="50%">
-                                                <Text>Total de respuestas {answers[question._id]?.length || 'N/A'}</Text>
-                                                <Box fontSize="md">
-                                                    {question.questionType == 'radio' && (
-                                                        question.questionOptions.map((res, i) => {
-                                                            return (
-                                                                <div key={i}>
-                                                                    <HStack>
-                                                                        <Text>{i + 1}{')'} {res.value} - </Text>
-                                                                        <Text>{scores?.newScores[index]?.[i] || 0}</Text>
-                                                                    </HStack>
-                                                                </div>
-                                                            )
-                                                        })
-                                                    )}
-                                                    {question.questionType == 'checkbox' && (
-                                                        question.questionOptions.map((res, i) => {
-                                                            return (
-                                                                <div key={i}>
-                                                                    <HStack>
-                                                                        <Text>{i + 1}{')'} {res.value} - </Text>
-                                                                        <Text>{scores?.newScores[index]?.[i] || 0}</Text>
-                                                                    </HStack>
-                                                                </div>
-                                                            )
-                                                        })
-                                                    )}
-                                                    {question.questionType == 'radio-matriz' && (
-                                                        question.questionOptions[0].row.map((row, irow) => {
-                                                            return (
-                                                                <HStack key={irow}>
-                                                                    <Text>{irow + 1}{')'} {row.value}</Text>
-                                                                    <Stack marginInline="2"></Stack>
-                                                                    {question.questionOptions[0].col.map((col, icol) => (
-                                                                        <HStack key={icol}>
-                                                                            <Text>{col.value} - </Text>
-                                                                            <Text>{scores?.newScores[index]?.[0]?.[irow]?.[icol]}</Text>
-                                                                        </HStack>
-                                                                    ))}
-                                                                </HStack>
-                                                            )
-                                                        })
-                                                    )}
-                                                    {question.questionType == 'checkbox-matriz' && (
-                                                        question.questionOptions[0].row.map((row, irow) => {
-                                                            return (
-                                                                <HStack key={irow}>
-                                                                    <Text>{irow + 1}{')'} {row.value}</Text>
-                                                                    <Stack marginInline="2"></Stack>
-                                                                    {question.questionOptions[0].col.map((col, icol) => (
-                                                                        <HStack key={icol}>
-                                                                            <Text>{col.value} - </Text>
-                                                                            <Text>{scores?.newScores[index]?.[0]?.[irow]?.[icol]}</Text>
-                                                                        </HStack>
-                                                                    ))}
-                                                                </HStack>
-                                                            )
-                                                        })
-                                                    )}
-                                                </Box>
-                                            </Stack>
-                                            <Stack flex="50%">
-                                                {handleAverage(scores?.newScores[index], answers[question._id]?.length, question.questionName, question.questionOptions)}
-                                            </Stack>
-                                        </HStack>
-                                    </CardBody>
-                                </Stack>
-                            </HStack>
+                            <Stack>
+                                <CardHeader >
+                                    <Text fontSize='xl'>Pregunta {(index + 1)}: {question.questionContext}, {question.questionName} </Text>
+                                </CardHeader>
+                                <hr />
+                                <CardBody h="50">
+                                    <BarChart data={handleBar(question)} chartId={question._id} />
+                                </CardBody>
+                            </Stack>
                         </Card>
                     )))
                 ) : (
                     null
                 )}
-                {answers != '' && answers2 != '' && (
+                {answers != '' && answers2 != '' ? (
                     questions.map(((question, index) => (
                         <Card key={question._id} mb="5" border='1px solid #000080'>
-                            <HStack>
-                                <Stack>
-                                    <CardHeader >
-                                        <Text fontSize='xl'>Pregunta {(index + 1)}: {question.questionName} </Text>
-                                    </CardHeader>
-                                    <hr />
-                                    <CardBody>
-                                        <HStack>
-                                            <Stack flex="25%">
-                                                <Text>Total de respuestas {answers[question._id]?.length || 'N/A'}</Text>
-                                                <Box fontSize="md">
-                                                    {question.questionOptions.map((res, i) => {
-                                                        return (
-                                                            <div key={i}>
-                                                                <HStack>
-                                                                    <Text>{i + 1}{')'} {res.value} - </Text>
-                                                                    <Text>{scores?.newScores[index]?.[i] || 0}</Text>
-                                                                </HStack>
-                                                            </div>
-                                                        )
-                                                    })}
-                                                </Box>
-                                            </Stack>
-                                            <Stack flex="25%">
-                                                <Text>Total de respuestas {answers2[question._id]?.length || 'N/A'}</Text>
-                                                <Box fontSize="md">
-                                                    {question.questionOptions.map((res, i) => {
-                                                        return (
-                                                            <div key={i}>
-                                                                <HStack>
-                                                                    <Text>{i + 1}{')'} {res.value} - </Text>
-                                                                    <Text>{scores2?.newScores[index]?.[i] || 0}</Text>
-                                                                </HStack>
-                                                            </div>
-                                                        )
-                                                    })}
-                                                </Box>
-                                            </Stack>
-                                            <Stack flex="50%">
-                                                {
-                                                    handleComparison(scores?.newScores[index], scores2?.newScores[index], answers[question._id]?.length, answers2[question._id]?.length, question.questionName, question.questionOptions)
-                                                }
-                                            </Stack>
-                                        </HStack>
-                                    </CardBody>
-                                </Stack>
-                            </HStack>
+                            <Stack>
+                                <CardHeader >
+                                    <Text fontSize='xl'>Pregunta {(index + 1)}: {question.questionContext}, {question.questionName} </Text>
+                                </CardHeader>
+                                <hr />
+                                <CardBody h="50">
+                                    <BarChart data={handleBar(question)} chartId={question._id} />
+                                </CardBody>
+                            </Stack>
                         </Card>
                     )))
+                ) : (
+                    null
                 )}
-
             </Container>
-
         </>
     )
 }
