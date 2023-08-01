@@ -8,6 +8,7 @@ import CustomButton from '@/styles/customButton'
 import { getProducts } from '@/data/product'
 import { getAnswersByProduct } from '@/data/answer'
 import BarChart from '@/components/BarChart'
+import { CheckIcon, ChevronRightIcon, CloseIcon, InfoIcon, InfoOutlineIcon, Search2Icon, SearchIcon } from '@chakra-ui/icons'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -44,12 +45,12 @@ const resultados = ({ id }) => {
     })
     const [answers2, setAnswers2] = state([])
     const [scores2, setScores2] = state([])
-    const [selectedProduct, setSelectedProduct] = state([])
+    const [selectedProduct, setSelectedProduct] = state("")
     const [selectedProduct2, setSelectedProduct2] = state("")
     const [selected, setSelected] = state(true)
+    const [selected2, setSelected2] = state(true)
     const bringThoseChosen = (e) => {
-        e.preventDefault()
-        setSelectedProduct(e.target.attributes.name.value)
+        setSelected(false)
         getAnswersByProduct(theChosenOne).then(res => {
             const newAnswer = groupedData(res.data, 'question')
             setAnswers(newAnswer)
@@ -58,12 +59,9 @@ const resultados = ({ id }) => {
                 'idProduct': ''
             })
         })
-
     }
 
     const brinTheOtherChosenOne = (e) => {
-        e.preventDefault()
-        setSelectedProduct2(e.target.attributes.name.value)
         getAnswersByProduct(theOtherChosenOne).then(res => {
             const newAnswer = groupedData(res.data, 'question')
             setAnswers2(newAnswer)
@@ -138,21 +136,21 @@ const resultados = ({ id }) => {
         setQuestions(sortedQuestions)
     }
     const handleChange = (e, pos) => {
-        const { name, value } = e.target
+        const { name, value, selectedIndex } = e.target
         if (pos == 0) {
+            setSelectedProduct(product[selectedIndex - 1].name)
             setTheChosenOne({
                 ...theChosenOne,
                 [name]: value
             })
         } else {
+            setSelectedProduct2(product[selectedIndex - 1].name)
             setTheOtherChosenOne({
                 ...theChosenOne,
                 [name]: value
             })
         }
-        setSelected(false)
     }
-
     effect(() => {
         getQuestions(id).then(res => {
             handleSortQuestions(res.data)
@@ -173,7 +171,7 @@ const resultados = ({ id }) => {
             ...scores,
             newScores
         })
-    }, [answers, questions])
+    }, [answers, questions, answers2])
     //Check the second answers and compare
     effect(() => {
         const newScores = questions.map(question => {
@@ -187,7 +185,7 @@ const resultados = ({ id }) => {
             newScores
         })
     }, [answers2])
-
+    console.log(selectedProduct, selectedProduct2)
     const handleBar = (question) => {
         if (question.questionType == 'radio' || question.questionType == 'checkbox') {
             const barData = {
@@ -201,7 +199,7 @@ const resultados = ({ id }) => {
                     {
                         label: selectedProduct2,
                         data: scores2?.newScores[question.questionPosition - 1] || [],
-                        borderWidth: 2,
+                        borderWidth: 2
                     }
                 ]
             }
@@ -227,7 +225,6 @@ const resultados = ({ id }) => {
             return null
         }
     }
-
     return (
         <>
             <Navbar />
@@ -236,16 +233,18 @@ const resultados = ({ id }) => {
                 <HStack justifyContent="space-between" bgColor="#000080" borderTopRadius="20px" paddingInline="10" mb="2" h="12">
                     <HStack>
                         <FormControl>
-                            <form id='form' onSubmit={bringThoseChosen}>
+                            <form id='form'>
                                 <HStack>
                                     <FormLabel color='white' pt="2">Seleccione un producto</FormLabel>
-                                    <Select name='idProduct' placeholder='Seleccione...' isRequired bgColor='white' w="40" maxW="60" onChange={(e) => handleChange(e, 0)}>
+                                    <Select name='idProduct' placeholder='Seleccione...' isRequired bgColor='white' w="40" maxW="60" onChange={(e) => handleChange(e, 0)} borderRadius="17">
                                         {
                                             product.map((res) => (
-                                                <option value={res._id} name={res.name} key={res._id} onClick={bringThoseChosen}>{res.name}</option>
+                                                <option value={res._id} name={res.name} key={res._id}>{res.name}</option>
                                             ))
+                                            
                                         }
                                     </Select>
+                                    <CustomButton onClick={() => bringThoseChosen()} colorScheme="#000080"> <InfoOutlineIcon boxSize="6" /> </CustomButton>
                                 </HStack>
                             </form>
                         </FormControl>
@@ -253,13 +252,14 @@ const resultados = ({ id }) => {
                             <form>
                                 <HStack>
                                     <FormLabel color='white' pt="2">Comparar con</FormLabel>
-                                    <Select name='idProduct' placeholder='Seleccione...' isRequired bgColor='white' w="40" maxW="60" onChange={(e) => handleChange(e, 1)}>
+                                    <Select name='idProduct' placeholder='Seleccione...' isRequired bgColor='white' w="40" maxW="60" onChange={(e) => handleChange(e, 1)} borderRadius="17">
                                         {
                                             product.map((res) => (
-                                                <option value={res._id} name={res.name} key={res._id} onClick={brinTheOtherChosenOne}>{res.name}</option>
+                                                <option value={res._id} name={res.name} key={res._id}>{res.name}</option>
                                             ))
                                         }
                                     </Select>
+                                    <CustomButton onClick={() => brinTheOtherChosenOne() && setSelected2(false)} hidden={!selected2} colorScheme="#000080"> <InfoOutlineIcon boxSize="6" /> </CustomButton>
                                 </HStack>
                             </form>
                         </FormControl>
@@ -275,6 +275,7 @@ const resultados = ({ id }) => {
                                 </CardHeader>
                                 <hr />
                                 <CardBody h="50">
+                                    <Text textAlign="center">Total de respuestas: {answers[question._id]?.length || "N/A"}</Text>
                                     <BarChart data={handleBar(question)} chartId={question._id} />
                                 </CardBody>
                             </Stack>
@@ -292,6 +293,7 @@ const resultados = ({ id }) => {
                                 </CardHeader>
                                 <hr />
                                 <CardBody h="50">
+                                    <Text textAlign="center">Total de respuestas {selectedProduct}: {answers[question._id]?.length || "N/A"} | {selectedProduct2}: {answers2[question._id]?.length || "N/A"}</Text>
                                     <BarChart data={handleBar(question)} chartId={question._id} />
                                 </CardBody>
                             </Stack>

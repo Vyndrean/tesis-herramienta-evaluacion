@@ -38,7 +38,6 @@ const crear = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(product)
         createProduct(product).then(res => {
             if (res.status == 200) {
                 router.back()

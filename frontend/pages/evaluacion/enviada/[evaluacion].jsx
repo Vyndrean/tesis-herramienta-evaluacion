@@ -37,16 +37,13 @@ const actualizar = ({ id }) => {
         getEvaProByID({
             "evaluation": id
         }).then(res => {
-            console.log(res.data)
             setEvaluationProduct(res.data)
         })
     }, [])
-    console.log(currentDate)
     const contentReload = async () => {
         await getEvaProByID({
             "evaluation": id
         }).then(res => {
-            console.log(res.data)
             setEvaluationProduct(res.data)
         })
     }
