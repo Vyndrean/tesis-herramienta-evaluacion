@@ -12,11 +12,11 @@ const EmailForm = ({ data }) => {
   const [product, setProduct] = state([])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = Toast()
+  const [selectedProduct, setSelectedProduct] = state([])
   const currentDate = moment().format().substring(0, 16)
   const [email, setEmail] = state({
     subject: data.title,
-    content: "Estimado/a,\n\n" + data?.introduction +
-      "\n\nAccesible mediante el siguiente enlace "
+    content: "Estimado/a,\n\n" + data?.introduction
   })
   const [toEvaluate, setToEvaluate] = state({
     evaluation: data._id
@@ -34,20 +34,18 @@ const EmailForm = ({ data }) => {
     })
   }
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value, selectedIndex } = e.target
+    setSelectedProduct(product[selectedIndex - 1])
     setToEvaluate({
       ...toEvaluate,
       [name]: value
     })
   }
-
   const convertToChile = (date) => {
     const adjustedDate = new Date(date);
     adjustedDate.setHours(adjustedDate.getHours() - 4);
     return adjustedDate
   }
-
-  console.log(toEvaluate)
 
   const handleDateChanges = (e) => {
     const { name, value } = e.target
@@ -59,27 +57,38 @@ const EmailForm = ({ data }) => {
       })
     }
   }
+
+  const newDate = (date) => {
+    const parsedDate = moment(date, "YYYY-MM-DDTHH:mm")
+    const formattedDate = parsedDate.format("DD-MM-YYYYTHH:mm")
+    return formattedDate
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     createEvaPro(toEvaluate)
-    .then(res => {
-      const newEmail = {
-        ...email,
-        'link': `/responder/${data._id}?product=${toEvaluate.product}`
-      };
+      .then(res => {
+        const newEmail = {
+          ...email,
+          'link': `/responder/${data._id}?product=${toEvaluate.product}&eva=${res.data._id}`,
+          "start": newDate(toEvaluate.start_date),
+          "end": newDate(toEvaluate.end_date),
+          "product": selectedProduct.name,
+          "product_link": selectedProduct.link
+        }
 
-      return sendEmail(newEmail);
-    })
-    .then(eva => {
-      updateEvaluation(data._id, { status: 'send' });
-      toast({
-        title: 'Enviado correctamente',
-        status: 'success',
-        duration: 5000,
-        isClosable: true
-      });
-      onClose()
-    });
+        return sendEmail(newEmail)
+      })
+      .then(eva => {
+        updateEvaluation(data._id, { status: 'send' });
+        toast({
+          title: 'Enviado correctamente',
+          status: 'success',
+          duration: 5000,
+          isClosable: true
+        })
+        onClose()
+      })
   }
 
   const renderEndDate = () => {
@@ -92,7 +101,6 @@ const EmailForm = ({ data }) => {
       const minutes = toEvaluate.start_date.getMinutes().toString().padStart(2, '0');
       tempDate = `${year}-${month}-${day}T${hours}:${minutes}`
 
-      console.log(tempDate)
       return (
         <FormControl>
           <FormLabel>Fecha de termino</FormLabel>

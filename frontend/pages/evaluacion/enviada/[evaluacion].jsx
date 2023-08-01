@@ -74,7 +74,6 @@ const actualizar = ({ id }) => {
         const newStartDate = data.start_date.substring(0, 16)
         const newEndDate = data.end_date.substring(0, 16)
         if (currentDate < newStartDate) {
-            console.log("HEy")
             return <Badge colorScheme='yellow'>Pendiente</Badge>
         }
         if (currentDate >= newStartDate && currentDate < newEndDate) {

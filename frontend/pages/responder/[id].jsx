@@ -8,7 +8,7 @@ import { createParticipant, getParticipant } from '@/data/participant'
 import { createAnswer, getAnswerOfParticipant, updateAnswers } from '@/data/answer'
 import { getProduct } from '@/data/product'
 import CustomButton from '@/styles/customButton'
-import { validateEvaPro } from '@/data/evaPro'
+import { getEvaluationProduct } from '@/data/evaPro'
 import Cookie from "js-cookie"
 import moment from 'moment'
 
@@ -16,17 +16,15 @@ export const getServerSideProps = async (context) => {
   try {
     const res = await getEvaluation(context.query.id)
     const product = await getProduct(context.query.product)
-    const validate = await validateEvaPro({
-      'evaluation': context.query.id,
-      'product': context.query.product
-    })
-    if (validate.status == 200) {
+    const evaPro = await getEvaluationProduct(context.query.eva)
+    if (evaPro.status == '200') {
       return {
         props: {
           id: context.query.id,
           data: res.data,
           product: product.data,
-          end: validate.data.end_date
+          end: evaPro.data.end_date,
+          start: evaPro.data.start_date
         }
       }
     } else {
@@ -47,7 +45,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-const index = ({ id, data, product, end }) => {
+const index = ({ id, data, product, end, start }) => {
   const [questions, setQuestions] = state([])
   const [evaluation] = state(data)
   const [page, setPage] = state(-1)
@@ -209,15 +207,14 @@ const index = ({ id, data, product, end }) => {
 
   //New format to the date
   const formatDate = (date) => {
-    const newFormat = moment(date.substring(0, 10)).format(`DD-MM-YYYY`)
+    const newFormat = moment(date.substring(0, 16)).format(`DD-MM-YYYYTHH:mm`)
     return newFormat
   }
 
 
   //Set cookie if you had been finalized the evaluation
   const handleEndEvaluation = () => {
-    const end_date = formatDate(end)
-    Cookie.set("evaluation", true, { expires: new Date(end_date) })
+    Cookie.set("evaluation", true, { expires: 100 })
     router.push('/responder/terminado')
   }
 
@@ -232,7 +229,7 @@ const index = ({ id, data, product, end }) => {
     }
 
     const submitUserData = (e) => {
-      e.preventDefault();
+      e.preventDefault()
       onClose()
       const end_date = formatDate(end)
       createParticipant(userData).then(res => {
@@ -292,6 +289,10 @@ const index = ({ id, data, product, end }) => {
     setQuestions(sortedQuestions)
   }
 
+  const currentDate = moment().format('DD-MM-YYYYTHH:mm')
+  const end_date = formatDate(end)
+  const start_date = formatDate(start)
+
   //Get questions 
   effect(() => {
     getQuestions(id).then(res => {
@@ -315,6 +316,9 @@ const index = ({ id, data, product, end }) => {
         })
         setUserData(res.data)
       })
+    }
+    if (start_date > currentDate || end_date < currentDate) {
+      router.replace('/responder/error')
     }
   }, [])
 
