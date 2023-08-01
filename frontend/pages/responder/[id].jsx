@@ -90,7 +90,7 @@ const index = ({ id, data, product, end }) => {
     }
     if (val === 'radio-matriz') {
       const existingAnswerIndex = answer.answerUser.findIndex(item => Object.keys(item)[0] === name)
-      console.log(name, ":", id)
+      //console.log(name, ":", id)
       if (existingAnswerIndex !== -1) {
         const updatedAnswer = [...answer.answerUser]
         updatedAnswer[existingAnswerIndex] = { [name]: id }

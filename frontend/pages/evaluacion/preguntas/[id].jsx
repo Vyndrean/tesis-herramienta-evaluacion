@@ -122,7 +122,7 @@ const questions = ({ id }) => {
                   <Stack>
                     <Box fontSize="md" minH="100px">
                       <form id='form'>
-                        {question.questionOptions.map((res, i) => (
+                        {question?.questionOptions.map((res, i) => (
                           <div key={'answer' + i}>
                             {question.questionType === 'radio' && (
                               <>

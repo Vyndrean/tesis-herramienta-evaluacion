@@ -196,7 +196,7 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
 
                           return (
                             <HStack key={i} mb="2">
-                              <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)}></Input>
+                              <Input w="640px" value={data.value} name={'answer' + i} onChange={(e) => handleChangeAnswer(e, i)} isRequired></Input>
                               {toDelete(i)}
                             </HStack>
                           )
@@ -219,7 +219,7 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
 
                               return (
                                 <HStack key={i} spacing={2} mb="2">
-                                  <Input w="300px" value={row.value} name={'row'} onChange={(e) => handleChangeAnswerRow(e, i)}></Input>
+                                  <Input w="300px" value={row.value} name={'row'} onChange={(e) => handleChangeAnswerRow(e, i)} isRequired></Input>
                                   {toDelete(i)}
                                 </HStack>
                               )
@@ -239,7 +239,7 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
 
                               return (
                                 <HStack key={i} spacing={2} mb="2">
-                                  <Input w="300px" value={col.value} name={'col'} onChange={(e) => handleChangeAnswerCol(e, i)}></Input>
+                                  <Input w="300px" value={col.value} name={'col'} onChange={(e) => handleChangeAnswerCol(e, i)} isRequired></Input>
                                   {toDelete(i)}
                                 </HStack>
                               )

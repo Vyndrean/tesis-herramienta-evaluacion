@@ -35,50 +35,68 @@ const EmailForm = ({ data }) => {
   }
   const handleChange = (e) => {
     const { name, value } = e.target
-    setEmail({
-      ...email,
-      'link': `/responder/${data._id}?product=${value}`
-    })
     setToEvaluate({
       ...toEvaluate,
       [name]: value
     })
   }
+
+  const convertToChile = (date) => {
+    const adjustedDate = new Date(date);
+    adjustedDate.setHours(adjustedDate.getHours() - 4);
+    return adjustedDate
+  }
+
+  console.log(toEvaluate)
 
   const handleDateChanges = (e) => {
     const { name, value } = e.target
-    setToEvaluate({
-      ...toEvaluate,
-      [name]: value
-    })
+    const newDate = convertToChile(value)
+    if (newDate) {
+      setToEvaluate({
+        ...toEvaluate,
+        [name]: newDate
+      })
+    }
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    sendEmail(email).then(eva => {
-      if (eva.status == 200) {
-        createEvaPro(toEvaluate).then(res => {
-          if (res.status == 200) {
-            updateEvaluation(data._id, { status: 'send' })
-            toast({
-              title: 'Enviado correctamente',
-              status: 'success',
-              duration: 5000,
-              isClosable: true
-            })
-            onClose()
-          }
-        })
-      }
-    })
+    createEvaPro(toEvaluate)
+    .then(res => {
+      const newEmail = {
+        ...email,
+        'link': `/responder/${data._id}?product=${toEvaluate.product}`
+      };
 
+      return sendEmail(newEmail);
+    })
+    .then(eva => {
+      updateEvaluation(data._id, { status: 'send' });
+      toast({
+        title: 'Enviado correctamente',
+        status: 'success',
+        duration: 5000,
+        isClosable: true
+      });
+      onClose()
+    });
   }
 
   const renderEndDate = () => {
     if (toEvaluate.start_date) {
+      let tempDate = toEvaluate.start_date
+      const day = tempDate.getDate().toString().padStart(2, '0')
+      const month = (tempDate.getMonth() + 1).toString().padStart(2, '0');
+      const year = tempDate.getFullYear();
+      const hours = (tempDate.getHours() + 4).toString().padStart(2, '0')
+      const minutes = toEvaluate.start_date.getMinutes().toString().padStart(2, '0');
+      tempDate = `${year}-${month}-${day}T${hours}:${minutes}`
+
+      console.log(tempDate)
       return (
         <FormControl>
           <FormLabel>Fecha de termino</FormLabel>
-          <Input name='end_date' type='datetime-local' placeholder='Fecha de termino de la evaluación' onChange={handleDateChanges} required min={toEvaluate.start_date} />
+          <Input name='end_date' type='datetime-local' placeholder='Fecha de termino de la evaluación' onChange={handleDateChanges} required min={tempDate} />
         </FormControl>
       )
     }

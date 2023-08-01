@@ -32,7 +32,7 @@ export const getServerSideProps = async (context) => {
 
 const actualizar = ({ id }) => {
     const [evaluationProduct, setEvaluationProduct] = state([])
-    const currentDate = moment().format('YYYY-MM-DDTHH:MM')
+    const currentDate = moment().format('YYYY-MM-DDTHH:mm')
     effect(() => {
         getEvaProByID({
             "evaluation": id
@@ -71,13 +71,16 @@ const actualizar = ({ id }) => {
     )
 
     const handleStatus = (data) => {
-        if (currentDate < data.start_date) {
+        const newStartDate = data.start_date.substring(0, 16)
+        const newEndDate = data.end_date.substring(0, 16)
+        if (currentDate < newStartDate) {
+            console.log("HEy")
             return <Badge colorScheme='yellow'>Pendiente</Badge>
         }
-        if (currentDate >= data.start_date && currentDate < data.end_date) {
-            return <Badge colorScheme='yellow'>En progreso</Badge>
+        if (currentDate >= newStartDate && currentDate < newEndDate) {
+            return <Badge colorScheme='orange'>En progreso</Badge>
         }
-        if (currentDate > data.end_date) {
+        if (currentDate > newEndDate) {
             return <Badge colorScheme='green'>Finalizado</Badge>
         }
         return <Badge colorScheme='yellow'>Pendiente</Badge>

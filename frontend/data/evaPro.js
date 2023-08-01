@@ -15,8 +15,14 @@ const getEvaProByID = async (id) => {
     return res
 }
 
+const getEvaluationProduct = (id) => {
+    const res = axios.get(`${process.env.SERVIDOR}/evaPro/search/${id}`)
+    return res
+}
+
 module.exports = {
     createEvaPro,
     validateEvaPro,
-    getEvaProByID
+    getEvaProByID,
+    getEvaluationProduct
 }
