@@ -60,7 +60,8 @@ const EmailForm = ({ data }) => {
 
   const newDate = (date) => {
     const parsedDate = moment(date, "YYYY-MM-DDTHH:mm")
-    const formattedDate = parsedDate.format("DD-MM-YYYYTHH:mm")
+    const updatedDate = parsedDate.add(4, 'hours');
+    const formattedDate = updatedDate.format("DD-MM-YYYYTHH:mm")
     return formattedDate
   }
 
