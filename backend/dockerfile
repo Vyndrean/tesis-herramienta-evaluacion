@@ -1,16 +1,18 @@
 FROM node:18.16.0
-#dependencias
+#Instalacion de las dependencias para el servidor
 RUN apt-get update && \
     apt-get install -y \
-    python2 \
-    make \
-    g++ && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
+        build-essential \
+        libcairo2-dev \
+        libkrb5-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+#Directorio
 WORKDIR /usr/src/backend
+#Instalacion de las dependencias del proyecto
 COPY package*.json ./
 RUN npm install
+#Copia el resto de los archivos del proyecto
 COPY . .
 EXPOSE 3001
 CMD [ "npm", "start"]

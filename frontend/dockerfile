@@ -1,19 +1,23 @@
 FROM node:18.16.0
-#dependencias
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libcairo2-dev \
-    libpango1.0-dev \
-    libjpeg-dev \
-    libgif-dev \
-    librsvg2-dev \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
+#Instalacion de las dependencias para el servidor
+RUN apt-get update && \
+    apt-get install -y \
+        build-essential \
+        libcairo2-dev \
+        libpango1.0-dev \
+        libjpeg-dev \
+        libgif-dev \
+        librsvg2-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+#Directorio
 WORKDIR /usr/src/frontend
+#Instalacion de dependencias
 COPY package*.json ./
 RUN npm install
+#Copia el resto de los archivos
 COPY . .
+#Build
 RUN npm run build
 EXPOSE 3000
 CMD [ "npm", "start" ]
