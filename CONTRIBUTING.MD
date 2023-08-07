@@ -12,7 +12,7 @@
 
 El estilo de código de este proyecto debe seguir las recomendaciones de los estándares:
 
--   [Estructura](https://nextjs.org/docs/getting-started/project-structure)
+-   [Estructura de NextJS](https://nextjs.org/docs/getting-started/project-structure)
 -   [Api Rest NodeJS](https://www.freecodecamp.org/news/rest-api-design-best-practices-build-a-rest-api/)
 -   [import](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Statements/import)
 -   [require](https://nodejs.org/api/modules.html)

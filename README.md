@@ -113,6 +113,10 @@ Dentro de la carpeta raiz del proyecto para poder instalar las dependencias del 
 
 -   SERVIDOR="Direccion del servidor, ej: http://localhost:3001/api"
 
+11. Ya listo en .env se debe contruir las paginas del frontend:
+
+-   yarn build
+
 ### Ejecutar el proyecto
 
 Para poder ejecutar el proyecto se deben inicar el backend y el frontend, para lograr eso debemos seguir los siguientes pasos:
