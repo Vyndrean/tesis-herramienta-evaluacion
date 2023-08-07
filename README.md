@@ -15,7 +15,77 @@ El proyecto "Herramienta para apoyar el procedimiento de evaluacion de UX" es un
 Para realizar una copia debes de clonar el repositorio de github https://github.com/Vyndrean/tesis-herramienta-evaluacion.git
 
 ### Credenciales de Base de Datos y variables de ambiente
-Editar el archivo .env.example cambiando su nombre a .env o crear un nuevo .env para el backend: `tesis-herramienta-evaluacion/backend/.env` y añadir: 
+
+Servidor de producción
+
+Es importante considerar que para el funcionamiento correcto del proyecto deben estar corriendo simultaneamente el frontend y backend, donde deberan realizarse los pasos de instalacion de dependencias y configuracion de variable de entorno.
+
+Para configurar el servidor de produccion se debe seguir los siguientes pasos en el servidor:
+
+1. Iniciar el modo root e ingresar las credenciales de administrador del usuario.
+-   sudo su
+
+2. Actualizar el sistema operativo.
+-   apt-get update
+
+3.  Instalar curl para descargar paquetes.
+-   apt-get install -y curl
+
+4.  Instalar autoclean para limpiar el sistema.
+-   apt-get -y autoclean
+
+5.  Instalar git para clonar el repositorio.
+-   apt-get install git
+
+6.  Instalar nano para poder editar archivos.
+-   apt-get install nano
+
+7.  Instalar nvm para poder instalar NodeJS dentro del servidor.
+-   curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+
+8.  Reinicar bash para que apliquen los cambios y se pueda utilizar comandos de NVM.
+-   exec bash
+
+9.  Instalar version 18.16.0 de NodeJS
+-   nvm install 18.16.0
+
+10. Cambiar alias de NodeJS
+-   nvm alias default 18.16.0
+
+11. Cambiar la version de NodeJS
+-   nvm use default
+
+12. Instalar yarn para poder instalar las dependecias y pm2 para poder ejecutar la aplicacion.
+-   npm install -g yarn
+-   npm install -g pm2
+
+13. Ahora se debe clonar el repositorio del proyecto.
+-   git clone "URI del proyecto"
+
+14. Luego de haber clonado al repositorio se debe mover hacia la carpeta raiz del proyecto, ejecutando el siguiente comando:
+-   cd "Proyecto"
+
+### Instalar las dependencias del proyecto ambiente de producción y generar el .env
+
+Dentro de la carpeta raiz del proyecto para poder instalar las dependencias del proyecto, se debe de ejecutar los siguientes pasos:
+
+1.  En la carpeta raiz vamos nos movemos hacia el directorio backend usando el siguiente comando:
+-   cd backend/
+
+2.  Dentro del backend instalaremos las dependencias usando el siguiete comando:
+
+-   yarn install
+
+3.  Ya con las dependencias instaladas se debe de generar el .env en la carpeta:
+
+-   touch .env
+
+4. Para editarlo se debe de ejecutar el siguiente comando:
+
+-   nano .env
+
+5. Dentro del .env se debe añadir las siguientes lineas de codigo y añadir los campos requeridos: 
+
 -   PORT = "Puerto del backend"
 -   DB = "URI de conexion con la base de datos (MongoDB)"
 -   DIRECTION = "URL del frontend, ej: http://localhost:3000"
@@ -23,26 +93,60 @@ Editar el archivo .env.example cambiando su nombre a .env o crear un nuevo .env 
 -   EMAIL_USER = "Direccion de Correo"
 -   EMAIL_PASSWORD = "Contraseña del correo temporal"
 
-Luego se debe configurar el .env del frontend: `tesis-herramienta-evaluacion/frontend/.env` y añadir:
+6.  Con las dependencias del backend instaladas, se deben de instalar las depencias del frontend, para eso debemos dirigirnos a la raiz del proyecto y ejecutar los siguientes comandos:
+
+-   cd frontend/
+
+7.  Dentro del frontend instalaremos las dependicas usando el siguiente comando:
+
+-   yarn install
+
+8.  Ya con las dependencias instaladas se debe de generar el .env en la carpeta:
+
+-   touch .env
+
+9. Para editarlo se debe de ejecutar el siguiete comando:
+
+-   nano .env
+
+10. Dentro del .env se debe añadir las siguientes lineas de codigo y añadir los campos requeridos:
+
 -   SERVIDOR="Direccion del servidor, ej: http://localhost:3001/api"
 
-### docker y docker-compose son requeridos
+### Ejecutar el proyecto
 
-Con una terminal situarse dentro del directorio raiz donde fue clonado este repositorio y ejecutar lo siguiente para construir la imagen docker:
+Para poder ejecutar el proyecto se deben inicar el backend y el frontend, para lograr eso debemos seguir los siguientes pasos:
 
-```bash
-docker-compose up -d --build
-```
+1.  Dentro de la raiz nos digirimos al backend usando el siguiente comando:
 
-Esto construira ambas imagenes y las ejecutara en segundo plano.
+-   cd backend/
 
-Ir a un navegador web y ejecutar la siguiente url: http://localhost:3001/api para poder acceder al backend en funcionamiento y la url: http://localhost:3000 para acceder al frontend.
+2.  Ya dentro del directorio del backend, debemos ejecutar el proyecto con el siguiente comando:
+
+-   pm2 start yarn --name backend -- start
+
+3.  Para poder verificar que esta corriendo el backend del proyecto, nos dirigimos al siguiente enlace:
+
+-   http://"IP del server":3001/
+
+4.  Ya con el backend corriendo, debemos de ejecutar el frontend del proyecto. Nos volvemos a dirigir a la raiz del proyecto y ejecutamos el siguiente comando:
+
+-   cd frontend/
+
+5.  Dentro del directorio del frontend, debemos ejecutar el proyecto con el siguiente comando:
+
+-   pm2 start yarn --name frontend -- start
+
+6. Para poder verificar que esta corriendo el frontend del proyecto, nos dirigimos al siguiente enlace:
+
+-   http://"IP del server":3000/
 
 ## Construido con
--   docker
--   docker-compose
--   npm
--   node
+-   yarn
+-   nvm
+-   nodejs
+-   nano
+-   pm2
 
 ## Licencia
 
