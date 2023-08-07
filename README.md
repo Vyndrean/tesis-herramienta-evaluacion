@@ -16,7 +16,7 @@ Para realizar una copia debes de clonar el repositorio de github https://github.
 
 ### Credenciales de Base de Datos y variables de ambiente
 
-Servidor de producción
+#### Servidor de producción
 
 Es importante considerar que para el funcionamiento correcto del proyecto deben estar corriendo simultaneamente el frontend y backend, donde deberan realizarse los pasos de instalacion de dependencias y configuracion de variable de entorno.
 
@@ -65,7 +65,7 @@ Para configurar el servidor de produccion se debe seguir los siguientes pasos en
 14. Luego de haber clonado al repositorio se debe mover hacia la carpeta raiz del proyecto, ejecutando el siguiente comando:
 -   cd "Proyecto"
 
-### Instalar las dependencias del proyecto ambiente de producción y generar el .env
+##### Instalar las dependencias del proyecto ambiente de producción y generar el .env
 
 Dentro de la carpeta raiz del proyecto para poder instalar las dependencias del proyecto, se debe de ejecutar los siguientes pasos:
 
@@ -117,7 +117,7 @@ Dentro de la carpeta raiz del proyecto para poder instalar las dependencias del 
 
 -   yarn build
 
-### Ejecutar el proyecto
+##### Ejecutar el proyecto
 
 Para poder ejecutar el proyecto se deben inicar el backend y el frontend, para lograr eso debemos seguir los siguientes pasos:
 
@@ -145,12 +145,14 @@ Para poder ejecutar el proyecto se deben inicar el backend y el frontend, para l
 
 -   http://"IP del server":3000/
 
+
 ## Construido con
 -   yarn
 -   nvm
 -   nodejs
 -   nano
 -   pm2
+-   npm
 
 ## Licencia
 
