@@ -7,8 +7,6 @@ El proyecto "Herramienta para apoyar el procedimiento de evaluacion de UX" es un
 
 -   Ubuntu 20.04
 -   NodeJS 18.16.0
--   NextJS 13.4.2
--   Mongoose 5.13.15
 
 ## Configuraciones de Ejecución para Entorno de Desarrollo/Producción
 
