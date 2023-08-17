@@ -145,7 +145,6 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
       }
     })
   }
-  console.log(question)
   return (
     <>
       <CustomButton colorScheme="#000080" onClick={onOpen} my={"2"} isDisabled={isEditable}> Añadir pregunta </CustomButton>
