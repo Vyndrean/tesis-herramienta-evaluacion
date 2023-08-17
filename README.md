@@ -158,7 +158,7 @@ Este proyecto fue construido con la licencia AAA, - ver [LICENSE.md](LICENSE.md)
 
 ## Contribuir al proyecto
 
--   Por favor lea las instruciones para contribuir al proyecto en [CONTRIBUTING.md](CONTRIBUTING.md)
+-   Por favor lea las instruciones para contribuir al proyecto en [CONTRIBUTING.MD](CONTRIBUTING.MD)
 
 ## Agradecimientos
 
