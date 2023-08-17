@@ -37,7 +37,6 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
     setQuestion(prevQuestion => ({
       ...prevQuestion,
       [name]: value,
-      questionOptions: answer,
       "questionPosition": length
     })
     )
@@ -146,6 +145,7 @@ const CreateQuestion = ({ id, reload, length, isEditable }) => {
       }
     })
   }
+  console.log(question)
   return (
     <>
       <CustomButton colorScheme="#000080" onClick={onOpen} my={"2"} isDisabled={isEditable}> Añadir pregunta </CustomButton>
