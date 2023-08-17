@@ -104,7 +104,7 @@ const EmailForm = ({ data }) => {
 
       return (
         <FormControl>
-          <FormLabel>Fecha de termino</FormLabel>
+          <FormLabel>Fecha de término</FormLabel>
           <Input name='end_date' type='datetime-local' placeholder='Fecha de termino de la evaluación' onChange={handleDateChanges} required min={tempDate} />
         </FormControl>
       )

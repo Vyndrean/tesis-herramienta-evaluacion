@@ -46,7 +46,7 @@ const DeleteOption = ({ refe, id, reload, isEditable }) => {
 
                         <AlertDialogBody>
                             ¿Esta seguro de eliminarlo?<br />
-                            Esta accion no puede deshacerse.
+                            Esta acción no puede deshacerse.
                         </AlertDialogBody>
                         <HStack justifyContent="space-between" paddingInline="10" paddingBlock="5">
                             <CustomButton colorScheme='green' borderRadius="17" h="9" onClick={() => handleDelete()}>
