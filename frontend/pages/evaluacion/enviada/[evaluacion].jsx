@@ -47,7 +47,6 @@ const actualizar = ({ id }) => {
             setEvaluationProduct(res.data)
         })
     }
-
     const formatDate = (date) => {
         const newFormat = moment(date.substring(0, 10)).format(`DD-MM-YYYY`)
         return newFormat

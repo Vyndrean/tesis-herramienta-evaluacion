@@ -2,13 +2,13 @@ import React, { useEffect as effect, useState as state } from 'react'
 import router from 'next/router'
 import { checkToken } from '@/data/login'
 import Navbar from '@/components/Navbar'
-import { Container, HStack, Card, CardHeader, CardBody, Stack, Box, Text, Select, FormLabel, FormControl, OrderedList, ListItem } from '@chakra-ui/react'
+import { Container, HStack, Card, CardHeader, CardBody, Stack, Text, Select, FormLabel, FormControl } from '@chakra-ui/react'
 import { getQuestions } from '@/data/question'
 import CustomButton from '@/styles/customButton'
 import { getProducts } from '@/data/product'
 import { getAnswersByProduct } from '@/data/answer'
 import BarChart from '@/components/BarChart'
-import { CheckIcon, ChevronDownIcon, ChevronRightIcon, CloseIcon, InfoIcon, InfoOutlineIcon, Search2Icon, SearchIcon } from '@chakra-ui/icons'
+import { getEvaProByID } from '@/data/evaPro'
 
 export const getServerSideProps = async (context) => {
     try {
@@ -144,8 +144,19 @@ const resultados = ({ id }) => {
         getQuestions(id).then(res => {
             handleSortQuestions(res.data)
         })
-        getProducts().then(res => {
-            setProduct(res.data)
+        getEvaProByID({
+            "evaluation": id
+        }).then(res => {
+            const uniqueProducts = []
+            const seenName = new Set()
+            res.data.map(item => {
+                const productName = item.product.name
+                if (!seenName.has(productName)) {
+                    seenName.add(productName)
+                    uniqueProducts.push(item.product)
+                }
+            })
+            setProduct(uniqueProducts)
         })
     }, [])
     //Check the answers
@@ -184,12 +195,12 @@ const resultados = ({ id }) => {
                         data: scores?.newScores[question.questionPosition - 1] || [],
                         borderWidth: 2,
                     },
-                    {
+                    selectedProduct2 !== "" && {
                         label: selectedProduct2,
                         data: scores2?.newScores[question.questionPosition - 1] || [],
                         borderWidth: 2
                     }
-                ]
+                ].filter(Boolean)
             }
             return barData
         } else if (question.questionType == 'radio-matriz' || question.questionType == 'checkbox-matriz') {
@@ -201,13 +212,15 @@ const resultados = ({ id }) => {
                         data: scores?.newScores[question.questionPosition - 1]?.[0]?.[irow] || []
                     }
                 )),
-            };
+            }
             const additionalDatasets = question.questionOptions[0]?.row?.map((row, irow) => ({
                 label: row?.value + " - " + selectedProduct2 || '',
                 data: scores2?.newScores[question.questionPosition - 1]?.[0]?.[irow] || []
             })
             )
-            barData.datasets.push(...additionalDatasets);
+            if (selectedProduct2 != "") {
+                barData.datasets.push(...additionalDatasets);
+            }
             return barData
         } else {
             return null
@@ -229,26 +242,29 @@ const resultados = ({ id }) => {
                                             product.map((res) => (
                                                 <option value={res._id} name={res.name} key={res._id}>{res.name}</option>
                                             ))
-
                                         }
                                     </Select>
                                 </HStack>
                             </form>
                         </FormControl>
-                        <FormControl hidden={selected}>
-                            <form>
-                                <HStack>
-                                    <FormLabel color='white' pt="2">Comparar con</FormLabel>
-                                    <Select name='idProduct' placeholder='Seleccione...' isRequired bgColor='white' w="40" maxW="60" onChange={(e) => handleChange(e, 1)} borderRadius="17">
-                                        {
-                                            product.map((res) => (
-                                                <option value={res._id} name={res.name} key={res._id}>{res.name}</option>
-                                            ))
-                                        }
-                                    </Select>
-                                </HStack>
-                            </form>
-                        </FormControl>
+                        {
+                            product.length > 1 && (
+                                <FormControl hidden={selected}>
+                                    <form>
+                                        <HStack>
+                                            <FormLabel color='white' pt="2">Comparar con</FormLabel>
+                                            <Select name='idProduct' placeholder='Seleccione...' isRequired bgColor='white' w="40" maxW="60" onChange={(e) => handleChange(e, 1)} borderRadius="17">
+                                                {
+                                                    product.map((res) => (
+                                                        <option value={res._id} name={res.name} key={res._id}>{res.name}</option>
+                                                    ))
+                                                }
+                                            </Select>
+                                        </HStack>
+                                    </form>
+                                </FormControl>
+                            )
+                        }
                     </HStack>
                     <CustomButton colorScheme="#000080" onClick={() => router.back()}>Regresar</CustomButton>
                 </HStack>

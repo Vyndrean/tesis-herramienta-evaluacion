@@ -129,7 +129,7 @@ Para poder ejecutar el proyecto se deben inicar el backend y el frontend, para l
 
 3.  Para poder verificar que esta corriendo el backend del proyecto, nos dirigimos al siguiente enlace:
 
--   http://"IP del server":3001/
+-   http://"IP del server":"Puerto del backend"/
 
 4.  Ya con el backend corriendo, debemos de ejecutar el frontend del proyecto. Nos volvemos a dirigir a la raiz del proyecto y ejecutamos el siguiente comando:
 
@@ -141,7 +141,7 @@ Para poder ejecutar el proyecto se deben inicar el backend y el frontend, para l
 
 6. Para poder verificar que esta corriendo el frontend del proyecto, nos dirigimos al siguiente enlace:
 
--   http://"IP del server":3000/
+-   http://"IP del server":"Puerto del frontend"/api
 
 
 ## Construido con
