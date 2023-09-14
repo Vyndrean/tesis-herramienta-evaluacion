@@ -62,7 +62,15 @@ const Navbar = () => {
                             {Links.map((link) => (
                                 <Link key={link} href={`/${link.toLowerCase()}`}>{link}</Link>
                             ))}
+                        
+                            <Link color='teal.500' href='/' onClick={() => {
+                                Cookies.remove("token")
+                                axios.post(`${process.env.SERVIDOR}/logout`)
+                            }}>
+                                CERRAR SESIÓN
+                            </Link>
                         </Stack>
+
                     </Box>
                 ) : null}
             </Box>

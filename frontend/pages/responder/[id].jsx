@@ -330,7 +330,7 @@ const index = ({ id, data, product, end, start }) => {
       )}
       <Stack h="100"></Stack>
       <Stack h="35" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'>
-        <Text color="white" textAlign='center'>Evaluando a <Link href={product.link} textAlign='center'>{product.name}</Link></Text>
+        <Text color="white" textAlign='center' mr="10">Evaluando a <Link href={product.link} textAlign='center'>{product.name}</Link></Text>
       </Stack>
       <Card h="500" w="400" border='1px solid #000080' borderRadius="0">
         {page == -1 && (
