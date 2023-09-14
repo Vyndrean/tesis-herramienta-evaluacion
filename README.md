@@ -86,7 +86,7 @@ Dentro de la carpeta raiz del proyecto para poder instalar las dependencias del 
 
 -   PORT = "Puerto del backend"
 -   DB = "URI de conexion con la base de datos (MongoDB)"
--   DIRECTION = "URL del frontend, ej: http://localhost:3000"
+-   DIRECTION = "Direccion del frontend, ej: http://localhost:3000"
 -   SECRET_KEY = "KEY para encryptar contraseña"
 -   EMAIL_USER = "Direccion de Correo"
 -   EMAIL_PASSWORD = "Contraseña del correo temporal"
@@ -129,7 +129,7 @@ Para poder ejecutar el proyecto se deben inicar el backend y el frontend, para l
 
 3.  Para poder verificar que esta corriendo el backend del proyecto, nos dirigimos al siguiente enlace:
 
--   http://"IP del server":"Puerto del backend"/
+-   http://"IP del server":"Puerto del backend"
 
 4.  Ya con el backend corriendo, debemos de ejecutar el frontend del proyecto. Nos volvemos a dirigir a la raiz del proyecto y ejecutamos el siguiente comando:
 
@@ -141,7 +141,7 @@ Para poder ejecutar el proyecto se deben inicar el backend y el frontend, para l
 
 6. Para poder verificar que esta corriendo el frontend del proyecto, nos dirigimos al siguiente enlace:
 
--   http://"IP del server":"Puerto del frontend"/api
+-   http://"IP del server":"Puerto del frontend"
 
 
 ## Construido con
@@ -158,7 +158,7 @@ Este proyecto fue construido con la licencia AAA, - ver [LICENSE.md](LICENSE.md)
 
 ## Contribuir al proyecto
 
--   Por favor lea las instruciones para contribuir al proyecto en [CONTRIBUTING.md](CONTRIBUTING.md)
+-   Por favor lea las instruciones para contribuir al proyecto en [CONTRIBUTING.MD](CONTRIBUTING.MD)
 
 ## Agradecimientos
 
