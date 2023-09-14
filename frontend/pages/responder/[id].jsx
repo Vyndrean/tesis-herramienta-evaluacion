@@ -1,7 +1,7 @@
 import React, { useEffect as effect, useState as state } from 'react'
 import { getQuestions } from '@/data/question'
 import { getEvaluation } from '@/data/evaluations'
-import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Input, FormLabel, useDisclosure as Disc, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, FormControl, Alert, AlertIcon, AlertTitle, AlertDescription, useToast as Toast } from '@chakra-ui/react'
+import { Text, Container, Card, HStack, Stack, CardHeader, Heading, CardBody, Box, Input, FormLabel, useDisclosure as Disc, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, FormControl, Alert, AlertIcon, AlertTitle, AlertDescription, useToast as Toast, Link } from '@chakra-ui/react'
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import router from 'next/router'
 import { createParticipant, getParticipant } from '@/data/participant'
@@ -330,7 +330,7 @@ const index = ({ id, data, product, end, start }) => {
       )}
       <Stack h="100"></Stack>
       <Stack h="35" pl="5%" paddingBlock="2" borderTopRadius="10" bgColor='#000080'>
-
+        <Text color="white" textAlign='center'>Evaluando a <Link href={product.link} textAlign='center'>{product.name}</Link></Text>
       </Stack>
       <Card h="500" w="400" border='1px solid #000080' borderRadius="0">
         {page == -1 && (
@@ -341,6 +341,7 @@ const index = ({ id, data, product, end, start }) => {
             <hr />
             <CardBody>
               <Text textAlign='center' fontFamily='serif' fontSize='xl'>{evaluation?.introduction}</Text>
+              <Text textAlign='center' fontFamily='serif' fontSize='xl' my="10">Producto en evaluación <Link href={product.link} textAlign='center'>{product.name}</Link></Text>
             </CardBody>
           </>
         )}
